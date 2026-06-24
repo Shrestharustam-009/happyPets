@@ -1,0 +1,51 @@
+# Dependencies
+node_modules/
+.pnp
+.pnp.js
+
+# Testing
+/coverage
+
+# Next.js
+.next/
+out/
+
+# Production build and temp/debug logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+
+# Environment files
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# OS/System files
+.DS_Store
+Thumbs.db
+
+# IDEs and editors
+.idea/
+.vscode/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+
+# Local uploads
+uploads/
+scratch/
+implementation.md
+*.txt
+
+# Database setup scripts
+create_billing_tables.js
+create_medical_records_table.js
+create_reminders_table.js
+create_vaccinations_table.js
+pnpm-lock.yaml
