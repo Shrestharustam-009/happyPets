@@ -25,7 +25,7 @@ export async function GET() {
       JOIN pets p ON v.pet_id = p.id
       JOIN users u ON p.user_id = u.id
       WHERE v.next_due_date IS NOT NULL 
-      AND v.next_due_date <= CURRENT_DATE + INTERVAL '30 day'
+      AND v.next_due_date <= CURRENT_DATE + INTERVAL 30 DAY
       ORDER BY v.next_due_date ASC
       LIMIT 15
     `)

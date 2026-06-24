@@ -23,7 +23,7 @@ export async function GET() {
     const totalStaff = Number(staffRes[0]?.count) || 0
 
     // ============ TIME-BASED METRICS ============
-    const appointmentsThisMonthRes = await query(`SELECT COUNT(*) as count FROM medical_records WHERE visit_date >= CURRENT_DATE - INTERVAL '1 month'`)
+    const appointmentsThisMonthRes = await query(`SELECT COUNT(*) as count FROM medical_records WHERE visit_date >= CURRENT_DATE - INTERVAL 1 MONTH`)
     const appointmentsThisMonth = Number(appointmentsThisMonthRes[0]?.count) || 0
 
     const totalMedicalRes = await query(`SELECT COUNT(*) as count FROM medical_records`)
@@ -60,12 +60,12 @@ export async function GET() {
     // ============ REVENUE BY MONTH (last 6 months) ============
     const revenueByMonth = await query(`
       SELECT 
-        TO_CHAR(issue_date, 'Mon') as month,
+        DATE_FORMAT(issue_date, '%b') as month,
         COALESCE(SUM(total_amount), 0) as revenue
       FROM invoices 
       WHERE status = 'Paid'
-      AND issue_date >= CURRENT_DATE - INTERVAL '6 month'
-      GROUP BY TO_CHAR(issue_date, 'Mon'), EXTRACT(MONTH FROM issue_date)
+      AND issue_date >= CURRENT_DATE - INTERVAL 6 MONTH
+      GROUP BY DATE_FORMAT(issue_date, '%b'), EXTRACT(MONTH FROM issue_date)
       ORDER BY MIN(issue_date) ASC
     `)
 
@@ -105,7 +105,7 @@ export async function GET() {
 
     const upcomingVaccinesRes = await query(`
       SELECT COUNT(*) as count FROM vaccinations 
-      WHERE next_due_date BETWEEN CURRENT_DATE AND CURRENT_DATE + INTERVAL '7 day'
+      WHERE next_due_date BETWEEN CURRENT_DATE AND CURRENT_DATE + INTERVAL 7 DAY
     `)
     const upcomingVaccines = Number(upcomingVaccinesRes[0]?.count) || 0
 
@@ -125,7 +125,7 @@ export async function GET() {
       FROM vaccinations v
       JOIN pets p ON v.pet_id = p.id
       JOIN users u ON p.user_id = u.id
-      WHERE v.next_due_date BETWEEN CURRENT_DATE AND CURRENT_DATE + INTERVAL '14 day'
+      WHERE v.next_due_date BETWEEN CURRENT_DATE AND CURRENT_DATE + INTERVAL 14 DAY
       ORDER BY v.next_due_date ASC LIMIT 8
     `)
 
