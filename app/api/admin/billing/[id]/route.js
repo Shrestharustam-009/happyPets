@@ -1,9 +1,13 @@
 import { NextResponse } from "next/server"
 import { query } from "@/lib/db"
-import { verifyAdminToken } from "@/lib/auth-middleware"
+import { validateAdminRequest } from "@/lib/auth-middleware"
 
 export async function GET(request, { params }) {
   try {
+    if (!(await validateAdminRequest(request))) {
+      return NextResponse.json({ error: "Forbidden" }, { status: 403 })
+    }
+
     const { id } = await params;
     
     const invoices = await query(`
@@ -34,6 +38,10 @@ export async function GET(request, { params }) {
 
 export async function PUT(request, { params }) {
   try {
+    if (!(await validateAdminRequest(request))) {
+      return NextResponse.json({ error: "Forbidden" }, { status: 403 })
+    }
+
     const { id } = await params;
     const body = await request.json()
     const { status } = body
@@ -53,13 +61,10 @@ export async function PUT(request, { params }) {
 
 export async function DELETE(request, { params }) {
   try {
-    const { id } = await params;
-    
-    const token = request.headers.get("authorization")?.replace("Bearer ", "")
-    const adminUser = await verifyAdminToken(token)
-    if (!adminUser || adminUser.role !== 'admin') {
-      return NextResponse.json({ error: "Forbidden: Only administrators can delete records" }, { status: 403 })
+    if (!(await validateAdminRequest(request))) {
+      return NextResponse.json({ error: "Forbidden" }, { status: 403 })
     }
+    const { id } = await params;
 
     // Note: Due to ON DELETE CASCADE, deleting the invoice deletes the items.
     // However, we are NOT reverting the product inventory here. 

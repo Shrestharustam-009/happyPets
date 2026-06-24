@@ -1,8 +1,13 @@
 import { NextResponse } from "next/server"
 import { query } from "@/lib/db"
+import { validateAdminRequest } from "@/lib/auth-middleware"
 
 export async function GET(request) {
   try {
+    if (!(await validateAdminRequest(request))) {
+      return NextResponse.json({ error: "Forbidden" }, { status: 403 })
+    }
+
     const { searchParams } = new URL(request.url)
     const pet_id = searchParams.get("pet_id")
 
@@ -35,6 +40,10 @@ export async function GET(request) {
 
 export async function POST(request) {
   try {
+    if (!(await validateAdminRequest(request))) {
+      return NextResponse.json({ error: "Forbidden" }, { status: 403 })
+    }
+
     const body = await request.json()
     const { 
       pet_id, 

@@ -1,8 +1,13 @@
 import { NextResponse } from "next/server"
 import { query } from "@/lib/db"
+import { validateAdminRequest } from "@/lib/auth-middleware"
 
 export async function GET(request) {
   try {
+    if (!(await validateAdminRequest(request))) {
+      return NextResponse.json({ error: "Forbidden" }, { status: 403 })
+    }
+
     const { searchParams } = new URL(request.url)
     const pet_id = searchParams.get("pet_id")
 
@@ -35,6 +40,10 @@ export async function GET(request) {
 
 export async function POST(request) {
   try {
+    if (!(await validateAdminRequest(request))) {
+      return NextResponse.json({ error: "Forbidden" }, { status: 403 })
+    }
+
     const body = await request.json()
     const { 
       pet_id, 
@@ -50,7 +59,8 @@ export async function POST(request) {
       differential_diagnoses, 
       treatment_interventions, 
       prescribed_medicines, 
-      attachments_url 
+      attachments_url,
+      history
     } = body
 
     if (!pet_id || !vet_id) {
@@ -61,8 +71,8 @@ export async function POST(request) {
       `INSERT INTO medical_records (
         pet_id, vet_id, visit_date, chief_complaint, temperature, pulse, respiration, weight, 
         clinical_findings, primary_diagnosis, differential_diagnoses, treatment_interventions, 
-        prescribed_medicines, attachments_url
-       ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+        prescribed_medicines, attachments_url, history
+       ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
       [
         pet_id,
         vet_id,
@@ -77,7 +87,8 @@ export async function POST(request) {
         differential_diagnoses || null,
         treatment_interventions || null,
         prescribed_medicines || null,
-        attachments_url || null
+        attachments_url || null,
+        history || null
       ]
     )
 

@@ -1,12 +1,16 @@
 import { NextResponse } from "next/server"
 import { query } from "@/lib/db"
-import { verifyAdminToken } from "@/lib/auth-middleware"
+import { validateAdminRequest } from "@/lib/auth-middleware"
 
 export async function PUT(request, { params }) {
   try {
+    if (!(await validateAdminRequest(request))) {
+      return NextResponse.json({ error: "Forbidden" }, { status: 403 })
+    }
+
     const { id } = await params
     const body = await request.json()
-    const { name, description, price, category, stock, image_url } = body
+    const { name, description, price, category, stock, image_url, is_visible } = body
 
     if (!name || !price || !category) {
       return NextResponse.json({ error: "Name, Price, and Category are required" }, { status: 400 })
@@ -14,7 +18,7 @@ export async function PUT(request, { params }) {
 
     await query(
       `UPDATE products 
-       SET name = ?, description = ?, price = ?, category = ?, stock = ?, image_url = ?
+       SET name = ?, description = ?, price = ?, category = ?, stock = ?, image_url = ?, is_visible = ?
        WHERE id = ?`,
       [
         name,
@@ -23,6 +27,7 @@ export async function PUT(request, { params }) {
         category,
         stock || 0,
         image_url || null,
+        is_visible ? 1 : 0,
         id
       ]
     )
@@ -36,13 +41,11 @@ export async function PUT(request, { params }) {
 
 export async function DELETE(request, { params }) {
   try {
-    const { id } = await params
-    
-    const token = request.headers.get("authorization")?.replace("Bearer ", "")
-    const adminUser = await verifyAdminToken(token)
-    if (!adminUser || adminUser.role !== 'admin') {
-      return NextResponse.json({ error: "Forbidden: Only administrators can delete records" }, { status: 403 })
+    if (!(await validateAdminRequest(request))) {
+      return NextResponse.json({ error: "Forbidden" }, { status: 403 })
     }
+    const { id } = await params
+
 
     // First check if it's used in invoices
     const usedInInvoices = await query("SELECT id FROM invoice_items WHERE product_id = ? LIMIT 1", [id])

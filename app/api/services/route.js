@@ -1,4 +1,6 @@
 import { query } from "@/lib/db"
+import { verifyAdminToken } from "@/lib/auth-middleware"
+
 
 export async function GET(req) {
   try {
@@ -13,7 +15,8 @@ export async function GET(req) {
 export async function POST(req) {
   try {
     const token = req.headers.get("authorization")?.replace("Bearer ", "")
-    if (!token) {
+    const adminUser = await verifyAdminToken(token)
+    if (!adminUser || adminUser.role !== "admin") {
       return Response.json({ message: "Unauthorized - Admin token required" }, { status: 401 })
     }
 

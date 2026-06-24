@@ -1,37 +1,11 @@
-"use client"
-
-import { useEffect, useState } from "react"
 import Header from "@/components/header"
 import Footer from "@/components/footer"
 import HeroImageSlider from "@/components/hero-image-slider"
+import GoogleReviews from "@/components/google-reviews"
+import LocationMap from "@/components/location-map"
 import Link from "next/link"
-import Image from "next/image"
 
 export default function Home() {
-  const [teamMembers, setTeamMembers] = useState([])
-  const [teamLoading, setTeamLoading] = useState(true)
-  const [teamError, setTeamError] = useState("")
-  const [selectedMember, setSelectedMember] = useState(null)
-
-  useEffect(() => {
-    const fetchTeam = async () => {
-      try {
-        const res = await fetch("/api/team")
-        if (!res.ok) throw new Error("Unable to load team members")
-        const data = await res.json()
-        setTeamMembers(data.members || [])
-      } catch (error) {
-        setTeamError(error.message)
-      } finally {
-        setTeamLoading(false)
-      }
-    }
-
-    fetchTeam()
-  }, [])
-
-  const closeModal = () => setSelectedMember(null)
-
   return (
     <>
       <Header />
@@ -75,68 +49,11 @@ export default function Home() {
           </div>
         </section>
 
-        {/* Intro Section */}
-        <section className="py-16 md:py-24 bg-background">
-          <div className="container-custom">
-            <div className="text-center mb-12">
-              <h2 className="text-3xl md:text-4xl font-bold mb-4 text-balance-custom">Why Choose Happypets?</h2>
-              <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-                We're dedicated to providing the highest quality veterinary care and pet supplies with a friendly,
-                compassionate approach.
-              </p>
-            </div>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-  <div className="p-6 bg-card rounded-lg border border-border hover:border-accent transition-colors">
-    <div className="text-4xl mb-4">🏥</div>
-    <h3 className="text-xl font-semibold mb-3">Expert Vet Care</h3>
-    <p className="text-muted-foreground">
-      Experienced doctor and trained team.
-    </p>
-  </div>
+        {/* Dynamic Google Reviews Section */}
+        <GoogleReviews />
 
-  <div className="p-6 bg-card rounded-lg border border-border hover:border-accent transition-colors">
-    <div className="text-4xl mb-4">🐾</div>
-    <h3 className="text-xl font-semibold mb-3">Pet-Centered Approach</h3>
-    <p className="text-muted-foreground">
-      Gentle, stress-free handling.
-    </p>
-  </div>
-
-  <div className="p-6 bg-card rounded-lg border border-border hover:border-accent transition-colors">
-    <div className="text-4xl mb-4">🔬</div>
-    <h3 className="text-xl font-semibold mb-3">Advanced Diagnostics</h3>
-    <p className="text-muted-foreground">
-      X-ray, lab tests & skin workups.
-    </p>
-  </div>
-
-  <div className="p-6 bg-card rounded-lg border border-border hover:border-accent transition-colors">
-    <div className="text-4xl mb-4">⚕️</div>
-    <h3 className="text-xl font-semibold mb-3">Complete Services</h3>
-    <p className="text-muted-foreground">
-      Consultation to surgery under one roof.
-    </p>
-  </div>
-
-  <div className="p-6 bg-card rounded-lg border border-border hover:border-accent transition-colors">
-    <div className="text-4xl mb-4">🧼</div>
-    <h3 className="text-xl font-semibold mb-3">Clean & Safe Clinic</h3>
-    <p className="text-muted-foreground">
-      Hygienic and pet-friendly environment.
-    </p>
-  </div>
-
-  <div className="p-6 bg-card rounded-lg border border-border hover:border-accent transition-colors">
-    <div className="text-4xl mb-4">📍</div>
-    <h3 className="text-xl font-semibold mb-3">Trusted in Imadol</h3>
-    <p className="text-muted-foreground">
-      Reliable care for your pets.
-    </p>
-  </div>
-</div>
-
-          </div>
-        </section>
+        {/* Google Maps Location Embed Section */}
+        <LocationMap />
 
         {/* CTA Section */}
         <section className="py-16 md:py-24 bg-primary text-primary-foreground">
@@ -163,53 +80,6 @@ export default function Home() {
         </section>
       </main>
       <Footer />
-
-      {/* Team Member Modal */}
-      {selectedMember && (
-        <div
-          className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4"
-          onClick={closeModal}
-        >
-          <div
-            className="bg-card rounded-lg max-w-2xl w-full max-h-[90vh] overflow-y-auto shadow-2xl"
-            onClick={(e) => e.stopPropagation()}
-          >
-            <div className="sticky top-0 bg-card border-b border-border p-4 flex justify-between items-center">
-              <h3 className="text-2xl font-bold">Team Member Profile</h3>
-              <button
-                onClick={closeModal}
-                className="text-muted-foreground hover:text-foreground text-2xl leading-none"
-              >
-                ×
-              </button>
-            </div>
-            <div className="p-6">
-              <div className="flex flex-col md:flex-row gap-6">
-                <div className="w-full md:w-1/3">
-                  <div className="overflow-hidden rounded-lg bg-muted aspect-square relative">
-                    <Image
-                      src={selectedMember.image_url || "/placeholder.svg"}
-                      alt={selectedMember.name}
-                      fill
-                      className="object-cover"
-                    />
-                  </div>
-                </div>
-                <div className="w-full md:w-2/3">
-                  <h4 className="text-2xl font-bold mb-2">{selectedMember.name}</h4>
-                  <p className="text-accent font-semibold mb-4">{selectedMember.role}</p>
-                  {selectedMember.bio && (
-                    <div>
-                      <h5 className="font-semibold mb-2">About</h5>
-                      <p className="text-muted-foreground whitespace-pre-line">{selectedMember.bio}</p>
-                    </div>
-                  )}
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      )}
     </>
   )
 }

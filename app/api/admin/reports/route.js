@@ -1,8 +1,13 @@
 import { NextResponse } from "next/server"
 import { query } from "@/lib/db"
+import { validateAdminRequest } from "@/lib/auth-middleware"
 
-export async function GET() {
+export async function GET(request) {
   try {
+    if (!(await validateAdminRequest(request))) {
+      return NextResponse.json({ error: "Forbidden" }, { status: 403 })
+    }
+
     // 1. Total Clients
     const [{ total_clients }] = await query("SELECT COUNT(*) as total_clients FROM users WHERE role = 'client'")
 

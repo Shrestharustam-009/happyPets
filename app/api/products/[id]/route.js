@@ -63,12 +63,13 @@ export async function GET(req, { params }) {
 export async function PUT(req, { params }) {
   try {
     const token = req.headers.get("authorization")?.replace("Bearer ", "")
-    if (!token) {
+    const adminUser = await verifyAdminToken(token)
+    if (!adminUser || adminUser.role !== "admin") {
       return Response.json({ message: "Unauthorized - Admin token required" }, { status: 401 })
     }
 
     const { id } = await params
-    const { name, description, price, discount_price, category, stock, image_url } = await req.json()
+    const { name, description, price, discount_price, category, stock, image_url, is_visible } = await req.json()
 
     if (!name || !price || !category) {
       return Response.json({ message: "Missing required fields" }, { status: 400 })
@@ -78,8 +79,8 @@ export async function PUT(req, { params }) {
     const finalImageUrl = image_url === "" ? null : image_url
 
     await query(
-      `UPDATE products SET name = ?, description = ?, price = ?, discount_price = ?, category = ?, stock = ?, image_url = ? WHERE id = ?`,
-      [name, description, price, finalDiscountPrice, category, stock, finalImageUrl, id],
+      `UPDATE products SET name = ?, description = ?, price = ?, discount_price = ?, category = ?, stock = ?, image_url = ?, is_visible = ? WHERE id = ?`,
+      [name, description, price, finalDiscountPrice, category, stock, finalImageUrl, is_visible ? 1 : 0, id],
     )
 
     return Response.json({ message: "Product updated successfully" })

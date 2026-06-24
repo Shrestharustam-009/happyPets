@@ -52,7 +52,7 @@ export async function PUT(req, { params }) {
       return Response.json({ message: "Blog post not found" }, { status: 404 });
     }
     const id = posts[0].id;
-    const { title, excerpt, content, category, tags, featuredImage, authorName } = await req.json();
+    const { title, excerpt, content, category, tags, featuredImage, authorName, seo_title, seo_slug, seo_description, focus_keyphrase } = await req.json();
     if (!title || !content || !category || !authorName) {
       return Response.json({ message: "Missing required fields" }, { status: 400 });
     }
@@ -61,8 +61,8 @@ export async function PUT(req, { params }) {
       .replace(/\s+/g, "-")
       .replace(/[^\w-]/g, "");
     await query(
-      `UPDATE blog_posts SET title = ?, slug = ?, excerpt = ?, content = ?, category = ?, tags = ?, featured_image = ?, author_name = ? WHERE id = ?`,
-      [title, newSlug, excerpt, content, category, tags, featuredImage || null, authorName, id],
+      `UPDATE blog_posts SET title = ?, slug = ?, excerpt = ?, content = ?, category = ?, tags = ?, featured_image = ?, author_name = ?, seo_title = ?, seo_slug = ?, seo_description = ?, focus_keyphrase = ? WHERE id = ?`,
+      [title, newSlug, excerpt, content, category, tags, featuredImage || null, authorName, seo_title || null, seo_slug || null, seo_description || null, focus_keyphrase || null, id],
     );
     return Response.json({ message: "Blog post updated successfully" });
   } catch (error) {

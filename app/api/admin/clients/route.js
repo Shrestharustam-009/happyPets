@@ -1,9 +1,14 @@
 import { NextResponse } from "next/server"
 import { query } from "@/lib/db"
 import bcrypt from "bcryptjs"
+import { validateAdminRequest } from "@/lib/auth-middleware"
 
-export async function GET() {
+export async function GET(request) {
   try {
+    if (!(await validateAdminRequest(request))) {
+      return NextResponse.json({ error: "Forbidden" }, { status: 403 })
+    }
+
     const clients = await query(
       "SELECT id, email, full_name, phone_number, address, is_active, created_at FROM users WHERE role = 'client' ORDER BY created_at DESC"
     )
@@ -16,6 +21,10 @@ export async function GET() {
 
 export async function POST(request) {
   try {
+    if (!(await validateAdminRequest(request))) {
+      return NextResponse.json({ error: "Forbidden" }, { status: 403 })
+    }
+
     const body = await request.json()
     const { full_name, email, phone_number, address, password } = body
 

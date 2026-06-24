@@ -1,4 +1,6 @@
 import { query } from "@/lib/db"
+import { verifyAdminToken } from "@/lib/auth-middleware"
+
 
 export async function GET(req) {
   try {
@@ -68,11 +70,12 @@ export async function GET(req) {
 export async function POST(req) {
   try {
     const token = req.headers.get("authorization")?.replace("Bearer ", "")
-    if (!token) {
+    const adminUser = await verifyAdminToken(token)
+    if (!adminUser || adminUser.role !== "admin") {
       return Response.json({ message: "Unauthorized - Admin token required" }, { status: 401 })
     }
 
-    const { title, excerpt, content, category, tags, featuredImage, authorName } = await req.json()
+    const { title, excerpt, content, category, tags, featuredImage, authorName, seo_title, seo_slug, seo_description, focus_keyphrase } = await req.json()
 
     if (!title || !content || !category || !authorName) {
       return Response.json({ message: "Missing required fields" }, { status: 400 })
@@ -84,9 +87,9 @@ export async function POST(req) {
       .replace(/[^\w-]/g, "")
 
     const result = await query(
-      `INSERT INTO blog_posts (title, slug, excerpt, content, category, tags, featured_image, is_published, published_at, author_name)
-       VALUES (?, ?, ?, ?, ?, ?, ?, 1, NOW(), ?)`,
-      [title, slug, excerpt, content, category, tags, featuredImage || null, authorName],
+      `INSERT INTO blog_posts (title, slug, excerpt, content, category, tags, featured_image, is_published, published_at, author_name, seo_title, seo_slug, seo_description, focus_keyphrase)
+       VALUES (?, ?, ?, ?, ?, ?, ?, 1, NOW(), ?, ?, ?, ?, ?)`,
+      [title, slug, excerpt, content, category, tags, featuredImage || null, authorName, seo_title || null, seo_slug || null, seo_description || null, focus_keyphrase || null],
     )
 
     return Response.json({

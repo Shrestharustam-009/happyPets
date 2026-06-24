@@ -148,6 +148,7 @@ export default function AdminDashboardLayout({ children }) {
   const allTabs = [
     { id: "overview", label: "Overview", path: `${prefix}`, icon: Activity },
     { id: "appointments", label: "Appointments", path: `${prefix}/appointments`, icon: Calendar },
+    { id: "reminders", label: "Reminders", path: `${prefix}/reminders`, icon: Bell },
     { id: "patients", label: "Patients (Pets)", path: `${prefix}/patients`, icon: Stethoscope },
     { id: "medical_records", label: "Medical Records", path: `${prefix}/medical-records`, icon: FileText },
     { id: "vaccinations", label: "Vaccinations", path: `${prefix}/vaccinations`, icon: Syringe },
@@ -161,7 +162,6 @@ export default function AdminDashboardLayout({ children }) {
     { id: "images", label: "Images", path: `${prefix}/images`, icon: Image },
     { id: "reviews", label: "Reviews", path: `${prefix}/reviews`, icon: Star },
     { id: "reports", label: "Reports", path: `${prefix}/reports`, icon: TrendingUp },
-    { id: "reminders", label: "Reminders", path: `${prefix}/reminders`, icon: Bell },
     { id: "users", label: "Users (Staff)", path: `${prefix}/users`, icon: Shield },
   ]
 

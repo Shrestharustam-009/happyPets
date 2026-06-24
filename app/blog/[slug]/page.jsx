@@ -5,6 +5,7 @@ import { useRouter, useParams } from "next/navigation"
 import Header from "@/components/header"
 import Footer from "@/components/footer"
 import Link from "next/link"
+import DOMPurify from "dompurify"
 
 export default function BlogDetailPage() {
   const { slug } = useParams()
@@ -13,6 +14,16 @@ export default function BlogDetailPage() {
   const [error, setError] = useState(null)
   const [post, setPost] = useState(null)
   const [relatedPosts, setRelatedPosts] = useState([])
+  const [sanitizedContent, setSanitizedContent] = useState("")
+
+  useEffect(() => {
+    if (post?.content) {
+      setSanitizedContent(DOMPurify.sanitize(post.content))
+    } else {
+      setSanitizedContent("")
+    }
+  }, [post])
+
 
   useEffect(() => {
     if (!slug) return
@@ -159,9 +170,8 @@ export default function BlogDetailPage() {
               prose-p:text-stone-600 prose-p:leading-relaxed prose-p:text-[16px]
               prose-a:text-emerald-700 hover:prose-a:underline
               prose-blockquote:border-emerald-500 prose-blockquote:bg-emerald-50/50
-              prose-blockquote:py-1 prose-blockquote:not-italic
-              prose-img:rounded-2xl blog-content [font-family:var(--font-poppins)]"
-            dangerouslySetInnerHTML={{ __html: post?.content || "" }}
+              prose-blockquote:py-1 prose-blockquote:not-italic"
+            dangerouslySetInnerHTML={{ __html: sanitizedContent }}
           />
         </div>
 

@@ -1,9 +1,13 @@
 import { NextResponse } from "next/server"
 import { query } from "@/lib/db"
-import { verifyAdminToken } from "@/lib/auth-middleware"
+import { validateAdminRequest } from "@/lib/auth-middleware"
 
 export async function PUT(request, { params }) {
   try {
+    if (!(await validateAdminRequest(request))) {
+      return NextResponse.json({ error: "Forbidden" }, { status: 403 })
+    }
+
     const { id } = await params
     const body = await request.json()
     const { 
@@ -20,7 +24,8 @@ export async function PUT(request, { params }) {
       differential_diagnoses, 
       treatment_interventions, 
       prescribed_medicines, 
-      attachments_url 
+      attachments_url,
+      history
     } = body
 
     if (!pet_id || !vet_id) {
@@ -31,7 +36,7 @@ export async function PUT(request, { params }) {
       `UPDATE medical_records 
        SET pet_id = ?, vet_id = ?, visit_date = ?, chief_complaint = ?, temperature = ?, pulse = ?, respiration = ?, weight = ?, 
            clinical_findings = ?, primary_diagnosis = ?, differential_diagnoses = ?, treatment_interventions = ?, 
-           prescribed_medicines = ?, attachments_url = ?
+           prescribed_medicines = ?, attachments_url = ?, history = ?
        WHERE id = ?`,
       [
         pet_id,
@@ -48,6 +53,7 @@ export async function PUT(request, { params }) {
         treatment_interventions || null,
         prescribed_medicines || null,
         attachments_url || null,
+        history || null,
         id
       ]
     )
@@ -61,13 +67,11 @@ export async function PUT(request, { params }) {
 
 export async function DELETE(request, { params }) {
   try {
-    const { id } = await params
-    
-    const token = request.headers.get("authorization")?.replace("Bearer ", "")
-    const adminUser = await verifyAdminToken(token)
-    if (!adminUser || adminUser.role !== 'admin') {
-      return NextResponse.json({ error: "Forbidden: Only administrators can delete records" }, { status: 403 })
+    if (!(await validateAdminRequest(request))) {
+      return NextResponse.json({ error: "Forbidden" }, { status: 403 })
     }
+    const { id } = await params
+
 
     await query("DELETE FROM medical_records WHERE id = ?", [id])
 

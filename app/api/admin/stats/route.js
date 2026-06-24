@@ -1,7 +1,12 @@
 import { query } from "@/lib/db"
+import { validateAdminRequest } from "@/lib/auth-middleware"
 
-export async function GET() {
+export async function GET(request) {
   try {
+    if (!(await validateAdminRequest(request))) {
+      return Response.json({ error: "Forbidden" }, { status: 403 })
+    }
+
     const users = await query("SELECT COUNT(*) as count FROM users")
     const orders = await query("SELECT COUNT(*) as count FROM orders")
     const products = await query("SELECT COUNT(*) as count FROM products")

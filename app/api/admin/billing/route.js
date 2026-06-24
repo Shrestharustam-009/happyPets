@@ -1,8 +1,13 @@
 import { NextResponse } from "next/server"
 import { query, getConnection } from "@/lib/db"
+import { validateAdminRequest } from "@/lib/auth-middleware"
 
 export async function GET(request) {
   try {
+    if (!(await validateAdminRequest(request))) {
+      return NextResponse.json({ error: "Forbidden" }, { status: 403 })
+    }
+
     const { searchParams } = new URL(request.url)
     const client_id = searchParams.get("client_id")
     const status = searchParams.get("status")
@@ -32,10 +37,6 @@ export async function GET(request) {
 
     const invoices = await query(sql, values)
     
-    // For each invoice, optionally fetch items if requested, but for listing, just returning invoices is fine.
-    // We'll fetch items in the detailed view or we can fetch them here.
-    // For now, just return invoices.
-    
     return NextResponse.json(invoices)
   } catch (error) {
     console.error("[v0] Error fetching invoices:", error)
@@ -44,66 +45,89 @@ export async function GET(request) {
 }
 
 export async function POST(request) {
-  const connection = await getConnection();
   try {
+    if (!(await validateAdminRequest(request))) {
+      return NextResponse.json({ error: "Forbidden" }, { status: 403 })
+    }
+
     const body = await request.json()
-    const { client_id, pet_id, total_amount, status, due_date, notes, items } = body
+    const { client_id, phone_number, pet_id, total_amount, status, due_date, notes, items } = body
 
     if (!client_id || !items || !items.length) {
       return NextResponse.json({ error: "Client and at least one item are required" }, { status: 400 })
     }
 
-    await connection.beginTransaction()
-    
-    // 1. Insert Invoice
-    const [invoiceResult] = await connection.execute(
-      `INSERT INTO invoices (client_id, pet_id, total_amount, status, due_date, notes) VALUES (?, ?, ?, ?, ?, ?)`,
-      [
-        client_id, 
-        pet_id || null, 
-        total_amount || 0, 
-        status || 'Pending', 
-        due_date || null, 
-        notes || null
-      ]
-    )
-    const invoiceId = invoiceResult.insertId
+    const connection = await getConnection()
+    let transactionStarted = false
+    try {
+      await connection.beginTransaction()
+      transactionStarted = true
 
-    // 2. Insert Items and Decrement Inventory
-    for (const item of items) {
-      await connection.execute(
-        `INSERT INTO invoice_items (invoice_id, item_type, product_id, description, quantity, unit_price, subtotal) 
-         VALUES (?, ?, ?, ?, ?, ?, ?)`,
-        [
-          invoiceId,
-          item.item_type,
-          item.product_id || null,
-          item.description,
-          item.quantity,
-          item.unit_price,
-          item.subtotal
-        ]
-      )
-
-      // If it's a Product, decrement stock
-      if (item.item_type === 'Product' && item.product_id) {
+      // 0. Update client phone number if provided
+      if (phone_number !== undefined) {
         await connection.execute(
-          `UPDATE products SET stock = stock - ? WHERE id = ? AND stock >= ?`,
-          [item.quantity, item.product_id, item.quantity]
+          `UPDATE users SET phone_number = ? WHERE id = ?`,
+          [phone_number || null, client_id]
         )
       }
+      
+      // 1. Insert Invoice
+      const [invoiceResult] = await connection.execute(
+        `INSERT INTO invoices (client_id, pet_id, total_amount, status, due_date, notes) VALUES (?, ?, ?, ?, ?, ?)`,
+        [
+          client_id, 
+          pet_id || null, 
+          total_amount || 0, 
+          status || 'Pending', 
+          due_date || null, 
+          notes || null
+        ]
+      )
+      const invoiceId = invoiceResult.insertId
+
+      // 2. Insert Items and Decrement Inventory
+      for (const item of items) {
+        await connection.execute(
+          `INSERT INTO invoice_items (invoice_id, item_type, product_id, description, quantity, unit_price, subtotal) 
+           VALUES (?, ?, ?, ?, ?, ?, ?)`,
+          [
+            invoiceId,
+            item.item_type,
+            item.product_id || null,
+            item.description,
+            item.quantity,
+            item.unit_price,
+            item.subtotal
+          ]
+        )
+
+        // If it's a Product, decrement stock
+        if (item.item_type === 'Product' && item.product_id) {
+          await connection.execute(
+            `UPDATE products SET stock = stock - ? WHERE id = ? AND stock >= ?`,
+            [item.quantity, item.product_id, item.quantity]
+          )
+        }
+      }
+
+      await connection.commit()
+      return NextResponse.json(
+        { message: "Invoice created successfully", id: invoiceId },
+        { status: 201 }
+      )
+    } catch (error) {
+      if (transactionStarted) {
+        try {
+          await connection.rollback()
+        } catch (rollbackError) {
+          console.error("[v0] Rollback error:", rollbackError)
+        }
+      }
+      throw error
+    } finally {
+      connection.release()
     }
-
-    await connection.commit()
-    connection.release()
-
-    return NextResponse.json(
-      { message: "Invoice created successfully", id: invoiceId },
-      { status: 201 }
-    )
   } catch (error) {
-    await connection.rollback()
-    connection.release()
     console.error("[v0] Error creating invoice:", error)
     return NextResponse.json({ error: "Failed to create invoice" }, { status: 500 })
   }

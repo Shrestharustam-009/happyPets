@@ -20,6 +20,7 @@ export default function AdminTabProducts() {
     category: "",
     stock: "",
     image_url: "",
+    is_visible: false,
   })
 
   const [isAdmin, setIsAdmin] = useState(false)
@@ -122,6 +123,7 @@ export default function AdminTabProducts() {
           category: "",
           stock: "",
           image_url: "",
+          is_visible: false,
         })
         setImagePreview(null)
       } else {
@@ -167,6 +169,7 @@ export default function AdminTabProducts() {
       category: product.category,
       stock: product.stock,
       image_url: product.image_url || "",
+      is_visible: !!product.is_visible,
     })
     setImagePreview(product.image_url || null)
     setEditingId(product.id)
@@ -189,6 +192,7 @@ export default function AdminTabProducts() {
               category: "",
               stock: "",
               image_url: "",
+              is_visible: false,
             })
             setImagePreview(null)
           }}
@@ -202,6 +206,19 @@ export default function AdminTabProducts() {
         <div className="bg-muted p-6 rounded-lg border border-border" id="editableform">
           <h3 className="text-xl font-bold mb-4">{editingId ? "Edit Product" : "Add New Product"}</h3>
           <form onSubmit={handleSubmit} className="space-y-4">
+            <div className="flex items-center gap-2 bg-card p-3 rounded-lg border border-border">
+              <input
+                type="checkbox"
+                id="is_visible"
+                checked={formData.is_visible || false}
+                onChange={(e) => setFormData({ ...formData, is_visible: e.target.checked })}
+                className="w-4 h-4 text-primary bg-background border-border rounded focus:ring-primary cursor-pointer"
+              />
+              <label htmlFor="is_visible" className="text-sm font-semibold text-foreground cursor-pointer select-none">
+                Show on Website (Publish to Store)
+              </label>
+            </div>
+
             <div className="border-2 border-dashed border-border rounded-lg p-4">
               <label className="block">
                 <span className="text-sm font-medium mb-2 block">Product Image</span>

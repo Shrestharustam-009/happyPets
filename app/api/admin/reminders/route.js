@@ -2,9 +2,14 @@ import { NextResponse } from "next/server"
 import { query } from "@/lib/db"
 import { sendBrevoEmail } from "@/lib/email-service"
 import NepaliDate from "nepali-date-converter"
+import { validateAdminRequest } from "@/lib/auth-middleware"
 
 export async function GET(request) {
   try {
+    if (!(await validateAdminRequest(request))) {
+      return NextResponse.json({ error: "Forbidden" }, { status: 403 })
+    }
+
     // Fetch upcoming and overdue vaccinations (up to 30 days out)
     // We also want to join reminders_log to see if a reminder was already sent.
     const vaccinations = await query(`
@@ -36,6 +41,10 @@ export async function GET(request) {
 
 export async function POST(request) {
   try {
+    if (!(await validateAdminRequest(request))) {
+      return NextResponse.json({ error: "Forbidden" }, { status: 403 })
+    }
+
     const { vaccination_id, pet_id, client_id, type } = await request.json()
 
     if (!vaccination_id || !pet_id || !client_id) {

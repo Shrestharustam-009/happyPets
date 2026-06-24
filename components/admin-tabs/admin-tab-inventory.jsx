@@ -18,7 +18,8 @@ export default function AdminTabInventory() {
     price: "",
     category: "Medicine",
     stock: "",
-    image_url: ""
+    image_url: "",
+    is_visible: false
   })
 
   const [isAdmin, setIsAdmin] = useState(false)
@@ -90,7 +91,8 @@ export default function AdminTabInventory() {
       price: "",
       category: "Medicine",
       stock: "0",
-      image_url: ""
+      image_url: "",
+      is_visible: false
     })
     setCurrentProduct(null)
     setIsModalOpen(true)
@@ -104,7 +106,8 @@ export default function AdminTabInventory() {
       price: product.price || "",
       category: product.category || "Medicine",
       stock: product.stock !== null ? String(product.stock) : "0",
-      image_url: product.image_url || ""
+      image_url: product.image_url || "",
+      is_visible: !!product.is_visible
     })
     setCurrentProduct(product)
     setIsModalOpen(true)
@@ -251,7 +254,7 @@ export default function AdminTabInventory() {
                     </span>
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap text-right">
-                    <div className="text-sm font-bold">${Number(product.price).toFixed(2)}</div>
+                    <div className="text-sm font-bold">NPR {Number(product.price).toFixed(2)}</div>
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap text-center">
                     {getStockBadge(product.stock)}
@@ -300,6 +303,19 @@ export default function AdminTabInventory() {
             
             <div className="p-6">
               <form id="inventory-form" onSubmit={handleSubmit}>
+                <div className="flex items-center gap-2.5 bg-muted/40 p-3 rounded-lg border border-border mb-5">
+                  <input
+                    type="checkbox"
+                    id="is_visible"
+                    checked={formData.is_visible || false}
+                    onChange={(e) => setFormData({ ...formData, is_visible: e.target.checked })}
+                    className="w-4 h-4 text-primary bg-background border-border rounded focus:ring-primary cursor-pointer"
+                  />
+                  <label htmlFor="is_visible" className="text-sm font-semibold text-foreground cursor-pointer select-none">
+                    Show on Website (Publish to Store)
+                  </label>
+                </div>
+
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
                   
                   <div className="md:col-span-2">

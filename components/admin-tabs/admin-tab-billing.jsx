@@ -1,6 +1,6 @@
 "use client"
 
-import { useState, useEffect } from "react"
+import { useState, useEffect, useRef } from "react"
 
 export default function AdminTabBilling() {
   const [invoices, setInvoices] = useState([])
@@ -15,7 +15,11 @@ export default function AdminTabBilling() {
   
   // Create Invoice State
   const [selectedClient, setSelectedClient] = useState("")
+  const [clientSearch, setClientSearch] = useState("")
+  const [isClientDropdownOpen, setIsClientDropdownOpen] = useState(false)
+  const clientDropdownRef = useRef(null)
   const [selectedPet, setSelectedPet] = useState("")
+  const [clientPhone, setClientPhone] = useState("")
   const [dueDate, setDueDate] = useState("")
   const [notes, setNotes] = useState("")
   const [items, setItems] = useState([
@@ -25,6 +29,28 @@ export default function AdminTabBilling() {
   useEffect(() => {
     fetchData()
   }, [])
+
+  useEffect(() => {
+    function handleClickOutside(event) {
+      if (clientDropdownRef.current && !clientDropdownRef.current.contains(event.target)) {
+        setIsClientDropdownOpen(false)
+        if (selectedClient) {
+          const activeClient = clients.find(c => String(c.id) === String(selectedClient))
+          if (activeClient) {
+            setClientSearch(`${activeClient.full_name} (${activeClient.email})`)
+            setClientPhone(activeClient.phone_number || "")
+          }
+        } else {
+          setClientSearch("")
+          setClientPhone("")
+        }
+      }
+    }
+    document.addEventListener("mousedown", handleClickOutside)
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside)
+    }
+  }, [selectedClient, clients])
 
   const fetchData = async () => {
     try {
@@ -57,6 +83,15 @@ export default function AdminTabBilling() {
   // Derived state
   const clientPets = pets.filter(p => p.user_id === parseInt(selectedClient))
   const totalAmount = items.reduce((sum, item) => sum + item.subtotal, 0)
+
+  const filteredClients = clients.filter(c => {
+    const query = clientSearch.toLowerCase()
+    return (
+      (c.full_name && c.full_name.toLowerCase().includes(query)) ||
+      (c.email && c.email.toLowerCase().includes(query)) ||
+      (c.phone_number && c.phone_number.toLowerCase().includes(query))
+    )
+  })
 
   // Handlers for Items
   const addItem = () => {
@@ -113,6 +148,9 @@ export default function AdminTabBilling() {
 
   const openAddModal = () => {
     setSelectedClient("")
+    setClientSearch("")
+    setClientPhone("")
+    setIsClientDropdownOpen(false)
     setSelectedPet("")
     setDueDate(new Date().toISOString().split('T')[0]) // Today
     setNotes("")
@@ -130,6 +168,7 @@ export default function AdminTabBilling() {
     
     const payload = {
       client_id: selectedClient,
+      phone_number: clientPhone,
       pet_id: selectedPet || null,
       total_amount: totalAmount,
       status: "Pending",
@@ -370,23 +409,85 @@ export default function AdminTabBilling() {
             <div className="max-h-[75vh] overflow-y-auto p-6">
               <form id="invoice-form" onSubmit={handleCreateSubmit}>
                 
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8 bg-muted/30 p-4 rounded-lg border border-border">
-                  <div>
+                <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8 bg-muted/30 p-4 rounded-lg border border-border">
+                  <div className="relative" ref={clientDropdownRef}>
                     <label className="block text-sm font-bold mb-1 text-primary">Select Client *</label>
-                    <select
-                      value={selectedClient}
-                      onChange={(e) => {
-                        setSelectedClient(e.target.value)
-                        setSelectedPet("")
-                      }}
-                      className="w-full px-3 py-2 text-sm border border-border rounded-md focus:ring-1 focus:ring-primary"
-                      required
-                    >
-                      <option value="">-- Choose Client --</option>
-                      {clients.map(c => (
-                        <option key={c.id} value={c.id}>{c.full_name} ({c.email})</option>
-                      ))}
-                    </select>
+                    <div className="relative">
+                      <input
+                        type="text"
+                        placeholder="Type name, email, or phone to search..."
+                        value={clientSearch}
+                        onChange={(e) => {
+                          setClientSearch(e.target.value)
+                          setIsClientDropdownOpen(true)
+                          if (selectedClient) {
+                            setSelectedClient("")
+                            setClientPhone("")
+                            setSelectedPet("")
+                          }
+                        }}
+                        onFocus={() => setIsClientDropdownOpen(true)}
+                        className="w-full px-3 py-2 text-sm border border-border rounded-md focus:outline-none focus:ring-1 focus:ring-primary bg-background text-foreground"
+                        required={!selectedClient}
+                      />
+                      {selectedClient && (
+                        <button
+                          type="button"
+                          onClick={() => {
+                            setSelectedClient("")
+                            setClientSearch("")
+                            setClientPhone("")
+                            setSelectedPet("")
+                            setIsClientDropdownOpen(false)
+                          }}
+                          className="absolute right-2.5 top-2 text-muted-foreground hover:text-foreground text-xs bg-muted hover:bg-muted/80 rounded px-1.5 py-0.5"
+                        >
+                          Clear
+                        </button>
+                      )}
+                    </div>
+
+                    {isClientDropdownOpen && (
+                      <div className="absolute z-50 w-full mt-1 bg-background border border-border rounded-md shadow-lg max-h-60 overflow-y-auto">
+                        {filteredClients.length > 0 ? (
+                          filteredClients.map((c) => (
+                            <button
+                              key={c.id}
+                              type="button"
+                              onClick={() => {
+                                setSelectedClient(String(c.id))
+                                setClientSearch(`${c.full_name} (${c.email})`)
+                                setClientPhone(c.phone_number || "")
+                                setSelectedPet("")
+                                setIsClientDropdownOpen(false)
+                              }}
+                              className="w-full text-left px-3 py-2 hover:bg-muted/80 transition-colors text-sm border-b border-border last:border-0"
+                            >
+                              <div className="font-semibold text-foreground">{c.full_name}</div>
+                              <div className="text-xs text-muted-foreground flex justify-between">
+                                <span>{c.email}</span>
+                                {c.phone_number && <span>{c.phone_number}</span>}
+                              </div>
+                            </button>
+                          ))
+                        ) : (
+                          <div className="px-3 py-3 text-sm text-muted-foreground text-center">
+                            No clients found
+                          </div>
+                        )}
+                      </div>
+                    )}
+                  </div>
+                  <div>
+                    <label className="block text-sm font-bold mb-1">Phone Number</label>
+                    <input
+                      type="text"
+                      placeholder="Phone number"
+                      value={clientPhone}
+                      onChange={(e) => setClientPhone(e.target.value)}
+                      className="w-full px-3 py-2 text-sm border border-border rounded-md focus:ring-1 focus:ring-primary bg-background text-foreground"
+                      disabled={!selectedClient}
+                    />
                   </div>
                   <div>
                     <label className="block text-sm font-bold mb-1">Select Patient</label>

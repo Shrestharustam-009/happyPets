@@ -25,8 +25,11 @@ export default function AdminTabMedicalRecords() {
     differential_diagnoses: "",
     treatment_interventions: "",
     prescribed_medicines: "",
-    attachments_url: ""
+    attachments_url: "",
+    history: ""
   })
+
+  const [weightUnitMR, setWeightUnitMR] = useState("kg")
 
   // Consent form & image uploads
   const [consentFile, setConsentFile] = useState(null) // { name, url }
@@ -151,8 +154,10 @@ export default function AdminTabMedicalRecords() {
       differential_diagnoses: "",
       treatment_interventions: "",
       prescribed_medicines: "",
-      attachments_url: ""
+      attachments_url: "",
+      history: ""
     })
+    setWeightUnitMR("kg")
     setConsentFile(null)
     setImageFiles(Array(IMAGE_SLOTS).fill(null))
     setCurrentRecord(null)
@@ -175,8 +180,10 @@ export default function AdminTabMedicalRecords() {
       differential_diagnoses: record.differential_diagnoses || "",
       treatment_interventions: record.treatment_interventions || "",
       prescribed_medicines: record.prescribed_medicines || "",
-      attachments_url: record.attachments_url || ""
+      attachments_url: record.attachments_url || "",
+      history: record.history || ""
     })
+    setWeightUnitMR("kg")
     // Restore previously uploaded files from attachments_url JSON
     let parsed = null
     try { parsed = record.attachments_url ? JSON.parse(record.attachments_url) : null } catch {}
@@ -208,8 +215,16 @@ export default function AdminTabMedicalRecords() {
       images: imageFiles.filter(Boolean)
     }
 
-    const payload = { ...formData }
-    payload.attachments_url = JSON.stringify(attachmentsData)
+    let normalizedWeight = formData.weight;
+    if (normalizedWeight && weightUnitMR === "gram") {
+      normalizedWeight = (parseFloat(normalizedWeight) / 1000).toFixed(4);
+    }
+
+    const payload = { 
+      ...formData,
+      weight: normalizedWeight ? parseFloat(normalizedWeight) : null,
+      attachments_url: JSON.stringify(attachmentsData)
+    }
     if (payload.visit_date) {
       payload.visit_date = payload.visit_date.replace('T', ' ') + ':00'
     }
@@ -432,8 +447,39 @@ export default function AdminTabMedicalRecords() {
                         <input type="number" name="respiration" value={formData.respiration} onChange={handleInputChange} className="w-full px-3 py-2 text-sm border border-border rounded-md" />
                       </div>
                       <div>
-                        <label className="block text-xs font-medium mb-1">Weight (kg)</label>
-                        <input type="number" step="0.01" name="weight" value={formData.weight} onChange={handleInputChange} className="w-full px-3 py-2 text-sm border border-border rounded-md" />
+                        <label className="block text-xs font-medium mb-1">Weight</label>
+                        <div className="flex gap-1.5">
+                          <input
+                            type="number"
+                            step="0.001"
+                            name="weight"
+                            value={formData.weight}
+                            onChange={handleInputChange}
+                            className="flex-1 min-w-0 px-2 py-2 text-sm border border-border rounded-md bg-background text-foreground"
+                            placeholder={weightUnitMR === "gram" ? "g" : "kg"}
+                          />
+                          <select
+                            value={weightUnitMR}
+                            onChange={(e) => {
+                              const newUnit = e.target.value
+                              setWeightUnitMR(newUnit)
+                              if (formData.weight) {
+                                const val = parseFloat(formData.weight)
+                                if (!isNaN(val)) {
+                                  if (newUnit === "gram" && weightUnitMR === "kg") {
+                                    setFormData(prev => ({ ...prev, weight: (val * 1000).toFixed(0) }))
+                                  } else if (newUnit === "kg" && weightUnitMR === "gram") {
+                                    setFormData(prev => ({ ...prev, weight: (val / 1000).toFixed(3) }))
+                                  }
+                                }
+                              }
+                            }}
+                            className="px-1.5 py-2 border border-border rounded-md text-xs bg-background text-foreground"
+                          >
+                            <option value="kg">kg</option>
+                            <option value="gram">g</option>
+                          </select>
+                        </div>
                       </div>
                     </div>
                   </div>
@@ -446,7 +492,19 @@ export default function AdminTabMedicalRecords() {
                       value={formData.chief_complaint}
                       onChange={handleInputChange}
                       rows="2"
-                      className="w-full px-3 py-2 border border-border rounded-md focus:outline-none focus:ring-1 focus:ring-primary"
+                      className="w-full px-3 py-2 border border-border rounded-md focus:outline-none focus:ring-1 focus:ring-primary bg-background text-foreground"
+                    ></textarea>
+                  </div>
+
+                  <div className="md:col-span-2">
+                    <label className="block text-sm font-medium mb-1">Patient History</label>
+                    <textarea
+                      name="history"
+                      value={formData.history || ""}
+                      onChange={handleInputChange}
+                      rows="2"
+                      placeholder="e.g. Previous conditions, chronic issues, family history..."
+                      className="w-full px-3 py-2 border border-border rounded-md focus:outline-none focus:ring-1 focus:ring-primary bg-background text-foreground"
                     ></textarea>
                   </div>
 

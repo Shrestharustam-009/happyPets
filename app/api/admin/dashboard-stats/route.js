@@ -1,8 +1,13 @@
 import { NextResponse } from "next/server"
 import { query } from "@/lib/db"
+import { validateAdminRequest } from "@/lib/auth-middleware"
 
-export async function GET() {
+export async function GET(request) {
   try {
+    if (!(await validateAdminRequest(request))) {
+      return NextResponse.json({ error: "Forbidden" }, { status: 403 })
+    }
+
     // ============ CORE METRICS ============
     const revenueRes = await query(`SELECT COALESCE(SUM(total_amount), 0) as total FROM invoices WHERE status = 'Paid'`)
     const totalRevenue = Number(revenueRes[0]?.total) || 0

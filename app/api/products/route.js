@@ -1,4 +1,6 @@
 import { query } from "@/lib/db"
+import { verifyAdminToken } from "@/lib/auth-middleware"
+
 
 // Helper function to normalize image URLs to use API route
 function normalizeImageUrl(imageUrl) {
@@ -23,7 +25,7 @@ export async function GET(req) {
     const limit = Number.parseInt(searchParams.get("limit") || "12")
     const offset = (page - 1) * limit
 
-    let sql = "SELECT * FROM products WHERE 1=1"
+    let sql = "SELECT * FROM products WHERE is_visible = 1"
     const params = []
 
     if (category) {
@@ -62,7 +64,7 @@ export async function GET(req) {
     }))
 
     // Get total count
-    let countSql = "SELECT COUNT(*) as total FROM products WHERE 1=1"
+    let countSql = "SELECT COUNT(*) as total FROM products WHERE is_visible = 1"
     const countParams = []
     if (category) {
       countSql += " AND category = ?"
@@ -92,20 +94,21 @@ export async function GET(req) {
 export async function POST(req) {
   try {
     const token = req.headers.get("authorization")?.replace("Bearer ", "")
-    if (!token) {
+    const adminUser = await verifyAdminToken(token)
+    if (!adminUser || adminUser.role !== "admin") {
       return Response.json({ message: "Unauthorized - Admin token required" }, { status: 401 })
     }
 
-    const { name, description, price, discount_price, category, stock, image_url } = await req.json()
+    const { name, description, price, discount_price, category, stock, image_url, is_visible } = await req.json()
 
     if (!name || !price || !category) {
       return Response.json({ message: "Missing required fields" }, { status: 400 })
     }
 
     const result = await query(
-      `INSERT INTO products (name, description, price, discount_price, category, stock, image_url)
-       VALUES (?, ?, ?, ?, ?, ?, ?)`,
-      [name, description, price, discount_price || null, category, stock || 0, image_url || null],
+      `INSERT INTO products (name, description, price, discount_price, category, stock, image_url, is_visible)
+       VALUES (?, ?, ?, ?, ?, ?, ?, ?)`,
+      [name, description, price, discount_price || null, category, stock || 0, image_url || null, is_visible ? 1 : 0],
     )
 
     return Response.json({

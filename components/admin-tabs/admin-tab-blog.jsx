@@ -21,8 +21,22 @@ export default function AdminTabBlog() {
     tags: "",
     featuredImage: "",
     authorName: "",
-    slug: "", // Added slug to formData
+    slug: "",
+    seo_title: "",
+    seo_slug: "",
+    seo_description: "",
+    focus_keyphrase: "",
   })
+
+  const [isSlugManuallyEdited, setIsSlugManuallyEdited] = useState(false)
+
+  const generateSlug = (val) => {
+    return val
+      .toLowerCase()
+      .trim()
+      .replace(/\s+/g, "-")
+      .replace(/[^\w-]/g, "")
+  }
 
   const [isAdmin, setIsAdmin] = useState(false)
 
@@ -67,7 +81,7 @@ export default function AdminTabBlog() {
       const url = editingId ? `/api/blog/${formData.slug}` : "/api/blog"
       const method = editingId ? "PUT" : "POST"
 
-      const { title, excerpt, content, category, tags, featuredImage, authorName } = formData
+      const { title, excerpt, content, category, tags, featuredImage, authorName, seo_title, seo_slug, seo_description, focus_keyphrase } = formData
 
       const response = await fetch(url, {
         method,
@@ -75,7 +89,7 @@ export default function AdminTabBlog() {
           "Content-Type": "application/json",
           Authorization: `Bearer ${localStorage.getItem("adminToken")}`,
         },
-        body: JSON.stringify({ title, excerpt, content, category, tags, featuredImage, authorName }),
+        body: JSON.stringify({ title, excerpt, content, category, tags, featuredImage, authorName, seo_title, seo_slug, seo_description, focus_keyphrase }),
       })
 
       if (response.ok) {
@@ -93,7 +107,12 @@ export default function AdminTabBlog() {
           featuredImage: "",
           authorName: "",
           slug: "",
+          seo_title: "",
+          seo_slug: "",
+          seo_description: "",
+          focus_keyphrase: "",
         })
+        setIsSlugManuallyEdited(false)
         setImagePreview(null)
       } else {
         const err = await response.json()
@@ -166,8 +185,13 @@ export default function AdminTabBlog() {
       tags: post.tags,
       featuredImage: post.featuredImage || post.featured_image || "",
       authorName: post.author_name || "",
-      slug: post.slug // for update
+      slug: post.slug,
+      seo_title: post.seo_title || "",
+      seo_slug: post.seo_slug || "",
+      seo_description: post.seo_description || "",
+      focus_keyphrase: post.focus_keyphrase || "",
     })
+    setIsSlugManuallyEdited(!!post.seo_slug)
     setEditingId(post.id)
     setImagePreview(post.featuredImage || post.featured_image || "")
     setShowForm(true)
@@ -191,7 +215,12 @@ export default function AdminTabBlog() {
                 featuredImage: "",
                 authorName: "",
                 slug: "",
+                seo_title: "",
+                seo_slug: "",
+                seo_description: "",
+                focus_keyphrase: "",
               })
+              setIsSlugManuallyEdited(false)
               setImagePreview(null)
             }}
             className="bg-primary text-primary-foreground px-4 py-2 rounded-lg hover:bg-primary/90 transition-colors font-medium text-sm"
@@ -231,7 +260,16 @@ export default function AdminTabBlog() {
                 type="text"
                 placeholder="Blog Title"
                 value={formData.title}
-                onChange={(e) => setFormData({ ...formData, title: e.target.value })}
+                onChange={(e) => {
+                  const val = e.target.value
+                  setFormData((prev) => {
+                    const next = { ...prev, title: val }
+                    if (!isSlugManuallyEdited) {
+                      next.seo_slug = generateSlug(val)
+                    }
+                    return next
+                  })
+                }}
                 className="w-full px-4 py-2 border border-border rounded-lg bg-background text-foreground focus:outline-none focus:ring-1 focus:ring-primary"
                 required
               />
@@ -285,6 +323,106 @@ export default function AdminTabBlog() {
                 value={formData.content}
                 onChange={(content) => setFormData({ ...formData, content })}
               />
+            </div>
+
+            {/* SEO Settings Panel */}
+            <div className="border border-border rounded-xl p-4 bg-muted/10 space-y-4">
+              <h4 className="font-bold text-sm text-foreground uppercase tracking-wider border-b border-border pb-2 flex items-center gap-1.5">
+                🌐 SEO Settings
+              </h4>
+              
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                {/* Focus Keyphrase */}
+                <div>
+                  <label className="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-1">Focus Keyphrase</label>
+                  <input
+                    type="text"
+                    placeholder="e.g. happy pets clinic"
+                    value={formData.focus_keyphrase || ""}
+                    onChange={(e) => setFormData({ ...formData, focus_keyphrase: e.target.value })}
+                    className="w-full px-4 py-2 border border-border rounded-lg bg-background text-foreground focus:outline-none focus:ring-1 focus:ring-primary text-sm"
+                  />
+                </div>
+
+                {/* SEO Slug */}
+                <div>
+                  <label className="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-1">SEO Slug</label>
+                  <input
+                    type="text"
+                    placeholder="slug-url"
+                    value={formData.seo_slug || ""}
+                    onChange={(e) => {
+                      setIsSlugManuallyEdited(true)
+                      setFormData({ ...formData, seo_slug: generateSlug(e.target.value) })
+                    }}
+                    className="w-full px-4 py-2 border border-border rounded-lg bg-background text-foreground focus:outline-none focus:ring-1 focus:ring-primary text-sm"
+                  />
+                </div>
+              </div>
+
+              {/* SEO Title */}
+              <div>
+                <label className="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-1">SEO Title</label>
+                <input
+                  type="text"
+                  placeholder="SEO Title"
+                  value={formData.seo_title || ""}
+                  onChange={(e) => setFormData({ ...formData, seo_title: e.target.value })}
+                  className="w-full px-4 py-2 border border-border rounded-lg bg-background text-foreground focus:outline-none focus:ring-1 focus:ring-primary text-sm"
+                />
+                <div className="mt-1.5">
+                  <div className="flex justify-between text-[10px] text-muted-foreground font-semibold mb-0.5">
+                    <span>Length: {(formData.seo_title || "").length} chars</span>
+                    <span>Optimal: ~60 chars</span>
+                  </div>
+                  <div className="w-full bg-muted rounded-full h-1.5 overflow-hidden">
+                    <div
+                      className={`h-full transition-all duration-300 ${
+                        (formData.seo_title || "").length >= 50 && (formData.seo_title || "").length <= 70
+                          ? "bg-green-500"
+                          : (formData.seo_title || "").length > 0 && (formData.seo_title || "").length < 50
+                          ? "bg-amber-500"
+                          : (formData.seo_title || "").length > 70
+                          ? "bg-rose-500"
+                          : "bg-stone-300"
+                      }`}
+                      style={{ width: `${Math.min(100, (((formData.seo_title || "").length) / 80) * 100)}%` }}
+                    />
+                  </div>
+                </div>
+              </div>
+
+              {/* Meta Description */}
+              <div>
+                <label className="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-1">Meta Description</label>
+                <textarea
+                  placeholder="Meta Description"
+                  value={formData.seo_description || ""}
+                  onChange={(e) => setFormData({ ...formData, seo_description: e.target.value })}
+                  rows="3"
+                  className="w-full px-4 py-2 border border-border rounded-lg bg-background text-foreground focus:outline-none focus:ring-1 focus:ring-primary text-sm"
+                />
+                <div className="mt-1.5">
+                  <div className="flex justify-between text-[10px] text-muted-foreground font-semibold mb-0.5">
+                    <span>Length: {(formData.seo_description || "").length} chars</span>
+                    <span>Optimal: ~150-160 chars</span>
+                  </div>
+                  <div className="w-full bg-muted rounded-full h-1.5 overflow-hidden">
+                    <div
+                      className={`h-full transition-all duration-300 ${
+                        (formData.seo_description || "").length >= 130 && (formData.seo_description || "").length <= 170
+                          ? "bg-green-500"
+                          : (formData.seo_description || "").length > 0 && (formData.seo_description || "").length < 130
+                          ? "bg-amber-500"
+                          : (formData.seo_description || "").length > 170
+                          ? "bg-rose-500"
+                          : "bg-stone-300"
+                      }`}
+                      style={{ width: `${Math.min(100, (((formData.seo_description || "").length) / 185) * 100)}%` }}
+                    />
+                  </div>
+                </div>
+              </div>
             </div>
             <div className="flex gap-4">
               <button

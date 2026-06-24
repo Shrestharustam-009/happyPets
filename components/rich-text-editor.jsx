@@ -183,6 +183,19 @@ export default function RichTextEditor({ value, onChange, placeholder = "Enter d
           )}
         </div>
 
+        {/* Font Size Selector */}
+        <select
+          onChange={(e) => execCommand('fontSize', e.target.value)}
+          defaultValue="3"
+          className="px-2 py-1.5 border border-stone-200 rounded-lg text-xs bg-white text-stone-700 outline-none focus:ring-1 focus:ring-emerald-500 cursor-pointer font-medium"
+          title="Font Size"
+        >
+          <option value="1">Small</option>
+          <option value="3">Normal</option>
+          <option value="5">Large</option>
+          <option value="7">Huge</option>
+        </select>
+
         {/* Text Color */}
         <div className="relative">
           <ToolbarButton 

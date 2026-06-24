@@ -1,8 +1,13 @@
 import { NextResponse } from "next/server"
 import { query } from "@/lib/db"
+import { validateAdminRequest } from "@/lib/auth-middleware"
 
-export async function GET() {
+export async function GET(request) {
   try {
+    if (!(await validateAdminRequest(request))) {
+      return NextResponse.json({ error: "Forbidden" }, { status: 403 })
+    }
+
     const patients = await query(`
       SELECT p.id, p.user_id, p.species, p.breed, p.name, p.dob, p.age, p.sex, p.color, p.weight, p.identifying_marks, p.medical_history, p.photo_url, p.created_at,
              u.full_name as owner_name, u.email as owner_email
@@ -19,6 +24,10 @@ export async function GET() {
 
 export async function POST(request) {
   try {
+    if (!(await validateAdminRequest(request))) {
+      return NextResponse.json({ error: "Forbidden" }, { status: 403 })
+    }
+
     const body = await request.json()
     const { user_id, name, species, breed, dob, sex, color, weight, identifying_marks, medical_history, photo_url } = body
 

@@ -1,8 +1,13 @@
 import { NextResponse } from "next/server"
 import { query } from "@/lib/db"
+import { validateAdminRequest } from "@/lib/auth-middleware"
 
 export async function GET(request) {
   try {
+    if (!(await validateAdminRequest(request))) {
+      return NextResponse.json({ error: "Forbidden" }, { status: 403 })
+    }
+
     const { searchParams } = new URL(request.url)
     const category = searchParams.get("category")
 
@@ -26,23 +31,28 @@ export async function GET(request) {
 
 export async function POST(request) {
   try {
+    if (!(await validateAdminRequest(request))) {
+      return NextResponse.json({ error: "Forbidden" }, { status: 403 })
+    }
+
     const body = await request.json()
-    const { name, description, price, category, stock, image_url } = body
+    const { name, description, price, category, stock, image_url, is_visible } = body
 
     if (!name || !price || !category) {
       return NextResponse.json({ error: "Name, Price, and Category are required" }, { status: 400 })
     }
 
     const result = await query(
-      `INSERT INTO products (name, description, price, category, stock, image_url) 
-       VALUES (?, ?, ?, ?, ?, ?)`,
+      `INSERT INTO products (name, description, price, category, stock, image_url, is_visible) 
+       VALUES (?, ?, ?, ?, ?, ?, ?)`,
       [
         name,
         description || null,
         price,
         category,
         stock || 0,
-        image_url || null
+        image_url || null,
+        is_visible ? 1 : 0
       ]
     )
 

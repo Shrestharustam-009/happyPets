@@ -63,7 +63,21 @@ export default function AdminTabOverview() {
     </div>
   )
 
-  if (!stats) return null
+  if (!stats) return (
+    <div className="flex flex-col items-center justify-center p-12 max-w-xl mx-auto my-12 bg-card rounded-2xl border border-border shadow-sm text-center">
+      <AlertTriangle className="w-12 h-12 text-destructive mb-4 animate-bounce" />
+      <h3 className="font-extrabold text-xl text-foreground mb-2">Database Connection Failed</h3>
+      <p className="text-sm text-muted-foreground mb-6 leading-relaxed">
+        We couldn't connect to the MySQL database. Please make sure your database server is running on port 3306 and refresh the page.
+      </p>
+      <button 
+        onClick={() => { setLoading(true); fetchStats(); }}
+        className="px-5 py-2.5 bg-primary text-primary-foreground font-semibold rounded-lg hover:bg-primary/95 transition-all text-sm shadow-sm"
+      >
+        Retry Connection
+      </button>
+    </div>
+  )
 
   const isVet = role === 'vet'
 
@@ -192,7 +206,7 @@ export default function AdminTabOverview() {
                           className="h-full rounded-lg bg-gradient-to-r from-blue-500 to-indigo-500 transition-all duration-1000 ease-out flex items-center justify-end pr-3"
                           style={{ width: `${Math.max(pct, 8)}%` }}
                         >
-                          <span className="text-[11px] font-bold text-white drop-shadow">${rev.toLocaleString('en-US', { minimumFractionDigits: 2 })}</span>
+                          <span className="text-[11px] font-bold text-white drop-shadow">NPR {rev.toLocaleString('en-US', { minimumFractionDigits: 2 })}</span>
                         </div>
                       </div>
                     </div>
@@ -203,11 +217,11 @@ export default function AdminTabOverview() {
             <div className="mt-6 pt-4 border-t border-border flex gap-6">
               <div>
                 <div className="text-xs text-muted-foreground">Collected</div>
-                <div className="text-lg font-black text-emerald-600">${Number(m.totalRevenue).toLocaleString('en-US', { minimumFractionDigits: 2 })}</div>
+                <div className="text-lg font-black text-emerald-600">NPR {Number(m.totalRevenue).toLocaleString('en-US', { minimumFractionDigits: 2 })}</div>
               </div>
               <div>
                 <div className="text-xs text-muted-foreground">Pending</div>
-                <div className="text-lg font-black text-amber-600">${Number(m.pendingRevenue).toLocaleString('en-US', { minimumFractionDigits: 2 })}</div>
+                <div className="text-lg font-black text-amber-600">NPR {Number(m.pendingRevenue).toLocaleString('en-US', { minimumFractionDigits: 2 })}</div>
               </div>
             </div>
           </div>
@@ -345,7 +359,7 @@ export default function AdminTabOverview() {
                     </div>
                     <div>
                       <div className="font-semibold text-sm text-foreground">{item.name}</div>
-                      <div className="text-[11px] text-muted-foreground">${Number(item.price).toFixed(2)} per unit</div>
+                      <div className="text-[11px] text-muted-foreground">NPR {Number(item.price).toFixed(2)} per unit</div>
                     </div>
                   </div>
                   <span className={`text-[11px] font-bold px-2.5 py-1 rounded-lg ${

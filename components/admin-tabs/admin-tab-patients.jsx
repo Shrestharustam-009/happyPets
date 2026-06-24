@@ -29,6 +29,8 @@ export default function AdminTabPatients() {
     photo_url: ""
   })
 
+  const [weightUnit, setWeightUnit] = useState("kg")
+
   // Inline Client Creation State (inside Register Pet Form)
   const [ownerMode, setOwnerMode] = useState("select") // "select" or "create"
   const [newOwnerData, setNewOwnerData] = useState({
@@ -129,6 +131,7 @@ export default function AdminTabPatients() {
       medical_history: "",
       photo_url: ""
     })
+    setWeightUnit("kg")
     setCurrentPatient(null)
     setIsModalOpen(true)
   }
@@ -149,6 +152,7 @@ export default function AdminTabPatients() {
       medical_history: patient.medical_history || "",
       photo_url: patient.photo_url || ""
     })
+    setWeightUnit("kg")
     setCurrentPatient(patient)
     setIsModalOpen(true)
   }
@@ -194,8 +198,13 @@ export default function AdminTabPatients() {
       const url = isEditMode ? `/api/admin/patients/${currentPatient.id}` : "/api/admin/patients"
       const method = isEditMode ? "PUT" : "POST"
       
+      let normalizedWeight = formData.weight;
+      if (normalizedWeight && weightUnit === "gram") {
+        normalizedWeight = (parseFloat(normalizedWeight) / 1000).toFixed(4);
+      }
       const payload = {
         ...formData,
+        weight: normalizedWeight ? parseFloat(normalizedWeight) : null,
         user_id: finalUserId
       }
 
@@ -571,15 +580,39 @@ export default function AdminTabPatients() {
                 </div>
 
                 <div>
-                  <label className="block text-sm font-medium mb-1">Weight (kg)</label>
-                  <input
-                    type="number"
-                    step="0.01"
-                    name="weight"
-                    value={formData.weight}
-                    onChange={handleInputChange}
-                    className="w-full px-3 py-2 border border-border rounded-md focus:outline-none focus:ring-2 focus:ring-primary/50"
-                  />
+                  <label className="block text-sm font-medium mb-1">Weight</label>
+                  <div className="flex gap-2">
+                    <input
+                      type="number"
+                      step="0.001"
+                      name="weight"
+                      value={formData.weight}
+                      onChange={handleInputChange}
+                      className="flex-1 min-w-0 px-3 py-2 border border-border rounded-md focus:outline-none focus:ring-2 focus:ring-primary/50 bg-background text-foreground"
+                      placeholder={weightUnit === "gram" ? "e.g. 500" : "e.g. 5.5"}
+                    />
+                    <select
+                      value={weightUnit}
+                      onChange={(e) => {
+                        const newUnit = e.target.value
+                        setWeightUnit(newUnit)
+                        if (formData.weight) {
+                          const val = parseFloat(formData.weight)
+                          if (!isNaN(val)) {
+                            if (newUnit === "gram" && weightUnit === "kg") {
+                              setFormData(prev => ({ ...prev, weight: (val * 1000).toFixed(0) }))
+                            } else if (newUnit === "kg" && weightUnit === "gram") {
+                              setFormData(prev => ({ ...prev, weight: (val / 1000).toFixed(3) }))
+                            }
+                          }
+                        }
+                      }}
+                      className="px-2 py-2 border border-border rounded-md focus:outline-none focus:ring-2 focus:ring-primary/50 bg-background text-foreground text-sm"
+                    >
+                      <option value="kg">kg</option>
+                      <option value="gram">g</option>
+                    </select>
+                  </div>
                 </div>
 
                 <div className="md:col-span-2">
