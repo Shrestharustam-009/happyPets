@@ -1,0 +1,994 @@
+Pet PetId,Pet Name,Pet Birthday,Reminder ReasonsFor,Notification NoificationType,Notification NoticationSendTo,Notification Date,Notification Details
+1,Aadu,2024-05-01,test,FollowupRemainder,1,2024-06-30T00:00:00.000,"Aadu, Bitspanda Tester pet, will need to be follow up for test on June 30."
+1,Aadu,2024-05-01,test,FollowupRemainder,1,2024-07-01T12:35:09.790,"The deadline for Aadu, Dr. Raju pet's vaccinations, which was 30 Jun 2024, has passed."
+2,Kale,,Follow up for Skin checkup,FollowupRemainder,2,2024-07-07T00:00:00.000,"Kale, Shyam Thapa pet, will need to be follow up for Follow up for Skin checkup on July 7."
+2,Kale,,Follow up for Skin checkup,FollowupRemainder,1,2024-07-08T15:25:48.817,"The deadline for Kale, Karuna pet's vaccinations, which was 07 Jul 2024, has passed."
+3,OLA JHA,2024-06-29,Wound status of Neck,FollowupRemainder,3,2024-07-03T00:00:00.000,"OLA JHA, Bina Jha pet, will need to be follow up for Wound status of Neck on July 3."
+3,OLA JHA,2024-06-29,Wound status of Neck,FollowupRemainder,1,2024-07-04T14:43:05.137,"The deadline for OLA JHA, Bitspanda pet's vaccinations, which was 03 Jul 2024, has passed."
+4,Eva,2024-06-29,right hind limb paralysis,FollowupRemainder,4,2024-06-30T00:00:00.000,"Eva, Bishowraj Limbu pet, will need to be follow up for right hind limb paralysis on June 30."
+4,Eva,2024-06-29,right hind limb paralysis,FollowupRemainder,1,2024-07-01T12:35:09.790,
+5,Joy,2022-06-29,Joy Vaccination,VaccinationRemainder,5,2024-06-10T00:00:00.000,"Joy, Raunak Amatya pet, will need to be vaccinated against Joy Vaccination on June 10."
+6,unknown,2024-06-29,Bidhan Pradhan Vaccination dallu,VaccinationRemainder,6,2024-06-02T00:00:00.000,"unknown, Bidhan Pradhan pet, will need to be vaccinated against Bidhan Pradhan Vaccination dallu on June 2."
+9,coco,2024-06-29,Coco vaccination,VaccinationRemainder,9,2024-06-10T00:00:00.000,"coco, Sagar Nemkul pet, will need to be vaccinated against Coco vaccination on June 10."
+10,Rolo,2024-06-29,Rolo Vaccination,VaccinationRemainder,10,2024-06-01T00:00:00.000,"Rolo, Sally Singh pet, will need to be vaccinated against Rolo Vaccination on June 1."
+10,Rolo,2024-06-29,rolo vaccination,VaccinationRemainder,10,2024-06-01T00:00:00.000,"Rolo, Sally Singh pet, will need to be vaccinated against rolo vaccination on June 1."
+12,unknown,2024-06-29,cat vaccination,VaccinationRemainder,11,2024-03-14T00:00:00.000,"unknown, Georgina Joshi pet, will need to be vaccinated against cat vaccination on March 14."
+13,Boxer,2024-06-29,Boxer,VaccinationRemainder,12,2024-06-12T00:00:00.000,"Boxer, unknown Tamang pet, will need to be vaccinated against Boxer on June 12."
+26,kali,2023-07-07,kali vaccination,VaccinationRemainder,24,2025-07-07T00:00:00.000,"kali, Binay Nemkul pet, will need to be vaccinated against kali vaccination on July 7."
+26,kali,2023-07-07,kali vaccination,VaccinationRemainder,1,2025-07-08T07:58:20.787,
+33,kofi,2020-07-10,kofi,VaccinationRemainder,30,2025-07-10T00:00:00.000,"kofi, Sudarshan Pandey pet, will need to be vaccinated against kofi on July 10."
+33,kofi,2020-07-10,kofi,VaccinationRemainder,1,2025-07-11T11:03:14.640,
+35,Khusi,,FOLLOW UP,FollowupRemainder,32,2024-07-15T00:00:00.000,"Khusi, Baikuntha Khanal pet, will need to be follow up for FOLLOW UP on July 15."
+35,Khusi,,FOLLOW UP,FollowupRemainder,1,2024-07-16T11:49:23.273,
+47,Stalla,,"Rabies, corona",VaccinationRemainder,46,2024-08-20T00:00:00.000,"Stalla, Sakrin Neuoana pet, will need to be vaccinated against Rabies, corona on August 20."
+47,Stalla,,"Rabies, corona",VaccinationRemainder,1,2024-08-21T15:27:35.503,
+48,tyson,2020-07-21,tyson/udip deshar,VaccinationRemainder,47,2025-07-21T00:00:00.000,"tyson, udip  Deshar pet, will need to be vaccinated against tyson/udip deshar on July 21."
+48,tyson,2020-07-21,tyson/udip deshar,VaccinationRemainder,1,2025-07-22T15:01:59.503,
+49,unknown,,arpit,VaccinationRemainder,48,2025-07-21T00:00:00.000,"unknown, Arpit Agrawal pet, will need to be vaccinated against arpit on July 21."
+49,unknown,,arpit,VaccinationRemainder,1,2025-07-22T15:01:59.520,
+49,unknown,,arpit labrador vaccination,VaccinationRemainder,48,2025-07-21T00:00:00.000,"unknown, Arpit Agrawal pet, will need to be vaccinated against arpit labrador vaccination on July 21."
+49,unknown,,arpit labrador vaccination,VaccinationRemainder,1,2025-07-22T15:01:59.520,
+50,odone,2024-07-21,follow up blood,FollowupRemainder,48,2024-07-23T00:00:00.000,"odone, Arpit Agrawal pet, will need to be follow up for follow up blood on July 23."
+50,odone,2024-07-21,follow up blood,FollowupRemainder,1,2024-07-24T14:23:03.607,
+51,Stella/MoMo/Charlie/Punte/Kanchi/Simba,,vaccination,VaccinationRemainder,49,2025-07-15T00:00:00.000,"stella/momo/charlie/punte/kanxi/simbaa, Sujana Kapali pet, will need to be vaccinated against vaccination on July 15."
+51,Stella/MoMo/Charlie/Punte/Kanchi/Simba,,vaccination,VaccinationRemainder,1,2025-07-16T06:21:54.343,
+58,Unknown,,Vaccination,VaccinationRemainder,55,2024-07-24T00:00:00.000,"Unknown, LALIT SHAHI pet, will need to be vaccinated against Vaccination on July 24."
+58,Unknown,,Vaccination,VaccinationRemainder,1,2024-07-25T16:44:34.717,
+59,Feri,2020-07-25,vaccination/feri,VaccinationRemainder,56,2024-04-02T00:00:00.000,"Feri, Archana Shakya pet, will need to be vaccinated against vaccination/feri on April 2."
+72,JERRY,2024-04-30,POMERIAN VACCINATION,VaccinationRemainder,69,2025-07-28T00:00:00.000,"JERRY, ANWESHA LIMBU pet, will need to be vaccinated against POMERIAN VACCINATION on July 28."
+79,Fucchu,2024-08-05,FOLLOW UP,FollowupRemainder,76,2024-08-07T00:00:00.000,"Fucchu, USANA KHATRI pet, will need to be follow up for FOLLOW UP on August 7."
+87,Lulu,,TREATMENT,FollowupRemainder,83,2024-08-18T00:00:00.000,"Lulu, SUJATA RAI pet, will need to be follow up for TREATMENT on August 18."
+87,Lulu,,TREATMENT,FollowupRemainder,1,2024-08-19T12:34:22.300,
+87,Lulu,,TREATMENT,FollowupRemainder,83,2024-08-24T00:00:00.000,"Lulu, SUJATA RAI pet, will need to be follow up for TREATMENT on August 24."
+88,Leo,2022-03-18,treatment,FollowupRemainder,16,2024-08-19T00:00:00.000,"Leo, Vikram Singh pet, will need to be follow up for treatment on August 19."
+90,Kuki,,Follow up for Skin checkup,FollowupRemainder,85,2024-08-24T00:00:00.000,"Kuki, krishna Timalsina pet, will need to be follow up for Follow up for Skin checkup on August 24."
+99,Lucky,2022-08-27,vacccination,FollowupRemainder,95,2024-08-27T00:00:00.000,"Lucky, Utttara Khadka pet, will need to be follow up for vacccination on August 27."
+99,Lucky,2022-08-27,vacccination,FollowupRemainder,1,2024-08-28T11:41:00.963,
+99,Lucky,2022-08-27,vacccination,FollowupRemainder,1,2024-08-28T11:41:00.963,
+99,Lucky,2022-08-27,vaccination,VaccinationRemainder,95,2025-08-27T00:00:00.000,"Lucky, Utttara Khadka pet, will need to be vaccinated against vaccination on August 27."
+99,Lucky,2022-08-27,vaccination,VaccinationRemainder,1,2025-08-28T18:23:12.450,
+102,LILY,,OBSERVATION,FollowupRemainder,98,2024-09-03T00:00:00.000,"LILY, Binit  KC pet, will need to be follow up for OBSERVATION on September 3."
+102,LILY,,OBSERVATION,FollowupRemainder,1,2024-09-04T14:18:14.590,
+106,Pablo,2022-09-01,vaccination,VaccinationRemainder,103,2025-08-29T00:00:00.000,"Pablo, Neelam Maharjan pet, will need to be vaccinated against vaccination on August 29."
+109,Dawang,,observation,FollowupRemainder,107,2024-09-09T00:00:00.000,"Dawang, Rejina Ghising pet, will need to be follow up for observation on September 9."
+109,Dawang,,observation,FollowupRemainder,1,2024-09-10T16:40:44.710,
+111,kali,2023-09-03,observation,FollowupRemainder,108,2024-09-09T00:00:00.000,"kali, Abhinandhan Shrestha pet, will need to be follow up for observation on September 9."
+111,kali,2023-09-03,observation,FollowupRemainder,1,2024-09-10T16:40:44.710,
+116,Happy,2020-09-04,SPAYING,FollowupRemainder,114,2024-09-06T00:00:00.000,"Happy, Mnaisha Thapa pet, will need to be follow up for SPAYING on September 6."
+116,Happy,2020-09-04,SPAYING,FollowupRemainder,1,2024-09-07T14:59:39.280,
+117,coco,,follow up,FollowupRemainder,9,2024-09-12T00:00:00.000,"coco, Sagar Nemkul pet, will need to be follow up for follow up on September 12."
+117,coco,,follow up,FollowupRemainder,1,2024-09-13T10:57:15.813,
+118,KITSU,2024-09-07,"EYE,CAT",FollowupRemainder,116,2024-09-10T00:00:00.000,"KITSU, LUJATA SHRESTHA pet, will need to be follow up for EYE,CAT on September 10."
+118,KITSU,2024-09-07,"EYE,CAT",FollowupRemainder,1,2024-09-11T08:43:09.240,
+118,KITSU,2024-09-07,CAT VACCINATION,VaccinationRemainder,116,2025-09-07T00:00:00.000,"KITSU, LUJATA SHRESTHA pet, will need to be vaccinated against CAT VACCINATION on September 7."
+118,KITSU,2024-09-07,CAT VACCINATION,VaccinationRemainder,1,2025-09-08T17:44:08.800,
+121,Snuffy,2022-09-08,vaccine,VaccinationRemainder,119,2025-09-08T00:00:00.000,"Snuffy, Priyanshi Rawal pet, will need to be vaccinated against vaccine on September 8."
+121,Snuffy,2022-09-08,vaccine,VaccinationRemainder,1,2025-09-09T14:39:53.723,
+126,Louis,2024-09-10,dhpp,VaccinationRemainder,124,2025-09-10T00:00:00.000,"Louis, Chirag  shrestha pet, will need to be vaccinated against dhpp on September 10."
+127,Rex,,observation,FollowupRemainder,125,2024-09-12T00:00:00.000,"Rex, Ishwar deshar pet, will need to be follow up for observation on September 12."
+127,Rex,,observation,FollowupRemainder,1,2024-09-13T10:57:15.813,
+133,sudar kendra cat,2024-09-15,sudar kendra cat/vaccination,VaccinationRemainder,131,2025-09-15T00:00:00.000,"sudar kendra cat, sunil  maharjan pet, will need to be vaccinated against sudar kendra cat/vaccination on September 15."
+133,sudar kendra cat,2024-09-15,sudar kendra cat/vaccination,VaccinationRemainder,1,2025-09-16T17:53:22.740,
+135,unknown,2021-09-15,ARV VACCINATION,VaccinationRemainder,133,2025-09-14T00:00:00.000,"unknown, laxmi pandey pet, will need to be vaccinated against ARV VACCINATION on September 14."
+135,unknown,2021-09-15,ARV VACCINATION,VaccinationRemainder,1,2025-09-15T17:04:25.283,
+97,Musi,2024-04-24,CAT VACCINATION,VaccinationRemainder,92,2025-08-01T00:00:00.000,"Musi, kusum  rai pet, will need to be vaccinated against CAT VACCINATION on August 1."
+97,Musi,2024-04-24,CAT VACCINATION,VaccinationRemainder,1,2025-08-02T08:44:33.437,
+139,lily,2021-09-23,E CANIS/ HUSKY,FollowupRemainder,137,2024-09-25T00:00:00.000,"lily, Anira Shrestha pet, will need to be follow up for E CANIS/ HUSKY on September 25."
+139,lily,2021-09-23,E CANIS/ HUSKY,FollowupRemainder,1,2024-09-26T10:27:37.543,
+146,ZHEN ZHEN,2019-09-23,YIN YIN ZHEN ZHEN VACCINATION,VaccinationRemainder,142,2025-09-18T00:00:00.000,"ZHEN ZHEN, ARLENE GURUNG pet, will need to be vaccinated against YIN YIN ZHEN ZHEN VACCINATION on September 18."
+146,ZHEN ZHEN,2019-09-23,YIN YIN ZHEN ZHEN VACCINATION,VaccinationRemainder,1,2025-09-19T18:55:40.133,
+155,LULU,2020-08-28,VACCINATION FOLOOW UP,FollowupRemainder,150,2025-09-20T00:00:00.000,"LULU, SUBASH BUDHATHOKI pet, will need to be follow up for VACCINATION FOLOOW UP on September 20."
+155,LULU,2020-08-28,VACCINATION FOLOOW UP,FollowupRemainder,1,2025-09-21T10:07:48.527,
+151,SNOFFY,,skin follow up,FollowupRemainder,146,2024-10-10T00:00:00.000,"SNOFFY, KALPANA MANANDHAR pet, will need to be follow up for skin follow up on October 10."
+151,SNOFFY,,skin follow up,FollowupRemainder,1,2024-10-11T17:09:34.387,
+160,coco,2024-10-04,vaccine follow up,VaccinationRemainder,155,2025-07-01T00:00:00.000,"coco, sanjay lama pet, will need to be vaccinated against vaccine follow up on July 1."
+160,coco,2024-10-04,vaccine follow up,VaccinationRemainder,1,2025-07-02T17:51:09.333,
+163,sheri,,post op follow up,FollowupRemainder,158,2024-10-09T00:00:00.000,"sheri, sajana parajuli pet, will need to be follow up for post op follow up on October 9."
+163,sheri,,post op follow up,FollowupRemainder,1,2024-10-10T13:02:59.240,
+165,riggi,2024-10-07,vaccine follow up,VaccinationRemainder,160,2025-10-01T00:00:00.000,"riggi, Hem  Bhandari pet, will need to be vaccinated against vaccine follow up on October 1."
+166,Akki & Nammi,,vaccine follow up,VaccinationRemainder,161,2025-10-01T00:00:00.000,"Akki & Nammi, Pushpa Rai pet, will need to be vaccinated against vaccine follow up on October 1."
+173,MADDY,2015-10-11,Maddy vaccination follow up,FollowupRemainder,166,2025-10-01T00:00:00.000,"MADDY, Amit Baniya pet, will need to be follow up for Maddy vaccination follow up on October 1."
+179,Hero,2023-10-17,VACCINE FOLLOW UP,FollowupRemainder,172,2025-12-01T00:00:00.000,"Hero, Sweta Shrestha pet, will need to be follow up for VACCINE FOLLOW UP on December 1."
+179,Hero,2023-10-17,VACCINE FOLLOW UP,FollowupRemainder,1,2025-12-02T10:24:36.290,
+180,Ginger,2023-10-17,VACCINE FOLLOW UP,FollowupRemainder,173,2025-10-17T00:00:00.000,"Ginger, Madan kumar Shrestha pet, will need to be follow up for VACCINE FOLLOW UP on October 17."
+180,Ginger,2023-10-17,VACCINE FOLLOW UP,FollowupRemainder,1,2025-10-18T08:54:32.537,
+181,ruby,,SKIN FOLLOW UP,FollowupRemainder,174,2024-10-24T00:00:00.000,"ruby, Swapnil it pet, will need to be follow up for SKIN FOLLOW UP on October 24."
+181,ruby,,SKIN FOLLOW UP,FollowupRemainder,1,2024-10-25T14:53:17.050,
+182,sane,2016-10-18,vaccination follow up,FollowupRemainder,175,2025-10-01T00:00:00.000,"sane, Maya Lama pet, will need to be follow up for vaccination follow up on October 1."
+183,dobermann,2021-10-18,VACCINE FOLLOW UP,FollowupRemainder,176,2025-10-01T00:00:00.000,"dobermann, Kushal Shrestha pet, will need to be follow up for VACCINE FOLLOW UP on October 1."
+186,genie,2017-10-19,VACCINE FOLLOW UP,VaccinationRemainder,179,2025-10-01T00:00:00.000,"genie, kshitiz Rajkarnikar pet, will need to be vaccinated against VACCINE FOLLOW UP on October 1."
+187,ren,2015-10-19,VACCINE FOLLOW UP,VaccinationRemainder,180,2025-10-01T00:00:00.000,"ren, Prasidh Sharma pet, will need to be vaccinated against VACCINE FOLLOW UP on October 1."
+141,Max,2022-09-23,vaccination follow up,VaccinationRemainder,138,2025-10-01T00:00:00.000,"Max, Tilak Sunar pet, will need to be vaccinated against vaccination follow up on October 1."
+197,joy,,to know the condition,FollowupRemainder,190,2024-11-09T00:00:00.000,"joy, Raunak Amatya pet, will need to be follow up for to know the condition on November 9."
+197,joy,,to know the condition,FollowupRemainder,1,2024-11-10T14:00:00.257,
+192,Nainsee,2015-10-28,VACCINE FOLLOW UP,VaccinationRemainder,185,2025-10-01T00:00:00.000,"Nainsee, Upendra Lakoul pet, will need to be vaccinated against VACCINE FOLLOW UP on October 1."
+199,geon,2024-11-02,skin follow up,FollowupRemainder,192,2024-11-11T00:00:00.000,"geon, Nishan Khanal pet, will need to be follow up for skin follow up on November 11."
+199,geon,2024-11-02,skin follow up,FollowupRemainder,1,2024-11-12T18:03:01.033,
+10207,momo,2021-11-06,vaccination follow up,VaccinationRemainder,10199,2025-10-15T00:00:00.000,"momo, riyan sir pet, will need to be vaccinated against vaccination follow up on October 15."
+10207,momo,2021-11-06,vaccination follow up,VaccinationRemainder,1,2025-10-16T08:23:21.717,
+10211,sweetu,,surgery,FollowupRemainder,10202,2024-11-10T00:00:00.000,"sweetu, Sarada Lama pet, will need to be follow up for surgery on November 10."
+10211,sweetu,,surgery,FollowupRemainder,1,2024-11-11T09:31:00.253,
+10216,kali,2021-06-09,dhppil follow up,VaccinationRemainder,10206,2024-12-10T00:00:00.000,"kali, Pranisha Silwal pet, will need to be vaccinated against dhppil follow up on December 10."
+10216,kali,2021-06-09,dhppil follow up,VaccinationRemainder,1,2024-12-11T09:29:28.713,
+10218,Rambo,2022-11-14,vaccination follow up,VaccinationRemainder,10208,2025-11-01T00:00:00.000,"x, Simrik X pet, will need to be vaccinated against vaccination follow up on November 1."
+10218,Rambo,2022-11-14,vaccination follow up,VaccinationRemainder,1,2025-11-02T17:36:21.380,
+10219,husky,2024-11-15,vaccination follow up,VaccinationRemainder,10209,2025-11-01T00:00:00.000,"husky, Bimal Raj Shrestha pet, will need to be vaccinated against vaccination follow up on November 1."
+10219,husky,2024-11-15,vaccination follow up,VaccinationRemainder,1,2025-11-02T17:36:21.380,
+10203,unknown,2016-11-06,vaccination follow up,VaccinationRemainder,10195,2025-11-10T00:00:00.000,"unknown, Meena Paudel pet, will need to be vaccinated against vaccination follow up on November 10."
+10203,unknown,2016-11-06,vaccination follow up,VaccinationRemainder,1,2025-11-11T19:41:12.927,
+10221,simpu,2024-11-17,follow up,FollowupRemainder,10211,2024-11-28T00:00:00.000,"simpu, Sunita Tuladhar pet, will need to be follow up for follow up on November 28."
+10221,simpu,2024-11-17,follow up,FollowupRemainder,1,2024-11-29T18:21:53.730,
+10222,LEO,2022-11-20,NOV 20 VACCINE,VaccinationRemainder,10212,2025-11-16T00:00:00.000,"LEO, SUNNY RAJ SHRESTHA pet, will need to be vaccinated against NOV 20 VACCINE on November 16."
+10222,LEO,2022-11-20,NOV 20 VACCINE,VaccinationRemainder,1,2025-11-17T11:49:47.723,
+10223,BELLA,2021-11-20,NOV 20 VACCINE,VaccinationRemainder,10206,2025-11-16T00:00:00.000,"BELLA, Pranisha Silwal pet, will need to be vaccinated against NOV 20 VACCINE on November 16."
+10223,BELLA,2021-11-20,NOV 20 VACCINE,VaccinationRemainder,1,2025-11-17T11:49:47.723,
+10224,BROWNIE,2024-11-19,NOV 20 VACCINE,VaccinationRemainder,10213,2025-11-16T00:00:00.000,"BROWNIE, SAFIR RAJKARNIKAR pet, will need to be vaccinated against NOV 20 VACCINE on November 16."
+10224,BROWNIE,2024-11-19,NOV 20 VACCINE,VaccinationRemainder,1,2025-11-17T11:49:47.723,
+10206,Max,2019-11-06,vaccination follow up,VaccinationRemainder,10198,2025-11-22T00:00:00.000,"unknown, Reena Shrestha pet, will need to be vaccinated against vaccination follow up on November 22."
+10206,Max,2019-11-06,vaccination follow up,VaccinationRemainder,1,2025-11-23T12:09:49.660,
+28,TANGO,2020-07-30,vaccination follow up,VaccinationRemainder,26,2025-11-20T00:00:00.000,"TANGO, KEN SUBEDI pet, will need to be vaccinated against vaccination follow up on November 20."
+28,TANGO,2020-07-30,vaccination follow up,VaccinationRemainder,1,2025-11-21T21:13:45.300,
+10228,casper,2019-11-22,vaccination follow up,VaccinationRemainder,10216,2025-11-20T00:00:00.000,"casper, Ayush Joshi pet, will need to be vaccinated against vaccination follow up on November 20."
+10228,casper,2019-11-22,vaccination follow up,VaccinationRemainder,1,2025-11-21T21:13:45.300,
+10229,PIXEL,2024-11-22,vaccination follow up,VaccinationRemainder,10217,2025-11-20T00:00:00.000,"PIXEL, KIRAN BK pet, will need to be vaccinated against vaccination follow up on November 20."
+10229,PIXEL,2024-11-22,vaccination follow up,VaccinationRemainder,1,2025-11-21T21:13:45.300,
+10230,Rockshow,2017-11-23,vaccination follow up,VaccinationRemainder,10218,2025-11-20T00:00:00.000,"pug, Esther Foning pet, will need to be vaccinated against vaccination follow up on November 20."
+10230,Rockshow,2017-11-23,vaccination follow up,VaccinationRemainder,1,2025-11-21T21:13:45.300,
+104,Lily,2020-08-31,vaccination follow up,VaccinationRemainder,100,2025-11-23T00:00:00.000,"Lily, shiva mali pet, will need to be vaccinated against vaccination follow up on November 23."
+104,Lily,2020-08-31,vaccination follow up,VaccinationRemainder,1,2025-11-24T16:00:49.803,
+21,loki,2024-07-04,follow up,FollowupRemainder,20,2024-11-29T00:00:00.000,"loki, AMRIT SHRESTHA pet, will need to be follow up for follow up on November 29."
+21,loki,2024-07-04,follow up,FollowupRemainder,1,2024-11-30T14:01:04.710,
+10238,KHAIRU,2019-11-27,VACCINE FOLLOW UP,VaccinationRemainder,10225,2025-11-20T00:00:00.000,"KHAIRU, SUDIP MANANDHAR pet, will need to be vaccinated against VACCINE FOLLOW UP on November 20."
+10238,KHAIRU,2019-11-27,VACCINE FOLLOW UP,VaccinationRemainder,1,2025-11-21T21:13:45.300,
+10243,NEW ONE,,VACCINE FOLLOW UP,VaccinationRemainder,10230,2024-12-06T00:00:00.000,"NEW ONE, YOGESH KHANAL pet, will need to be vaccinated against VACCINE FOLLOW UP on December 6."
+10243,NEW ONE,,VACCINE FOLLOW UP,VaccinationRemainder,1,2024-12-07T14:34:44.597,
+139,lily,2021-09-23,vaccination follow up,VaccinationRemainder,137,2025-12-01T00:00:00.000,"lily, Anira Shrestha pet, will need to be vaccinated against vaccination follow up on December 1."
+139,lily,2021-09-23,vaccination follow up,VaccinationRemainder,1,2025-12-02T10:24:36.290,
+64,prince,2019-07-25,vaccination follow up,VaccinationRemainder,61,2025-12-05T00:00:00.000,"prince, Sharmila Bista pet, will need to be vaccinated against vaccination follow up on December 5."
+64,prince,2019-07-25,vaccination follow up,VaccinationRemainder,1,2025-12-06T08:41:54.127,
+129,Lily,2021-09-15,VACCINE FOLLOW UP,VaccinationRemainder,127,2025-12-16T00:00:00.000,"Lily, Rachana Shrestha pet, will need to be vaccinated against VACCINE FOLLOW UP on December 16."
+129,Lily,2021-09-15,VACCINE FOLLOW UP,VaccinationRemainder,1,2025-12-17T13:17:52.900,
+10257,snooky,2024-12-18,Annual Vaccination,VaccinationRemainder,10243,2025-12-16T00:00:00.000,"snooky, Jason Gurung pet, will need to be vaccinated against Annual Vaccination on December 16."
+10257,snooky,2024-12-18,Annual Vaccination,VaccinationRemainder,1,2025-12-17T13:17:52.917,
+10258,buka,2022-12-19,annual vaccination,VaccinationRemainder,10245,2025-12-18T00:00:00.000,"buka, Sushant Pradhan pet, will need to be vaccinated against annual vaccination on December 18."
+10258,buka,2022-12-19,annual vaccination,VaccinationRemainder,1,2025-12-19T13:43:19.833,
+10259,HERO,2024-12-20,ANNUAL VACCINATION HERO AND PREETI,VaccinationRemainder,183,2025-12-18T00:00:00.000,"HERO, Celesty Shrestha pet, will need to be vaccinated against ANNUAL VACCINATION HERO AND PREETI on December 18."
+10259,HERO,2024-12-20,ANNUAL VACCINATION HERO AND PREETI,VaccinationRemainder,1,2025-12-19T13:43:19.850,
+10260,ladu,2017-12-20,Annual Vaccination,VaccinationRemainder,10246,2025-12-22T00:00:00.000,"ladu, Bikash Shrestha pet, will need to be vaccinated against Annual Vaccination on December 22."
+10260,ladu,2017-12-20,Annual Vaccination,VaccinationRemainder,1,2025-12-23T10:21:22.660,
+10264,Max,2008-12-26,ARV Vaccination,VaccinationRemainder,10250,2025-12-20T00:00:00.000,"Max, Surakchya KC pet, will need to be vaccinated against ARV Vaccination on December 20."
+10264,Max,2008-12-26,ARV Vaccination,VaccinationRemainder,1,2025-12-21T13:35:31.423,
+10267,Blossom,2020-12-30,Annual Vaccination,VaccinationRemainder,10253,2025-12-28T00:00:00.000,"Blossom, Elishiba Rai pet, will need to be vaccinated against Annual Vaccination on December 28."
+169,kiwi,2023-10-10,annual vaccination,VaccinationRemainder,162,2026-01-08T00:00:00.000,"kiwi, Anushka Thapa pet, will need to be vaccinated against annual vaccination on January 8."
+169,kiwi,2023-10-10,annual vaccination,VaccinationRemainder,1,2026-01-09T09:30:26.000,
+10231,spitz,2023-11-23,Annual Vaccination,VaccinationRemainder,10219,2025-12-25T00:00:00.000,"spitz, Ariga Khadka pet, will need to be vaccinated against Annual Vaccination on December 25."
+10231,spitz,2023-11-23,Annual Vaccination,VaccinationRemainder,1,2025-12-26T16:25:12.613,
+154,Maggie das,2021-09-30,Annual Vaccination,VaccinationRemainder,149,2026-01-01T00:00:00.000,"Maggie das, Narayan das pet, will need to be vaccinated against Annual Vaccination on January 1."
+154,Maggie das,2021-09-30,Annual Vaccination,VaccinationRemainder,1,2026-01-02T17:32:41.473,
+10226,Maximus,2020-05-20,Annual Vaccination,VaccinationRemainder,10214,2026-01-10T00:00:00.000,"Maximus, Yubraj Shrestha pet, will need to be vaccinated against Annual Vaccination on January 10."
+10226,Maximus,2020-05-20,Annual Vaccination,VaccinationRemainder,1,2026-01-11T18:38:56.630,
+10269,japanese spitz,2022-01-12,Annual Vaccination,VaccinationRemainder,10255,2026-01-07T00:00:00.000,"japanese spitz, Sami Shrestha pet, will need to be vaccinated against Annual Vaccination on January 7."
+10269,japanese spitz,2022-01-12,Annual Vaccination,VaccinationRemainder,1,2026-01-08T14:49:08.090,
+10233,bogi,2024-11-24,Annual Vaccination,VaccinationRemainder,10220,2026-01-01T00:00:00.000,"bogi, Akash Puri pet, will need to be vaccinated against Annual Vaccination on January 1."
+10233,bogi,2024-11-24,Annual Vaccination,VaccinationRemainder,1,2026-01-02T17:32:41.473,
+71,LUFY,2023-08-29,Annual vaccination,VaccinationRemainder,68,2026-01-20T00:00:00.000,"LUFY, BIDISHA SHRESTHA pet, will need to be vaccinated against Annual vaccination on January 20."
+10274,pami,2022-01-23,annual vaccination,VaccinationRemainder,10259,2026-01-20T00:00:00.000,"pami, Anita Thapa pet, will need to be vaccinated against annual vaccination on January 20."
+56,piku,,annual vaccination,VaccinationRemainder,45,2025-12-05T00:00:00.000,"piku, Dinesh Bista pet, will need to be vaccinated against annual vaccination on December 5."
+56,piku,,annual vaccination,VaccinationRemainder,1,2025-12-06T08:41:54.127,
+10246,Jacky,2014-12-08,Annual vaccination,VaccinationRemainder,10233,2026-01-29T00:00:00.000,"Jacky, Saisa Budathoki pet, will need to be vaccinated against Annual vaccination on January 29."
+10246,Jacky,2014-12-08,Annual vaccination,VaccinationRemainder,1,2026-01-30T10:41:05.327,
+10280,CoCo,2024-08-28,Annual vaccination,VaccinationRemainder,10196,2026-01-29T00:00:00.000,"Newcat, Shristika Shakya pet, will need to be vaccinated against Annual vaccination on January 29."
+10280,CoCo,2024-08-28,Annual vaccination,VaccinationRemainder,1,2026-01-30T10:41:05.343,
+10286,Labrador,2025-02-02,Annual vaccination,VaccinationRemainder,10270,2026-01-18T00:00:00.000,"Labrador, Bijeeta Mandal pet, will need to be vaccinated against Annual vaccination on January 18."
+10286,Labrador,2025-02-02,Annual vaccination,VaccinationRemainder,1,2026-01-19T18:28:47.757,
+10295,Princy,2015-02-06,Annual vaccination,VaccinationRemainder,10276,2026-02-06T00:00:00.000,"Princy, Rajana Shrestha pet, will need to be vaccinated against Annual vaccination on February 6."
+10295,Princy,2015-02-06,Annual vaccination,VaccinationRemainder,1,2026-02-07T18:42:41.340,
+10297,Bhote,2025-02-08,Annual vaccination,VaccinationRemainder,10278,2026-02-08T00:00:00.000,"Bhote, Ram BC pet, will need to be vaccinated against Annual vaccination on February 8."
+10297,Bhote,2025-02-08,Annual vaccination,VaccinationRemainder,1,2026-02-09T14:53:23.813,
+10299,Nala,2015-02-08,Annual vaccination,VaccinationRemainder,10280,2026-02-08T00:00:00.000,"Nala, Simrita Rana pet, will need to be vaccinated against Annual vaccination on February 8."
+10299,Nala,2015-02-08,Annual vaccination,VaccinationRemainder,1,2026-02-09T14:53:23.830,
+10300,Tin tin,2022-02-08,Annual vaccination,VaccinationRemainder,10280,2026-02-08T00:00:00.000,"Tin tin, Simrita Rana pet, will need to be vaccinated against Annual vaccination on February 8."
+10300,Tin tin,2022-02-08,Annual vaccination,VaccinationRemainder,1,2026-02-09T14:53:23.830,
+10270,Puka,2024-11-14,Annual vaccination,VaccinationRemainder,91,2026-02-08T00:00:00.000,"ADOPTED PUPPY, shreeti pradhan pet, will need to be vaccinated against Annual vaccination on February 8."
+10270,Puka,2024-11-14,Annual vaccination,VaccinationRemainder,1,2026-02-09T14:53:23.830,
+10215,Senmi,2024-11-13,Annual vaccination,VaccinationRemainder,180,2026-02-10T00:00:00.000,"Senmi, Prasidh Sharma pet, will need to be vaccinated against Annual vaccination on February 10."
+10215,Senmi,2024-11-13,Annual vaccination,VaccinationRemainder,1,2026-02-11T10:51:14.797,
+10215,Senmi,2024-11-13,Annual vaccination,VaccinationRemainder,1,2026-02-11T10:51:14.797,
+10308,Khaire,2022-02-13,Annual vaccination,VaccinationRemainder,10287,2026-02-13T00:00:00.000,"Khaire, Shree Subedi pet, will need to be vaccinated against Annual vaccination  on February 13."
+10263,Kali,2024-12-26,Annual vaccination,VaccinationRemainder,10249,2026-01-30T00:00:00.000,"Kali, Bindhya  Tuladhar pet, will need to be vaccinated against Annual vaccination on January 30."
+10263,Kali,2024-12-26,Annual vaccination,VaccinationRemainder,1,2026-01-31T09:03:35.577,
+10309,Ferry,2025-02-15,Annual vaccination,VaccinationRemainder,10283,2026-02-15T00:00:00.000,"Ferry, Atish Dangol pet, will need to be vaccinated against Annual vaccination on February 15."
+187,ren,2015-10-19,E canis and blood came from nose,FollowupRemainder,180,2025-02-24T00:00:00.000,"ren, Prasidh Sharma pet, will need to be follow up for E canis and blood came from nose on February 24."
+187,ren,2015-10-19,E canis and blood came from nose,FollowupRemainder,1,2025-02-25T17:12:06.300,
+30,puku,2014-07-10,Ear check follow up,FollowupRemainder,28,2025-02-26T00:00:00.000,"puku, Ishor Pradhanang pet, will need to be follow up for Ear check follow up on February 26."
+30,puku,2014-07-10,Ear check follow up,FollowupRemainder,1,2025-02-27T18:57:13.853,
+10316,Kaley,2024-02-19,Annual vaccination,VaccinationRemainder,14,2026-02-20T00:00:00.000,"Six dog, RUCHIKA BAIDHYA pet, will need to be vaccinated against Annual vaccination on February 20."
+10316,Kaley,2024-02-19,Annual vaccination,VaccinationRemainder,1,2026-02-21T16:15:58.183,
+10318,Phuchi,2023-02-22,Booster vaccination,VaccinationRemainder,10295,2025-03-22T00:00:00.000,"Phuchi, Amir Budathoki pet, will need to be vaccinated against Booster vaccination on March 22."
+10318,Phuchi,2023-02-22,Booster vaccination,VaccinationRemainder,1,2025-03-23T19:07:00.393,
+10319,Sani,2025-02-22,Phc booster,VaccinationRemainder,10295,2025-03-22T00:00:00.000,"Sani, Amir Budathoki pet, will need to be vaccinated against Phc booster on March 22."
+10319,Sani,2025-02-22,Phc booster,VaccinationRemainder,1,2025-03-23T19:07:00.393,
+202,Feri,2019-11-06,Annual vaccination,VaccinationRemainder,195,2026-03-03T00:00:00.000,"Feri, Archana Shakya pet, will need to be vaccinated against Annual vaccination on March 3."
+202,Feri,2019-11-06,Annual vaccination,VaccinationRemainder,1,2026-03-04T16:00:30.837,
+10232,moomin / Kale,2023-10-20,Annual vaccination,VaccinationRemainder,100,2026-03-04T00:00:00.000,"moomin, shiva mali pet, will need to be vaccinated against Annual vaccination on March 4."
+161,floppy,2019-10-05,Annual vaccination,VaccinationRemainder,156,2026-03-04T00:00:00.000,"floppy, Ashok waiba pet, will need to be vaccinated against Annual vaccination on March 4."
+10305,Luna,2021-05-11,Annual vaccination,VaccinationRemainder,10284,2026-03-08T00:00:00.000,"Luna, Mamata Khatri pet, will need to be vaccinated against Annual vaccination on March 8."
+10305,Luna,2021-05-11,Annual vaccination,VaccinationRemainder,1,2026-03-09T09:00:26.827,
+10304,Coco,2021-05-11,Annual vaccination,VaccinationRemainder,10284,2026-03-08T00:00:00.000,"Coco, Mamata Khatri pet, will need to be vaccinated against Annual vaccination on March 8."
+10304,Coco,2021-05-11,Annual vaccination,VaccinationRemainder,1,2026-03-09T09:00:26.827,
+10321,Enzo,,Follow up,FollowupRemainder,10297,2025-03-23T00:00:00.000,"Enzo, Nick Gurung pet, will need to be follow up for Follow up on March 23."
+10321,Enzo,,Follow up,FollowupRemainder,1,2025-03-24T17:30:22.710,
+10342,Cricket,2016-03-11,Annual vaccination,VaccinationRemainder,10313,2026-03-11T00:00:00.000,"Cricket, Mahasachiv Mahasachiv pet, will need to be vaccinated against Annual vaccination on March 11."
+10342,Cricket,2016-03-11,Annual vaccination,VaccinationRemainder,1,2026-03-12T09:46:12.450,
+10342,Cricket,2016-03-11,Annual vaccination,VaccinationRemainder,1,2026-03-12T09:46:12.450,
+61,cat,2024-04-25,annual vaccination,VaccinationRemainder,58,2026-03-16T00:00:00.000,"cat, Bijohn Maharjan pet, will need to be vaccinated against annual vaccination on March 16."
+61,cat,2024-04-25,annual vaccination,VaccinationRemainder,1,2026-03-17T18:24:15.223,
+10315,Oreo,2021-05-21,annual vaccination,VaccinationRemainder,10293,2026-03-16T00:00:00.000,"Oreo, B R Rai pet, will need to be vaccinated against annual vaccination on March 16."
+10315,Oreo,2021-05-21,annual vaccination,VaccinationRemainder,1,2026-03-17T18:24:15.223,
+98,Lucky,2021-08-27,Annual vaccination,VaccinationRemainder,93,2026-03-23T00:00:00.000,"Lucky, Prashant Jha pet, will need to be vaccinated against Annual vaccination on March 23."
+98,Lucky,2021-08-27,Annual vaccination,VaccinationRemainder,1,2026-03-24T15:50:10.710,
+10208,Noel,2024-06-06,X ray repeat,FollowupRemainder,10200,2025-04-07T00:00:00.000,"Noel, Sudipa Shrestha pet, will need to be follow up for X ray repeat on April 7."
+10208,Noel,2024-06-06,X ray repeat,FollowupRemainder,1,2025-04-08T08:43:19.127,
+10361,D9g,2025-03-25,Annual vaccination,VaccinationRemainder,10328,2026-03-24T00:00:00.000,"D9g, Rabindra Amatya pet, will need to be vaccinated against Annual vaccination on March 24."
+10361,D9g,2025-03-25,Annual vaccination,VaccinationRemainder,1,2026-03-25T19:33:46.613,
+23,Kiyo,2024-08-06,annual vaccination,VaccinationRemainder,22,2026-03-27T00:00:00.000,"Unknown, Sanjan Gautam pet, will need to be vaccinated against annual vaccination on March 27."
+23,Kiyo,2024-08-06,annual vaccination,VaccinationRemainder,1,2026-03-28T09:40:47.993,
+10365,coco,2025-03-27,annual vaccination,VaccinationRemainder,22,2026-03-27T00:00:00.000,"coco, Sanjan Gautam pet, will need to be vaccinated against annual vaccination on March 27."
+10365,coco,2025-03-27,annual vaccination,VaccinationRemainder,1,2026-03-28T09:40:47.997,
+10366,Dog,2024-03-27,Annual vaccination,VaccinationRemainder,10330,2026-03-27T00:00:00.000,"Dog, Niran Shahi pet, will need to be vaccinated against Annual vaccination on March 27."
+10366,Dog,2024-03-27,Annual vaccination,VaccinationRemainder,1,2026-03-28T09:40:47.997,
+60,cat,2024-07-25,Annual vaccination,VaccinationRemainder,57,2026-04-01T00:00:00.000,"cat, Georjina Joshi pet, will need to be vaccinated against Annual vaccination on April 1."
+60,cat,2024-07-25,Annual vaccination,VaccinationRemainder,1,2026-04-02T14:20:41.117,
+10375,Gandu,2022-04-06,annual vaccination,VaccinationRemainder,10339,2026-04-06T00:00:00.000,"Gandu, Rajiv Tamang pet, will need to be vaccinated against annual vaccination on April 6."
+10375,Gandu,2022-04-06,annual vaccination,VaccinationRemainder,1,2026-04-07T17:59:56.517,
+10376,Hoshi,2016-04-06,x ray,FollowupRemainder,10340,2025-04-13T00:00:00.000,"Hoshi, Binaya Karmacharya pet, will need to be follow up for x ray on April 13."
+10376,Hoshi,2016-04-06,x ray,FollowupRemainder,1,2025-04-14T10:35:52.963,
+16,Popcorn,2020-07-02,Annual vaccination,VaccinationRemainder,15,2026-01-23T00:00:00.000,"Popcorn, Dev Bista pet, will need to be vaccinated against Annual vaccination on January 23."
+16,Popcorn,2020-07-02,Annual vaccination,VaccinationRemainder,1,2026-01-24T15:38:48.120,
+10382,Suri,2020-04-08,annual vaccination,VaccinationRemainder,10346,2026-04-08T00:00:00.000,"Suri, Mabina Thapa pet, will need to be vaccinated against annual vaccination on April 8."
+10382,Suri,2020-04-08,annual vaccination,VaccinationRemainder,1,2026-04-09T16:57:09.237,
+10371,pintu,2025-04-02,annual vaccination,VaccinationRemainder,10335,2026-04-15T00:00:00.000,"pintu, Ganga Mehta pet, will need to be vaccinated against annual vaccination on April 15."
+10371,pintu,2025-04-02,annual vaccination,VaccinationRemainder,1,2026-04-16T13:39:32.653,
+10379,Rocky,2021-02-07,annual vaccination,VaccinationRemainder,10343,2026-04-15T00:00:00.000,"Rocky, Sujan Thapa Magar pet, will need to be vaccinated against annual vaccination on April 15."
+10379,Rocky,2021-02-07,annual vaccination,VaccinationRemainder,1,2026-04-16T13:39:32.653,
+158,Jasper,2024-04-16,Annual vaccination,VaccinationRemainder,153,2026-04-17T00:00:00.000,"Jasper, Shristi Paneru pet, will need to be vaccinated against Annual vaccination on April 17."
+158,Jasper,2024-04-16,Annual vaccination,VaccinationRemainder,1,2026-04-18T07:29:07.990,
+10389,Pluto/Punti,,annual vaccination,VaccinationRemainder,10351,2026-04-17T00:00:00.000,"Pluto/Punti, Dipasana Gurung pet, will need to be vaccinated against annual vaccination on April 17."
+10389,Pluto/Punti,,annual vaccination,VaccinationRemainder,1,2026-04-18T07:29:07.990,
+10338,Leo,2025-03-08,annual vaccination,VaccinationRemainder,10284,2026-04-17T00:00:00.000,"Leo, Mamata Khatri pet, will need to be vaccinated against annual vaccination on April 17."
+10338,Leo,2025-03-08,annual vaccination,VaccinationRemainder,1,2026-04-18T07:29:07.993,
+10390,Lab,2022-04-17,annual vaccination,VaccinationRemainder,10352,2026-04-17T00:00:00.000,"Lab, saurab RajBhandari pet, will need to be vaccinated against annual vaccination on April 17."
+10390,Lab,2022-04-17,annual vaccination,VaccinationRemainder,1,2026-04-18T07:29:07.993,
+10202,Brownie,2020-11-06,annual vaccination,VaccinationRemainder,10194,2026-04-20T00:00:00.000,"Brownie, Ritu Maharjan pet, will need to be vaccinated against annual vaccination on April 20."
+10202,Brownie,2020-11-06,annual vaccination,VaccinationRemainder,1,2026-04-21T14:37:51.143,
+10396,Jacky,2019-04-21,annual vaccination,VaccinationRemainder,10357,2026-04-21T00:00:00.000,"Jacky, Danish Shrestha pet, will need to be vaccinated against annual vaccination on April 21."
+10396,Jacky,2019-04-21,annual vaccination,VaccinationRemainder,1,2026-04-22T14:42:13.583,
+10401,CoCo,2020-04-23,annual vaccination,VaccinationRemainder,10362,2026-04-23T00:00:00.000,"CoCo, krisha Chaudhary pet, will need to be vaccinated against annual vaccination on April 23."
+10401,CoCo,2020-04-23,annual vaccination,VaccinationRemainder,1,2026-04-24T11:59:01.847,
+10358,Appu,2025-03-23,annual vaccination,VaccinationRemainder,10327,2026-03-01T00:00:00.000,"Appu, Pratima Budathoki pet, will need to be vaccinated against annual vaccination on March 1."
+10358,Appu,2025-03-23,annual vaccination,VaccinationRemainder,1,2026-03-02T12:21:05.737,
+62,husky,2024-07-25,annual vaccination,VaccinationRemainder,59,2026-04-30T00:00:00.000,"husky, Rakesh Nembang pet, will need to be vaccinated against annual vaccination on April 30."
+62,husky,2024-07-25,annual vaccination,VaccinationRemainder,1,2026-05-01T18:42:39.190,
+10409,Julfu,2024-12-30,annual vaccination,VaccinationRemainder,10369,2026-04-29T00:00:00.000,"Julfu, Asmita Gajmer pet, will need to be vaccinated against annual vaccination on April 29."
+10409,Julfu,2024-12-30,annual vaccination,VaccinationRemainder,1,2026-04-30T16:38:02.850,
+10414,Japanese spitz,,annual vaccination,VaccinationRemainder,10374,2026-05-01T00:00:00.000,"Japanese spitz, Urisha Bajracharya pet, will need to be vaccinated against annual vaccination on May 1."
+10414,Japanese spitz,,annual vaccination,VaccinationRemainder,1,2026-05-02T09:33:25.727,
+162,Sinzu,2023-04-05,annual vaccination,VaccinationRemainder,157,2026-05-01T00:00:00.000,"Sinzu, Manju Adhikari pet, will need to be vaccinated against annual vaccination on May 1."
+162,Sinzu,2023-04-05,annual vaccination,VaccinationRemainder,1,2026-05-02T09:33:25.730,
+10233,bogi,2024-11-24,dressing,FollowupRemainder,10220,2025-05-05T00:00:00.000,"bogi, Akash Puri pet, will need to be follow up for dressing on May 5."
+10233,bogi,2024-11-24,dressing,FollowupRemainder,1,2025-05-06T18:09:28.840,
+200,pug,2024-11-05,annual vaccination,VaccinationRemainder,193,2026-05-03T00:00:00.000,"pug, Monica Ori Hine pet, will need to be vaccinated against annual vaccination on May 3."
+200,pug,2024-11-05,annual vaccination,VaccinationRemainder,1,2026-05-04T10:11:51.630,
+17,Leo,2022-01-03,skin follow up,FollowupRemainder,16,2025-05-19T00:00:00.000,"Leo, Vikram Singh pet, will need to be follow up for skin follow up on May 19."
+17,Leo,2022-01-03,skin follow up,FollowupRemainder,1,2025-05-20T10:02:32.313,
+131,JUJU,2016-09-15,annual vaccination,VaccinationRemainder,129,2026-05-06T00:00:00.000,"JUJU, NAMEEK LIMBU pet, will need to be vaccinated against annual vaccination on May 6."
+131,JUJU,2016-09-15,annual vaccination,VaccinationRemainder,1,2026-05-07T09:05:51.597,
+10424,Bella,2022-05-16,VACCINATION FOLLOW UP,VaccinationRemainder,10381,2026-05-16T00:00:00.000,"Bella, Avilasha Shahi pet, will need to be vaccinated against VACCINATION FOLLOW UP on May 16."
+10424,Bella,2022-05-16,VACCINATION FOLLOW UP,VaccinationRemainder,1,2026-05-17T10:06:14.850,
+10425,Cross Shepherd,2023-05-16,annual vaccination,VaccinationRemainder,10382,2026-05-15T00:00:00.000,"Cross Shepherd, Basnet Maharjan pet, will need to be vaccinated against annual vaccination on May 15."
+10425,Cross Shepherd,2023-05-16,annual vaccination,VaccinationRemainder,1,2026-05-16T10:21:45.427,
+10220,cherry,2017-11-16,annual vaccination,VaccinationRemainder,10210,2026-05-18T00:00:00.000,"cherry, Bimla Chaudhary pet, will need to be vaccinated against annual vaccination on May 18."
+10220,cherry,2017-11-16,annual vaccination,VaccinationRemainder,1,2026-05-19T07:36:01.553,
+130,JOE,,annual vaccination,VaccinationRemainder,128,2026-05-18T00:00:00.000,"JOE, SHARMILA BISTA pet, will need to be vaccinated against annual vaccination on May 18."
+130,JOE,,annual vaccination,VaccinationRemainder,1,2026-05-19T07:36:01.553,
+10427,Phuche,2025-05-18,annual vaccination,VaccinationRemainder,10384,2026-05-17T00:00:00.000,"Phuche, Babin Thapa pet, will need to be vaccinated against annual vaccination on May 17."
+10427,Phuche,2025-05-18,annual vaccination,VaccinationRemainder,1,2026-05-18T18:52:41.500,
+10431,Rio,2025-02-20,annual vaccination,VaccinationRemainder,10388,2026-05-20T00:00:00.000,"Rio, kUSHAGRA Tamrakar pet, will need to be vaccinated against annual vaccination on May 20."
+10431,Rio,2025-02-20,annual vaccination,VaccinationRemainder,1,2026-05-21T07:36:48.440,
+10431,Rio,2025-02-20,annual vaccination,VaccinationRemainder,10388,2026-05-20T00:00:00.000,"Rio, kUSHAGRA Tamrakar pet, will need to be vaccinated against annual vaccination on May 20."
+10431,Rio,2025-02-20,annual vaccination,VaccinationRemainder,1,2026-05-21T07:36:48.440,
+10435,Mo Mo,2025-04-14,Booster PHC,VaccinationRemainder,10392,2025-06-15T00:00:00.000,"Yellow, black, Ryan Warmuth pet, will need to be vaccinated against Booster PHC on June 15."
+10435,Mo Mo,2025-04-14,Booster PHC,VaccinationRemainder,1,2025-06-16T08:36:27.487,
+10209,kumu,2020-11-08,annual vaccination,VaccinationRemainder,91,2026-05-25T00:00:00.000,"kumu, shreeti pradhan pet, will need to be vaccinated against annual vaccination on May 25."
+10209,kumu,2020-11-08,annual vaccination,VaccinationRemainder,1,2026-05-26T11:23:08.097,
+10439,Rome,2025-05-28,Anti Rabies Vaccine,VaccinationRemainder,10395,2026-05-28T00:00:00.000,"Rome, Ashish Shrestha pet, will need to be vaccinated against Anti Rabies Vaccine on May 28."
+10439,Rome,2025-05-28,Anti Rabies Vaccine,VaccinationRemainder,1,2026-05-29T18:26:30.940,
+10443,Bruno,2020-05-29,annual vaccination,VaccinationRemainder,10399,2026-05-24T00:00:00.000,"German shepherd, Asmi Subedi pet, will need to be vaccinated against annual vaccination on May 24."
+10443,Bruno,2020-05-29,annual vaccination,VaccinationRemainder,1,2026-05-25T10:16:55.953,
+10448,Anjal,2024-10-01,annual vaccination,VaccinationRemainder,10404,2026-06-01T00:00:00.000,"Anjal, Aruna Limbu pet, will need to be vaccinated against annual vaccination on June 1."
+10448,Anjal,2024-10-01,annual vaccination,VaccinationRemainder,1,2026-06-02T08:41:32.097,
+10451,Jerry,2016-06-05,Annual vaccination,VaccinationRemainder,10406,2026-06-05T00:00:00.000,"Jerry, Laxman Thapa magar pet, will need to be vaccinated against Annual vaccination on June 5."
+10451,Jerry,2016-06-05,Annual vaccination,VaccinationRemainder,1,2026-06-06T16:23:16.823,
+175,Tobby,2016-04-13,Annual vaccination,VaccinationRemainder,168,2026-06-04T00:00:00.000,"Tobby, Astha Shakya pet, will need to be vaccinated against Annual vaccination on June 4."
+175,Tobby,2016-04-13,Annual vaccination,VaccinationRemainder,1,2026-06-05T12:22:35.010,
+63,dog,2019-07-25,Annual vaccination,VaccinationRemainder,60,2026-06-07T00:00:00.000,"dog, Sagar Nemkul pet, will need to be vaccinated against Annual vaccination on June 7."
+63,dog,2019-07-25,Annual vaccination,VaccinationRemainder,1,2026-06-08T10:35:10.817,
+10325,Bruno,2025-02-26,Annual vaccination,FollowupRemainder,10299,2026-06-07T00:00:00.000,"Bruno, Prapty Rajbhandari pet, will need to be follow up for Annual vaccination on June 7."
+10325,Bruno,2025-02-26,Annual vaccination,FollowupRemainder,1,2026-06-08T10:35:10.820,
+10326,Cofy,2024-11-26,Annual vaccination,VaccinationRemainder,10299,2026-06-07T00:00:00.000,"Cofy, Prapty Rajbhandari pet, will need to be vaccinated against Annual vaccination on June 7."
+10326,Cofy,2024-11-26,Annual vaccination,VaccinationRemainder,1,2026-06-08T10:35:10.820,
+10227,coco,2024-11-22,Annual vaccination,VaccinationRemainder,10215,2026-06-07T00:00:00.000,"coco, Rubin Tamrakar pet, will need to be vaccinated against Annual vaccination on June 7."
+10227,coco,2024-11-22,Annual vaccination,VaccinationRemainder,1,2026-06-08T10:35:10.820,
+10455,Na Na,2023-06-08,annual vaccination,VaccinationRemainder,10410,2026-06-07T00:00:00.000,"Na Na, Abhishek Maharjan pet, will need to be vaccinated against annual vaccination on June 7."
+10455,Na Na,2023-06-08,annual vaccination,VaccinationRemainder,1,2026-06-08T10:35:10.820,
+10458,Tate,2016-11-29,annual vaccination,VaccinationRemainder,61,2026-06-09T00:00:00.000,"Dog, Sharmila Bista pet, will need to be vaccinated against annual vaccination on June 9."
+10458,Tate,2016-11-29,annual vaccination,VaccinationRemainder,1,2026-06-10T09:11:15.650,
+10397,MiMi,2025-03-09,Annual vaccination,VaccinationRemainder,10358,2026-06-10T00:00:00.000,"MiMi, Roshan Chaudhary pet, will need to be vaccinated against Annual vaccination on June 10."
+10397,MiMi,2025-03-09,Annual vaccination,VaccinationRemainder,1,2026-06-11T10:28:04.063,
+10460,Coco,2022-06-12,Anti rabies,VaccinationRemainder,10413,2026-05-30T00:00:00.000,"Lab, Imadol store Tika dd pet, will need to be vaccinated against Anti rabies on May 30."
+10460,Coco,2022-06-12,Anti rabies,VaccinationRemainder,1,2026-05-31T09:29:47.057,
+10461,lily,,annual vaccination,VaccinationRemainder,10414,2026-06-10T00:00:00.000,"Dog, Madhu Madhu pet, will need to be vaccinated against annual vaccination on June 10."
+10461,lily,,annual vaccination,VaccinationRemainder,1,2026-06-11T10:28:04.067,
+10468,Dog,2023-06-17,Annual vaccination,VaccinationRemainder,10421,2026-06-16T00:00:00.000,"Dog, Bikash Acharya pet, will need to be vaccinated against Annual vaccination on June 16."
+10468,Dog,2023-06-17,Annual vaccination,VaccinationRemainder,1,2026-06-17T08:25:08.017,
+10204,snowy,2020-11-06,Annual vaccination,VaccinationRemainder,10196,2026-06-16T00:00:00.000,"snowy, Shristika Shakya pet, will need to be vaccinated against Annual vaccination on June 16."
+10204,snowy,2020-11-06,Annual vaccination,VaccinationRemainder,1,2026-06-17T08:25:08.017,
+10470,Lily,2013-06-17,Autologous serum,Autologous serum,10423,2025-06-23T00:00:00.000,"Lily, Jesu Shrestha pet, will need to be visit for Autologous serum on June 23."
+10471,Cat,2024-06-17,PHC and rabies (kitten),VaccinationRemainder,10424,2025-07-17T00:00:00.000,"Cat, Suraj Rai pet, will need to be vaccinated against PHC and rabies (kitten) on July 17."
+10471,Cat,2024-06-17,PHC and rabies (kitten),VaccinationRemainder,1,2025-07-18T08:01:42.253,
+124,PINTU,2020-09-09,Annual vaccination,VaccinationRemainder,122,2026-06-18T00:00:00.000,"PINTU, SABINA MAHARJAN pet, will need to be vaccinated against Annual vaccination on June 18."
+124,PINTU,2020-09-09,Annual vaccination,VaccinationRemainder,1,2026-06-19T09:13:19.073,
+10280,CoCo,2024-08-28,PHC Vaccine,FollowupRemainder,10196,2026-06-18T00:00:00.000,"CoCo, Shristika Shakya pet, will need to be follow up for PHC Vaccine on June 18."
+10280,CoCo,2024-08-28,PHC Vaccine,FollowupRemainder,1,2026-06-19T09:13:19.073,
+71,LUFY,2023-08-29,Tx follow up,FollowupRemainder,68,2025-06-25T00:00:00.000,"LUFY, BIDISHA SHRESTHA pet, will need to be follow up for Tx follow up on June 25."
+10472,Boxer,2023-06-18,Annual vaccination,VaccinationRemainder,10425,2026-06-13T00:00:00.000,"Boxer, Sumeal Bomzon pet, will need to be vaccinated against Annual vaccination on June 13."
+10473,Affle,2023-06-18,Annual vaccination,VaccinationRemainder,10426,2026-06-18T00:00:00.000,"Affle, Ritika  Shrestha pet, will need to be vaccinated against Annual vaccination on June 18."
+10473,Affle,2023-06-18,Annual vaccination,VaccinationRemainder,1,2026-06-19T09:13:19.073,
+10444,Fungfung,2025-02-28,Annual vacciation,VaccinationRemainder,10385,2026-05-27T00:00:00.000,"Persian, Dipti Labung pet, will need to be vaccinated against Annual vacciation on May 27."
+10444,Fungfung,2025-02-28,Annual vacciation,VaccinationRemainder,1,2026-05-28T07:16:55.187,
+10449,Dipsa,2022-06-01,Annual vaccination,VaccinationRemainder,10385,2025-09-22T00:00:00.000,"Dipsa, Dipti Labung pet, will need to be vaccinated against Annual vaccination on September 22."
+10449,Dipsa,2022-06-01,Annual vaccination,VaccinationRemainder,1,2025-09-23T09:34:04.090,
+10239,BRUNO,2022-11-27,Annual Vaccination,VaccinationRemainder,10226,2026-06-21T00:00:00.000,"BRUNO, NIRUTA KUNWAR pet, will need to be vaccinated against Annual Vaccination on June 21."
+10239,BRUNO,2022-11-27,Annual Vaccination,VaccinationRemainder,1,2026-06-22T17:06:48.920,
+10475,Cat,,Annual vaccination,VaccinationRemainder,10428,2025-06-29T00:00:00.000,"Cat, Raju Shrestha pet, will need to be vaccinated against Annual vaccination on June 29."
+10475,Cat,,Annual vaccination,VaccinationRemainder,1,2025-06-30T11:36:19.870,
+10469,Cat,2022-06-17,Annual vaccination,VaccinationRemainder,10422,2026-06-23T00:00:00.000,"Cat, Ayesha Ansari pet, will need to be vaccinated against Annual vaccination on June 23."
+10469,Cat,2022-06-17,Annual vaccination,VaccinationRemainder,1,2026-06-24T12:47:23.570,
+10480,Spitz,2017-06-25,Annual vaccination,VaccinationRemainder,10432,2026-06-24T00:00:00.000,"Spitz, Bishal Shrestha pet, will need to be vaccinated against Annual vaccination on June 24."
+194,haku,2024-01-31,Annual vaccination,VaccinationRemainder,187,2026-06-24T00:00:00.000,"haku, Nidar  Maharjan pet, will need to be vaccinated against Annual vaccination on June 24."
+10481,Lucy,2015-06-25,Follow up,FollowupRemainder,10433,2025-07-02T00:00:00.000,"Lucy, Bhima  Thapa pet, will need to be follow up for Follow up on July 2."
+10481,Lucy,2015-06-25,Follow up,FollowupRemainder,1,2025-07-03T08:30:57.587,
+21,loki,2024-07-04,Annual vaccination,FollowupRemainder,20,2026-06-29T00:00:00.000,"loki, AMRIT SHRESTHA pet, will need to be follow up for Annual vaccination on June 29."
+10485,Golden,2025-05-15,Dhppil booster,VaccinationRemainder,10437,2025-07-18T00:00:00.000,"Golden, Evan Maharjan pet, will need to be vaccinated against Dhppil booster on July 18."
+10485,Golden,2025-05-15,Dhppil booster,VaccinationRemainder,1,2025-07-19T14:41:54.853,
+31,Unknown,2023-07-10,Annual vaccination,VaccinationRemainder,29,2026-06-29T00:00:00.000,"Unknown, Rohit Shakya pet, will need to be vaccinated against Annual vaccination on June 29."
+193,Bhuntu,2014-10-29,Skin problem,FollowupRemainder,186,2025-07-05T00:00:00.000,"Bhuntu, Menson LaL vaidya pet, will need to be follow up for Skin problem on July 5."
+193,Bhuntu,2014-10-29,Skin problem,FollowupRemainder,1,2025-07-06T15:05:52.210,
+158,Jasper,2024-04-16,Take update,Take update,153,2025-07-05T00:00:00.000,"Jasper, Shristi Paneru pet, will need to be visit for Take update on July 5."
+158,Jasper,2024-04-16,Take update,Take update,1,2025-07-06T15:05:52.227,
+8,Damfu,2022-06-29,Annual vaccination,VaccinationRemainder,8,2026-06-30T00:00:00.000,"Damfu, Anu Shakya pet, will need to be vaccinated against Annual vaccination on June 30."
+10283,Leo,2024-01-30,Annual vaccination,VaccinationRemainder,10267,2026-06-30T00:00:00.000,"Leo, Sandesh Bhusal pet, will need to be vaccinated against Annual vaccination on June 30."
+10291,Mia,2025-02-03,Annual vaccination,VaccinationRemainder,151,2026-06-30T00:00:00.000,"Mia, SHIVANI SHAH pet, will need to be vaccinated against Annual vaccination on June 30."
+10418,Akira,2025-02-07,Annual vaccination,VaccinationRemainder,151,2026-06-30T00:00:00.000,"Akira, SHIVANI SHAH pet, will need to be vaccinated against Annual vaccination on June 30."
+51,Stella/MoMo/Charlie/Punte/Kanchi/Simba,,Annual vaccination,VaccinationRemainder,49,2026-07-04T00:00:00.000,"Stella/MoMo/Charlie/Punte/Kanchi/Simba, Sujana Kapali pet, will need to be vaccinated against Annual vaccination on July 4."
+10484,Grace|Gracy,2025-03-29,Annual vaccination,VaccinationRemainder,10436,2026-06-01T00:00:00.000,"Grace|Gracy, Shahil Deula pet, will need to be vaccinated against Annual vaccination on June 1."
+10484,Grace|Gracy,2025-03-29,Annual vaccination,VaccinationRemainder,1,2026-06-02T08:41:32.100,
+10493,Community dog,,Skin Follow Up,FollowupRemainder,10443,2025-07-13T00:00:00.000,"Community dog, Kick and Sip Futsal pet, will need to be follow up for Skin Follow Up on July 13."
+10493,Community dog,,Skin Follow Up,FollowupRemainder,1,2025-07-14T09:21:40.223,
+34,Tyson,2022-07-11,Annual vaccination,VaccinationRemainder,31,2026-07-08T00:00:00.000,"Tyson, sangita gopalbanshi pet, will need to be vaccinated against Annual vaccination on July 8."
+10497,Cherry,2024-12-08,29 november vaccination,VaccinationRemainder,10447,2025-11-20T00:00:00.000,"Cherry, Jharna Limbu pet, will need to be vaccinated against 29 november vaccination on November 20."
+10497,Cherry,2024-12-08,29 november vaccination,VaccinationRemainder,1,2025-11-21T21:13:45.300,
+10490,Bella,2020-07-05,Antibiotic follow up,FollowupRemainder,10441,2025-07-17T00:00:00.000,"Bella, Pratap Pradhananga pet, will need to be follow up for Antibiotic follow up on July 17."
+10490,Bella,2020-07-05,Antibiotic follow up,FollowupRemainder,1,2025-07-18T08:01:42.257,
+10475,Cat,,PHC &ARV,VaccinationRemainder,10428,2025-08-09T00:00:00.000,"Cat, Raju Shrestha pet, will need to be vaccinated against PHC &ARV on August 9."
+10475,Cat,,PHC &ARV,VaccinationRemainder,1,2025-08-10T07:22:06.100,
+10498,Spitz,2013-07-10,Just call follow,FollowupRemainder,10448,2025-08-01T00:00:00.000,"Spitz, Janu dd pet, will need to be follow up for Just call follow on August 1."
+10498,Spitz,2013-07-10,Just call follow,FollowupRemainder,1,2025-08-02T08:44:33.437,
+10454,Jack,2022-06-08,Blood test or snap test,Snap test,10409,2025-08-09T00:00:00.000,"Jack, Anup Shrestha pet, will need to be visit for Blood test or snap test  on August 9."
+10454,Jack,2022-06-08,Blood test or snap test,Snap test,1,2025-08-10T07:22:06.100,
+10375,Gandu,2022-04-06,Skin issue,FollowupRemainder,10339,2025-07-20T00:00:00.000,"Gandu, Rajiv Tamang pet, will need to be follow up for Skin issue on July 20."
+10375,Gandu,2022-04-06,Skin issue,FollowupRemainder,1,2025-07-21T08:26:48.167,
+10503,Kit kat,,ARV,VaccinationRemainder,10453,2025-08-31T00:00:00.000,"Kit kat, Yubisha Rai pet, will need to be vaccinated against ARV on August 31."
+10503,Kit kat,,ARV,VaccinationRemainder,1,2025-09-01T10:07:17.910,
+10442,Jumbo,2020-05-29,E canis recheck,FollowupRemainder,10398,2025-07-29T00:00:00.000,"Jumbo, Priyanka Lama pet, will need to be follow up for E canis recheck on July 29."
+10442,Jumbo,2020-05-29,E canis recheck,FollowupRemainder,1,2025-07-30T09:43:04.740,
+10510,Kalu,2024-12-17,Follow and vaccine,FollowupRemainder,10459,2025-07-22T00:00:00.000,"Kalu, Priya Dcruz pet, will need to be follow up for Follow and vaccine on July 22."
+10510,Kalu,2024-12-17,Follow and vaccine,FollowupRemainder,1,2025-07-23T18:04:40.203,
+33,kofi,2020-07-10,annual vaccination,VaccinationRemainder,30,2026-07-10T00:00:00.000,"kofi, Sudarshan Pandey pet, will need to be vaccinated against annual vaccination on July 10."
+10514,Gyani,2022-07-20,annual vaccination,VaccinationRemainder,10463,2026-07-16T00:00:00.000,"Gyani, Sudip Shrestha pet, will need to be vaccinated against annual vaccination on July 16."
+10517,Community dog,2018-07-21,Booster Dhppil arv,VaccinationRemainder,10466,2025-08-20T00:00:00.000,"Community dog, Binod Risal pet, will need to be vaccinated against Booster Dhppil arv on August 20."
+10517,Community dog,2018-07-21,Booster Dhppil arv,VaccinationRemainder,1,2025-08-21T17:50:38.620,
+10502,Peanut,2018-07-14,Vaccination,VaccinationRemainder,10452,2025-07-24T00:00:00.000,"Peanut, Swasti Aryal pet, will need to be vaccinated against Vaccination on July 24."
+10502,Peanut,2018-07-14,Vaccination,VaccinationRemainder,1,2025-07-25T17:57:05.240,
+10502,Peanut,2018-07-14,Anal gland squeeze,FollowupRemainder,10452,2025-07-24T00:00:00.000,"Peanut, Swasti Aryal pet, will need to be follow up for Anal gland squeeze on July 24."
+10502,Peanut,2018-07-14,Anal gland squeeze,FollowupRemainder,1,2025-07-25T17:57:05.260,
+10518,Husky cross,2025-06-21,Vaccination first,VaccinationRemainder,10467,2025-07-30T00:00:00.000,"Husky cross, Rina Lama pet, will need to be vaccinated against Vaccination first on July 30."
+10519,Rolo,2025-06-19,First vaccination,VaccinationRemainder,10468,2025-07-28T00:00:00.000,"Rolo, Puja Paudel pet, will need to be vaccinated against First vaccination on July 28."
+10520,Musu,2024-07-21,Follow up surgery,FollowupRemainder,10469,2025-07-27T00:00:00.000,"Musu, Saru Rai pet, will need to be follow up for Follow up surgery on July 27."
+10520,Musu,2024-07-21,Follow up surgery,FollowupRemainder,1,2025-07-28T07:34:38.203,
+10504,Lucy,2018-07-14,Surgery follow up,FollowupRemainder,10454,2025-07-29T00:00:00.000,"Lucy, Luna Singh pet, will need to be follow up for Surgery follow up on July 29."
+10504,Lucy,2018-07-14,Surgery follow up,FollowupRemainder,1,2025-07-30T09:43:04.757,
+167,kiwi,2023-10-10,Skin follow up,FollowupRemainder,162,2025-08-01T00:00:00.000,"kiwi, Anushka Thapa pet, will need to be follow up for Skin follow up on August 1."
+167,kiwi,2023-10-10,Skin follow up,FollowupRemainder,1,2025-08-02T08:44:33.440,
+10523,Lily,2022-07-23,Vaccination Arv,VaccinationRemainder,10472,2026-07-01T00:00:00.000,"Lily, Jambika Kc pet, will need to be vaccinated against Vaccination Arv on July 1."
+10524,Hero,2017-07-23,Annual vaccination,VaccinationRemainder,10473,2026-07-23T00:00:00.000,"Hero, Anu Tamang pet, will need to be vaccinated against Annual vaccination on July 23."
+10502,Peanut,2018-07-14,Annual Vaccination,VaccinationRemainder,10452,2026-07-24T00:00:00.000,"Peanut, Swasti Aryal pet, will need to be vaccinated against Annual Vaccination on July 24."
+10526,Angel,2022-07-25,Annual vaccination,VaccinationRemainder,10475,2025-12-01T00:00:00.000,"Angel, Sirish Joshi pet, will need to be vaccinated against Annual vaccination on December 1."
+10526,Angel,2022-07-25,Annual vaccination,VaccinationRemainder,1,2025-12-02T10:24:36.293,
+10521,Jack,2022-07-23,Test,FollowupRemainder,10470,2025-08-23T00:00:00.000,"Jack, Sanu Lama pet, will need to be follow up for Test on August 23."
+10521,Jack,2022-07-23,Test,FollowupRemainder,1,2025-08-24T17:19:54.313,
+10233,bogi,2024-11-24,Test,FollowupRemainder,10220,2025-08-24T00:00:00.000,"bogi, Akash Puri pet, will need to be follow up for Test on August 24."
+10233,bogi,2024-11-24,Test,FollowupRemainder,1,2025-08-25T17:03:32.980,
+10529,CoCo,2022-07-28,Skin itching,FollowupRemainder,10478,2025-08-01T00:00:00.000,"CoCo, Mukesh Aryal pet, will need to be follow up for Skin itching on August 1."
+10529,CoCo,2022-07-28,Skin itching,FollowupRemainder,1,2025-08-02T08:44:33.440,
+10532,Chinku,2022-07-30,Annual vaccination,VaccinationRemainder,10480,2026-07-28T00:00:00.000,"Chinku, Pragati Nakarmi pet, will need to be vaccinated against Annual vaccination on July 28."
+10531,Pintu,2022-07-30,Annual vaccination,VaccinationRemainder,10480,2026-07-28T00:00:00.000,"Pintu, Pragati Nakarmi pet, will need to be vaccinated against Annual vaccination on July 28."
+10290,willu,2016-06-17,Annual vaccination,VaccinationRemainder,10273,2026-08-03T00:00:00.000,"willu, chet shrestha pet, will need to be vaccinated against Annual vaccination on August 3."
+22,puku,2021-08-17,Follow up call,FollowupRemainder,21,2025-08-12T00:00:00.000,"puku, Iccha  Chand pet, will need to be follow up for Follow up call on August 12."
+22,puku,2021-08-17,Follow up call,FollowupRemainder,1,2025-08-13T13:45:09.543,
+53,Juli,2024-08-06,Annual vaccination,VaccinationRemainder,51,2026-08-06T00:00:00.000,"Juli, Pradeep Deshar pet, will need to be vaccinated against Annual vaccination on August 6."
+48,tyson,2020-07-21,Annual vaccination,VaccinationRemainder,47,2026-08-06T00:00:00.000,"tyson, udip  Deshar pet, will need to be vaccinated against Annual vaccination on August 6."
+10513,Babu,2020-07-20,Annual vaccination,VaccinationRemainder,10462,2026-07-15T00:00:00.000,"Babu, Chandika Khadka pet, will need to be vaccinated against Annual vaccination on July 15."
+10538,Kanchi,2024-08-07,Booster Dhppil & Arv,VaccinationRemainder,10483,2025-09-06T00:00:00.000,"Kanchi, Bimal  Limbu pet, will need to be vaccinated against Booster Dhppil & Arv on September 6."
+10538,Kanchi,2024-08-07,Booster Dhppil & Arv,VaccinationRemainder,1,2025-09-07T18:46:22.290,
+10515,Moichi,2025-04-20,"PHC and Arv , annual vaccination",VaccinationRemainder,10464,2026-08-09T00:00:00.000,"Moichi, SuvanThapa Magar pet, will need to be vaccinated against PHC and Arv , annual vaccination on August 9."
+10541,Punta,2023-08-10,Annual vaccination,VaccinationRemainder,10485,2026-01-20T00:00:00.000,"Punta, Shova Khadka adhikari pet, will need to be vaccinated against Annual vaccination on January 20."
+10542,Murphy,2024-11-10,Annual vaccination,VaccinationRemainder,10486,2026-08-10T00:00:00.000,"Murphy, Kabita Shrestha pet, will need to be vaccinated against Annual vaccination on August 10."
+10477,Husky,2025-05-11,Annual vaccination,VaccinationRemainder,10410,2026-08-13T00:00:00.000,"Husky, Abhishek Maharjan pet, will need to be vaccinated against Annual vaccination on August 13."
+10546,Snob,2023-08-13,Annual vaccination,VaccinationRemainder,10489,2026-08-13T00:00:00.000,"Snob, Arun K C pet, will need to be vaccinated against Annual vaccination on August 13."
+10548,Cherry,2024-08-16,Annual vaccination,VaccinationRemainder,10491,2026-08-15T00:00:00.000,"Cherry, Aarohi Shrestha pet, will need to be vaccinated against Annual vaccination on August 15."
+10550,Cumbo,,Annual vaccination,VaccinationRemainder,10492,2026-08-15T00:00:00.000,"Cumbo, Tashi Tashi pet, will need to be vaccinated against Annual vaccination on August 15."
+30,puku,2014-07-10,Annual vaccination,VaccinationRemainder,28,2026-08-17T00:00:00.000,"puku, Ishor Pradhanang pet, will need to be vaccinated against Annual vaccination on August 17."
+30,puku,2014-07-10,Update on skin,Update,28,2025-08-24T00:00:00.000,"puku, Ishor Pradhanang pet, will need to be visit for Update on skin on August 24."
+30,puku,2014-07-10,Update on skin,Update,1,2025-08-25T17:03:32.980,
+167,kiwi,2023-10-10,Update,skin condition update,162,2025-08-24T00:00:00.000,"kiwi, Anushka Thapa pet, will need to be visit for Update on August 24."
+167,kiwi,2023-10-10,Update,skin condition update,1,2025-08-25T17:03:32.980,
+10404,Dolly,2025-03-13,Post surgery follow up,Post surgery,10365,2025-08-24T00:00:00.000,"Dolly, Aliza Raut pet, will need to be visit for Post surgery follow up on August 24."
+10404,Dolly,2025-03-13,Post surgery follow up,Post surgery,1,2025-08-25T17:03:32.980,
+171,cookie,2023-10-10,Skin issue,FollowupRemainder,164,2025-08-25T00:00:00.000,"cookie, Poonam Shrestha pet, will need to be follow up for Skin issue on August 25."
+171,cookie,2023-10-10,Skin issue,FollowupRemainder,1,2025-08-26T09:26:35.567,
+10410,Brandy,2020-04-30,Annual vaccination,VaccinationRemainder,10370,2026-08-23T00:00:00.000,"Brandy, Samrat Pradhan pet, will need to be vaccinated against Annual vaccination on August 23."
+10509,Rio,2024-12-16,Annual vaccination,VaccinationRemainder,10458,2026-08-25T00:00:00.000,"Rio, Saila Tamang pet, will need to be vaccinated against Annual vaccination on August 25."
+45,Moon,2023-07-19,Annual vaccination,VaccinationRemainder,43,2026-08-27T00:00:00.000,"Moon, Pramila Upreti pet, will need to be vaccinated against Annual vaccination on August 27."
+105,P.s,2018-09-01,Annual vaccination,VaccinationRemainder,102,2026-08-27T00:00:00.000,"P.s, Shyam Maharjan pet, will need to be vaccinated against Annual vaccination on August 27."
+10553,Charlie,2024-08-29,E canis test,FollowupRemainder,10495,2025-09-25T00:00:00.000,"Charlie, Sujan Sainju pet, will need to be follow up for E canis test on September 25."
+10553,Charlie,2024-08-29,E canis test,FollowupRemainder,1,2025-09-26T13:53:00.560,
+131,JUJU,2016-09-15,Just update taking,FollowupRemainder,129,2025-09-12T00:00:00.000,"JUJU, NAMEEK LIMBU pet, will need to be follow up for Just update taking on September 12."
+131,JUJU,2016-09-15,Just update taking,FollowupRemainder,1,2025-09-13T16:02:54.330,
+10554,Moea,2022-08-31,New client,VaccinationRemainder,10496,2025-09-08T00:00:00.000,"Moea, Bishnu Chettri pet, will need to be vaccinated against New client on September 8."
+10554,Moea,2022-08-31,New client,VaccinationRemainder,1,2025-09-09T14:39:53.727,
+10555,Puntu,2022-08-31,Annual Vaccination,VaccinationRemainder,10497,2026-08-31T00:00:00.000,"Puntu, Goma Shrestha pet, will need to be vaccinated against Annual Vaccination on August 31."
+101,Puku,2024-06-27,Annual vaccination,VaccinationRemainder,97,2026-08-30T00:00:00.000,"Puku, Sachin Karki pet, will need to be vaccinated against Annual vaccination on August 30."
+10556,June,2021-08-31,Anti rabies vaccination,VaccinationRemainder,10498,2026-08-30T00:00:00.000,"June, Anu  Karki pet, will need to be vaccinated against Anti rabies vaccination on August 30."
+10557,Three kittens,2025-04-30,Post surgery follow up,FollowupRemainder,10499,2025-09-09T00:00:00.000,"Three kittens, Esha Rai pet, will need to be follow up for Post surgery follow up on September 9."
+10557,Three kittens,2025-04-30,Post surgery follow up,FollowupRemainder,1,2025-09-10T16:52:22.047,
+52,Tiger,2021-07-21,Annual vaccination,VaccinationRemainder,50,2026-04-01T00:00:00.000,"Tiger, Nabin Shrestha pet, will need to be vaccinated against Annual vaccination on April 1."
+52,Tiger,2021-07-21,Annual vaccination,VaccinationRemainder,1,2026-04-02T14:20:41.120,
+106,Pablo,2022-09-01,Annual vaccination,VaccinationRemainder,103,2026-08-29T00:00:00.000,"Pablo, Neelam Maharjan pet, will need to be vaccinated against Annual vaccination on August 29."
+10559,Local dog,2023-09-05,Post op,FollowupRemainder,10501,2025-09-11T00:00:00.000,"Local dog, Mohan Thapa pet, will need to be follow up for Post op on September 11."
+129,Lily,2021-09-15,Post op,FollowupRemainder,127,2025-09-10T00:00:00.000,"Lily, Rachana Shrestha pet, will need to be follow up for Post op on September 10."
+10503,Kit kat,,Anti Rabies,VaccinationRemainder,10453,2026-09-04T00:00:00.000,"Kit kat, Yubisha Rai pet, will need to be vaccinated against Anti Rabies  on September 4."
+10427,Phuche,2025-05-18,Annual vaccination,VaccinationRemainder,10384,2026-09-03T00:00:00.000,"Phuche, Babin Thapa pet, will need to be vaccinated against Annual vaccination on September 3."
+10560,Dhamfu,2025-05-07,PHC & ARV Booster,VaccinationRemainder,10329,2025-10-07T00:00:00.000,"Dhamfu, Sugat Bajracharya pet, will need to be vaccinated against PHC & ARV Booster on October 7."
+10560,Dhamfu,2025-05-07,PHC & ARV Booster,VaccinationRemainder,1,2025-10-08T10:32:56.877,
+10562,Leo,2025-04-10,Follow up cat,FollowupRemainder,10503,2025-09-13T00:00:00.000,"Leo, Sanjay Thapa pet, will need to be follow up for Follow up cat on September 13."
+10554,Moea,2022-08-31,Annual vaccination,VaccinationRemainder,10496,2026-09-10T00:00:00.000,"Moea, Bishnu Chettri pet, will need to be vaccinated against Annual vaccination on September 10."
+10563,Shinzo Shakya,2020-03-13,Annual vaccination Dhppil only,VaccinationRemainder,10504,2026-09-12T00:00:00.000,"Shinzo Shakya, Ashika Shakya pet, will need to be vaccinated against Annual vaccination Dhppil only on September 12."
+10564,Fred max,,Follow up (Second dose),FollowupRemainder,10505,2025-09-19T00:00:00.000,"Fred max, Dev Anand pet, will need to be follow up for Follow up (Second dose) on September 19."
+10564,Fred max,,Follow up (Second dose),FollowupRemainder,1,2025-09-20T12:29:50.437,
+10350,MiMi,2025-03-17,Dhppil_Arv,VaccinationRemainder,10322,2026-09-14T00:00:00.000,"MiMi, Prabin Shrestha pet, will need to be vaccinated against Dhppil_Arv on September 14."
+10566,Floki,2022-09-18,Annual vaccination,VaccinationRemainder,10508,2026-09-18T00:00:00.000,"Floki, Bisakha Adhikari pet, will need to be vaccinated against Annual vaccination on September 18."
+10567,Luna,2024-09-18,Arv booster,VaccinationRemainder,10509,2025-10-17T00:00:00.000,"Luna, Sushil Shrestha pet, will need to be vaccinated against Arv booster on October 17."
+10567,Luna,2024-09-18,Arv booster,VaccinationRemainder,1,2025-10-18T08:54:32.550,
+10328,Cat,2025-02-28,Annual vaccination,VaccinationRemainder,10300,2026-09-18T00:00:00.000,"Cat, Ranjit Shrestha pet, will need to be vaccinated against Annual vaccination on September 18."
+10570,St.,2022-09-19,Annual Vaccination,VaccinationRemainder,10512,2026-09-18T00:00:00.000,"St., Raj Maharjan pet, will need to be vaccinated against Annual Vaccination on September 18."
+10571,Kal,2025-04-19,PHC Booster,VaccinationRemainder,10513,2025-10-18T00:00:00.000,"Kal, Shishir Pandey pet, will need to be vaccinated against PHC Booster on October 18."
+10571,Kal,2025-04-19,PHC Booster,VaccinationRemainder,1,2025-10-19T08:44:26.770,
+10574,Cat,2024-03-20,annual vaccination,VaccinationRemainder,10516,2026-09-20T00:00:00.000,"Xavi, Zaved Ali pet, will need to be vaccinated against annual vaccination on September 20."
+10572,Xavi,2024-03-20,Booster PHC and ARV,VaccinationRemainder,10514,2025-10-20T00:00:00.000,"Xavi, Subham Shakya pet, will need to be vaccinated against Booster PHC and ARV on October 20."
+10572,Xavi,2024-03-20,Booster PHC and ARV,VaccinationRemainder,1,2025-10-21T09:15:20.253,
+10442,Jumbo,2020-05-29,annual vaccination,VaccinationRemainder,10398,2026-09-20T00:00:00.000,"Jumbo, Priyanka Lama pet, will need to be vaccinated against annual vaccination on September 20."
+10538,Kanchi,2024-08-07,Annual Vaccination,VaccinationRemainder,10483,2026-09-21T00:00:00.000,"Kanchi, Bimal  Limbu pet, will need to be vaccinated against Annual Vaccination on September 21."
+133,sudar kendra cat,2024-09-15,Annual Vaccination,VaccinationRemainder,131,2026-09-15T00:00:00.000,"sudar kendra cat, sunil  maharjan pet, will need to be vaccinated against Annual Vaccination on September 15."
+164,MIsty,2016-10-07,Annual vaccination,VaccinationRemainder,159,2026-09-24T00:00:00.000,"MIsty, Namita Thapa pet, will need to be vaccinated against Annual vaccination on September 24."
+118,KITSU,2024-09-07,Annual vaccination,VaccinationRemainder,116,2026-09-23T00:00:00.000,"KITSU, LUJATA SHRESTHA pet, will need to be vaccinated against Annual vaccination on September 23."
+131,JUJU,2016-09-15,Semi annually check up,FollowupRemainder,129,2026-03-20T00:00:00.000,"JUJU, NAMEEK LIMBU pet, will need to be follow up for Semi annually check up on March 20."
+131,JUJU,2016-09-15,Semi annually check up,FollowupRemainder,1,2026-03-21T21:38:29.473,
+57,Bruno,2023-11-24,Annual vaccination,VaccinationRemainder,54,2026-09-27T00:00:00.000,"Bruno, Rupesh kafla pet, will need to be vaccinated against Annual vaccination on September 27."
+7,kuku,2023-06-30,Annual vaccination,VaccinationRemainder,7,2026-04-18T00:00:00.000,"kuku, Melina Rai pet, will need to be vaccinated against Annual vaccination on April 18."
+7,kuku,2023-06-30,Annual vaccination,VaccinationRemainder,1,2026-04-19T12:02:18.623,"The deadline for kuku, happy pets staff pet's vaccinations, which was 18 Apr 2026, has passed."
+7,kuku,2023-06-30,Follow up,FollowupRemainder,7,2025-10-10T00:00:00.000,"kuku, Melina Rai pet, will need to be follow up for Follow up on October 10."
+7,kuku,2023-06-30,Follow up,FollowupRemainder,1,2025-10-11T16:51:21.097,"The deadline for kuku, happy pets staff pet's vaccinations, which was 10 Oct 2025, has passed."
+10578,Kobi,2025-07-04,Booster vaccination,VaccinationRemainder,10520,2025-11-03T00:00:00.000,"Kobi, Jenisha Shrestha pet, will need to be vaccinated against Booster vaccination on November 3."
+10229,PIXEL,2024-11-22,Blood pcv hb,FollowupRemainder,10217,2025-10-09T00:00:00.000,"PIXEL, KIRAN BK pet, will need to be follow up for Blood pcv hb on October 9."
+10229,PIXEL,2024-11-22,Blood pcv hb,FollowupRemainder,1,2025-10-10T09:10:20.580,
+166,Akki & Nammi,,Annual vaccination,VaccinationRemainder,161,2026-10-07T00:00:00.000,"Akki & Nammi, Pushpa Rai pet, will need to be vaccinated against Annual vaccination on October 7."
+10582,Meow 2,2025-06-09,Annual vaccination,VaccinationRemainder,10523,2026-10-08T00:00:00.000,"Meow 2, Chandrakala Gurung pet, will need to be vaccinated against Annual vaccination on October 8."
+10583,Pogo,2021-10-09,Repeat snap test,FollowupRemainder,10524,2025-11-05T00:00:00.000,"Spitz, Sitanshu Karanjit pet, will need to be follow up for Repeat snap test on November 5."
+10583,Pogo,2021-10-09,Repeat snap test,FollowupRemainder,1,2025-11-06T18:51:42.253,
+10579,Puppy,2015-10-05,Antibiotic and wound condition,FollowupRemainder,10521,2025-10-11T00:00:00.000,"Puppy, Sujan Maharjan pet, will need to be follow up for Antibiotic and wound condition on October 11."
+10579,Puppy,2015-10-05,Antibiotic and wound condition,FollowupRemainder,1,2025-10-12T14:50:15.403,
+10586,jenny,,Annual vaccination,VaccinationRemainder,10527,2026-10-01T00:00:00.000,"Dalmatian, Ishan Ishan pet, will need to be vaccinated against Annual vaccination on October 1."
+10454,Jack,2022-06-08,Medicine follow up,FollowupRemainder,10409,2025-10-19T00:00:00.000,"Jack, Anup Shrestha pet, will need to be follow up for Medicine follow up on October 19."
+10454,Jack,2022-06-08,Medicine follow up,FollowupRemainder,1,2025-10-20T10:01:13.583,
+134,Enzo,2024-02-15,Annual vaccination,VaccinationRemainder,132,2025-11-16T00:00:00.000,"Enzo, shriju baniya pet, will need to be vaccinated against Annual vaccination on November 16."
+134,Enzo,2024-02-15,Annual vaccination,VaccinationRemainder,1,2025-11-17T11:49:47.723,
+17,Leo,2022-01-03,Annual vaccination,VaccinationRemainder,16,2026-10-13T00:00:00.000,"Leo, Vikram Singh pet, will need to be vaccinated against Annual vaccination on October 13."
+10589,Cat,,Vaccination,FollowupRemainder,10530,2025-11-10T00:00:00.000,"Cat, Awantika Joshi pet, will need to be follow up for Vaccination on November 10."
+10589,Cat,,Vaccination,FollowupRemainder,1,2025-11-11T19:41:12.927,
+10592,Knoober,,Take update,FollowupRemainder,10533,2025-10-21T00:00:00.000,"Knoober, Amit  Bhattarai pet, will need to be follow up for Take update on October 21."
+10592,Knoober,,Take update,FollowupRemainder,1,2025-10-22T09:26:46.787,
+10595,Yuki,2025-07-15,Booster,VaccinationRemainder,10535,2025-11-06T00:00:00.000,"Yuki, Ritu Sunuwar pet, will need to be vaccinated against Booster on November 6."
+10597,Adi,2021-10-16,Follow up,FollowupRemainder,10537,2025-10-27T00:00:00.000,"Adi, Sanjay Ghising pet, will need to be follow up for Follow up  on October 27."
+10475,Cat,,Wound Follow up,FollowupRemainder,10428,2025-10-27T00:00:00.000,"Cat, Raju Shrestha pet, will need to be follow up for Wound Follow up on October 27."
+10604,Lily,,Annual vaccination,VaccinationRemainder,10541,2026-10-19T00:00:00.000,"Lily, Angel  Kafle pet, will need to be vaccinated against Annual vaccination on October 19."
+183,dobermann,2021-10-18,Annual vaccination,VaccinationRemainder,176,2026-10-19T00:00:00.000,"dobermann, Kushal Shrestha pet, will need to be vaccinated against Annual vaccination on October 19."
+10207,momo,2021-11-06,Annual Vaccination,VaccinationRemainder,10199,2026-10-19T00:00:00.000,"momo, riyan sir pet, will need to be vaccinated against Annual Vaccination on October 19."
+10571,Kal,2025-04-19,Annual vaccination,VaccinationRemainder,10513,2026-10-20T00:00:00.000,"Kal, Shishir Pandey pet, will need to be vaccinated against Annual vaccination on October 20."
+10605,Meow,2025-08-21,Follow up visit,FollowupRemainder,10542,2025-10-23T00:00:00.000,"Meow, Khusbu Tamang pet, will need to be follow up for Follow up visit on October 23."
+10605,Meow,2025-08-21,Follow up visit,FollowupRemainder,1,2025-10-24T07:28:35.553,
+10611,Jenny,,Annual vaccination,VaccinationRemainder,10547,2026-10-24T00:00:00.000,"Meow, Reena Shrestha pet, will need to be vaccinated against Annual vaccination on October 24."
+10560,Dhamfu,2025-05-07,Annual vaccination,VaccinationRemainder,10329,2026-10-27T00:00:00.000,"Dhamfu, Sugat Bajracharya pet, will need to be vaccinated against Annual vaccination on October 27."
+10612,Rambo,2021-10-29,Annual vaccination,VaccinationRemainder,10548,2026-10-24T00:00:00.000,"Rambo, Kisha Ranabhat pet, will need to be vaccinated against Annual vaccination on October 24."
+10613,Community Dog,2025-04-29,Annual Vaccination,VaccinationRemainder,10549,2026-10-29T00:00:00.000,"Community Dog, Manisha Basnet pet, will need to be vaccinated against Annual Vaccination on October 29."
+10615,Rio,2025-10-02,Follow up,FollowupRemainder,10551,2025-11-04T00:00:00.000,"Unknown, Mahesh Majhi pet, will need to be follow up for Follow up on November 4."
+10615,Rio,2025-10-02,Follow up,FollowupRemainder,1,2025-11-05T13:18:08.590,
+10594,Tow,,Medicine Add,FollowupRemainder,10535,2025-11-05T00:00:00.000,"Tow, Ritu Sunuwar pet, will need to be follow up for Medicine Add on November 5."
+10594,Tow,,Medicine Add,FollowupRemainder,1,2025-11-06T18:51:42.253,
+10614,Community dog,2025-04-29,Medicine Add,FollowupRemainder,10550,2025-11-04T00:00:00.000,"Community dog, Ganesh Shrestha pet, will need to be follow up for Medicine Add on November 4."
+10614,Community dog,2025-04-29,Medicine Add,FollowupRemainder,1,2025-11-05T13:18:08.590,
+10618,Handsome,2018-11-02,Phone call,FollowupRemainder,10553,2025-11-08T00:00:00.000,"Handsome, Niroj Limbu pet, will need to be follow up for Phone call on November 8."
+10618,Handsome,2018-11-02,Phone call,FollowupRemainder,1,2025-11-09T09:21:00.053,
+10620,Cat,2025-10-18,Follow up,FollowupRemainder,10555,2025-11-08T00:00:00.000,"Cat, Astiva Subedi pet, will need to be follow up for Follow up  on November 8."
+10620,Cat,2025-10-18,Follow up,FollowupRemainder,1,2025-11-09T09:21:00.053,
+10621,Oreo,2013-11-02,Update,FollowupRemainder,10556,2025-11-16T00:00:00.000,"Dog, Shreeya Rajbhandari pet, will need to be follow up for Update on November 16."
+10621,Oreo,2013-11-02,Update,FollowupRemainder,1,2025-11-17T11:49:47.740,
+10614,Community dog,2025-04-29,Medicine add for 15 more days,FollowupRemainder,10550,2025-11-14T00:00:00.000,"Community dog, Ganesh Shrestha pet, will need to be follow up for Medicine add for 15 more days on November 14."
+10614,Community dog,2025-04-29,Medicine add for 15 more days,FollowupRemainder,1,2025-11-15T16:30:03.427,
+164,MIsty,2016-10-07,LFT & KFT CHECK,FollowupRemainder,159,2025-11-09T00:00:00.000,"MIsty, Namita Thapa pet, will need to be follow up for LFT & KFT CHECK on November 9."
+164,MIsty,2016-10-07,LFT & KFT CHECK,FollowupRemainder,1,2025-11-10T21:45:53.797,
+10578,Kobi,2025-07-04,Annual Booster,VaccinationRemainder,10520,2026-11-06T00:00:00.000,"Kobi, Jenisha Shrestha pet, will need to be vaccinated against Annual Booster on November 6."
+10340,pablo,2025-03-10,Arv Vaccine,VaccinationRemainder,10311,2026-11-06T00:00:00.000,"pablo, Pravesh Thapa Magar pet, will need to be vaccinated against Arv Vaccine on November 6."
+10239,BRUNO,2022-11-27,Wass app or phone update,FollowupRemainder,10226,2025-11-11T00:00:00.000,"BRUNO, NIRUTA KUNWAR pet, will need to be follow up for Wass app or phone update on November 11."
+10239,BRUNO,2022-11-27,Wass app or phone update,FollowupRemainder,1,2025-11-12T10:47:40.590,
+10622,Dog,,Follow,FollowupRemainder,10557,2025-11-08T00:00:00.000,"Dog, Nabin Joshi pet, will need to be follow up for Follow on November 8."
+10622,Dog,,Follow,FollowupRemainder,1,2025-11-09T09:21:00.053,
+10624,Local Cat,2025-08-08,Arv Booster,VaccinationRemainder,10558,2026-11-08T00:00:00.000,"Local Cat, Abhishek Singh pet, will need to be vaccinated against Arv Booster on November 8."
+10219,husky,2024-11-15,Annual vaccination,VaccinationRemainder,10209,2026-11-10T00:00:00.000,"husky, Bimal Raj Shrestha pet, will need to be vaccinated against Annual vaccination on November 10."
+182,sane,2016-10-18,Annual vaccination,VaccinationRemainder,175,2026-11-10T00:00:00.000,"sane, Maya Lama pet, will need to be vaccinated against Annual vaccination on November 10."
+10595,Yuki,2025-07-15,Annual vaccination,VaccinationRemainder,10535,2026-11-06T00:00:00.000,"Yuki, Ritu Sunuwar pet, will need to be vaccinated against Annual vaccination on November 6."
+14,cat,2024-06-29,Annual Vaccination,VaccinationRemainder,13,2026-11-06T00:00:00.000,"cat, Bhum prasad Oli pet, will need to be vaccinated against Annual Vaccination on November 6."
+10626,Oreo,2025-08-10,Follow up vaccination (New),VaccinationRemainder,10560,2025-11-15T00:00:00.000,"Oreo, Ansu Rai pet, will need to be vaccinated against Follow up vaccination (New) on November 15."
+10626,Oreo,2025-08-10,Follow up vaccination (New),VaccinationRemainder,1,2025-11-16T08:42:30.467,
+10218,Rambo,2022-11-14,Annual vaccination,VaccinationRemainder,10208,2026-11-12T00:00:00.000,"x, Simrik X pet, will need to be vaccinated against Annual vaccination on November 12."
+10615,Rio,2025-10-02,Booster Dhppil,VaccinationRemainder,10551,2025-12-12T00:00:00.000,"Rio, Mahesh Majhi pet, will need to be vaccinated against Booster Dhppil on December 12."
+10627,Gori,2025-08-12,Annual Vaccination,VaccinationRemainder,10561,2026-11-11T00:00:00.000,"Gori & Leo, Prakhyat Shrestha pet, will need to be vaccinated against Annual Vaccination on November 11."
+10628,Sunny,2025-06-14,Update,FollowupRemainder,10562,2025-11-21T00:00:00.000,"Sunny, Dipendra Kaini pet, will need to be follow up for Update on November 21."
+10628,Sunny,2025-06-14,Update,FollowupRemainder,1,2025-11-22T15:32:12.293,
+10630,Sani,,Update condition,FollowupRemainder,10564,2025-11-21T00:00:00.000,"Sani, Dibya Mishra pet, will need to be follow up for Update condition on November 21."
+10630,Sani,,Update condition,FollowupRemainder,1,2025-11-22T15:32:12.293,
+173,MADDY,2015-10-11,Annual vaccination,VaccinationRemainder,166,2026-11-13T00:00:00.000,"MADDY, Amit Baniya pet, will need to be vaccinated against Annual vaccination on November 13."
+10407,Riner,2020-04-28,Annual vaccination,VaccinationRemainder,10367,2026-11-13T00:00:00.000,"Riner, Bimal KC pet, will need to be vaccinated against Annual vaccination on November 13."
+10631,Kenzo,2021-11-16,Follow up,FollowupRemainder,10565,2025-11-23T00:00:00.000,"Kenzo, Bishnu Rai pet, will need to be follow up for Follow up on November 23."
+10631,Kenzo,2021-11-16,Follow up,FollowupRemainder,1,2025-11-24T16:00:49.807,
+10591,Sookie,2025-08-15,Annual vaccination,VaccinationRemainder,10532,2026-11-14T00:00:00.000,"Sookie, Prem lal Maharjan pet, will need to be vaccinated against Annual vaccination on November 14."
+10203,unknown,2016-11-06,Annual vaccination,VaccinationRemainder,10195,2026-11-17T00:00:00.000,"unknown, Meena Paudel pet, will need to be vaccinated against Annual vaccination on November 17."
+10634,Dog,2025-10-11,Booster Dhppil and Arv,VaccinationRemainder,10567,2025-12-13T00:00:00.000,"Dog, Salina Shrestha pet, will need to be vaccinated against Booster Dhppil and Arv on December 13."
+10634,Dog,2025-10-11,Booster Dhppil and Arv,VaccinationRemainder,1,2025-12-14T13:51:03.677,
+10457,Jony,2024-07-10,Annual vaccination Arv,VaccinationRemainder,10271,2026-11-17T00:00:00.000,"Jony, Jigyasa Rawal pet, will need to be vaccinated against Annual vaccination Arv on November 17."
+10633,Yuki,2025-10-04,Follow up,FollowupRemainder,10566,2025-11-22T00:00:00.000,"Yuki, Ranjana Rai pet, will need to be follow up for Follow up on November 22."
+10633,Yuki,2025-10-04,Follow up,FollowupRemainder,1,2025-11-23T12:09:49.667,
+10412,Tsuki,,Follow up,FollowupRemainder,10372,2025-11-25T00:00:00.000,"Tsuki, Sarthak Shrestha pet, will need to be follow up for Follow up on November 25."
+10412,Tsuki,,Follow up,FollowupRemainder,1,2025-11-26T15:56:11.130,
+10510,Kalu,2024-12-17,Follow up,FollowupRemainder,10459,2025-11-23T00:00:00.000,"Kalu, Priya Dcruz pet, will need to be follow up for Follow up on November 23."
+10510,Kalu,2024-12-17,Follow up,FollowupRemainder,1,2025-11-24T16:00:49.810,
+10224,BROWNIE,2024-11-19,Annual vaccination,VaccinationRemainder,10213,2026-11-20T00:00:00.000,"BROWNIE, SAFIR RAJKARNIKAR pet, will need to be vaccinated against Annual vaccination on November 20."
+10222,LEO,2022-11-20,Annual Vaccination,VaccinationRemainder,10212,2026-11-20T00:00:00.000,"LEO, SUNNY RAJ SHRESTHA pet, will need to be vaccinated against Annual Vaccination on November 20."
+10229,PIXEL,2024-11-22,Annual Vaccination,VaccinationRemainder,10217,2026-11-20T00:00:00.000,"PIXEL, KIRAN BK pet, will need to be vaccinated against Annual Vaccination on November 20."
+10636,Haru,2021-11-20,Follow up,FollowupRemainder,10569,2025-12-07T00:00:00.000,"Haru, Rojina Thapa Magar pet, will need to be follow up for Follow up on December 7."
+10636,Haru,2021-11-20,Follow up,FollowupRemainder,1,2025-12-08T15:08:53.560,
+10261,Lucy,2023-06-26,Take update,FollowupRemainder,10247,2025-11-29T00:00:00.000,"Lucy, Dewakar Karki pet, will need to be follow up for Take update on November 29."
+10261,Lucy,2023-06-26,Take update,FollowupRemainder,1,2025-11-30T11:45:34.017,
+10607,Tiger,2014-10-22,Update,FollowupRemainder,10544,2025-11-29T00:00:00.000,"Tiger, Archana Joshi pet, will need to be follow up for Update on November 29."
+10607,Tiger,2014-10-22,Update,FollowupRemainder,1,2025-11-30T11:45:34.020,
+164,MIsty,2016-10-07,Blood recheck,FollowupRemainder,159,2025-12-12T00:00:00.000,"MIsty, Namita Thapa pet, will need to be follow up for Blood recheck on December 12."
+10635,Esnu,2017-11-20,Take update,FollowupRemainder,10568,2025-11-29T00:00:00.000,"Esnu, Parusha Budathoki pet, will need to be follow up for Take update on November 29."
+10635,Esnu,2017-11-20,Take update,FollowupRemainder,1,2025-11-30T11:45:34.020,
+10436,Blue,2025-02-25,Stitch removal,FollowupRemainder,151,2025-12-02T00:00:00.000,"Blue, SHIVANI SHAH pet, will need to be follow up for Stitch removal on December 2."
+10436,Blue,2025-02-25,Stitch removal,FollowupRemainder,1,2025-12-03T11:06:34.703,
+10523,Lily,2022-07-23,Update,FollowupRemainder,10472,2025-11-23T00:00:00.000,"Lily, Jambika Kc pet, will need to be follow up for Update on November 23."
+10523,Lily,2022-07-23,Update,FollowupRemainder,1,2025-11-24T16:00:49.810,
+10350,MiMi,2025-03-17,Take update,FollowupRemainder,10322,2025-11-23T00:00:00.000,"MiMi, Prabin Shrestha pet, will need to be follow up for Take update on November 23."
+10350,MiMi,2025-03-17,Take update,FollowupRemainder,1,2025-11-24T16:00:49.810,
+10517,Community dog,2018-07-21,Annual vaccination,VaccinationRemainder,10466,2026-07-20T00:00:00.000,"Community dog, Binod Risal pet, will need to be vaccinated against Annual vaccination on July 20."
+10639,Angel,2025-09-25,Booster vaccine (Dhppil and Arv),VaccinationRemainder,10572,2025-12-24T00:00:00.000,"Angel, Bigyan Kc pet, will need to be vaccinated against Booster vaccine (Dhppil and Arv) on December 24."
+10639,Angel,2025-09-25,Booster vaccine (Dhppil and Arv),VaccinationRemainder,1,2025-12-25T17:01:46.540,
+10640,Sweety,,Anti rabies vaccination,FollowupRemainder,10573,2026-11-23T00:00:00.000,"Sweety, Dipesh Neupane pet, will need to be follow up for Anti rabies vaccination on November 23."
+10640,Sweety,,Update,FollowupRemainder,10573,2025-12-05T00:00:00.000,"Sweety, Dipesh Neupane pet, will need to be follow up for Update on December 5."
+10640,Sweety,,Update,FollowupRemainder,1,2025-12-06T08:41:54.127,
+10638,Soul,2022-11-24,Stitch cutting,FollowupRemainder,10571,2025-12-05T00:00:00.000,"Soul, Deeasha Basnet pet, will need to be follow up for Stitch cutting on December 5."
+10638,Soul,2022-11-24,Stitch cutting,FollowupRemainder,1,2025-12-06T08:41:54.127,
+10238,KHAIRU,2019-11-27,Booster,VaccinationRemainder,10225,2026-11-24T00:00:00.000,"KHAIRU, SUDIP MANANDHAR pet, will need to be vaccinated against Booster on November 24."
+10206,Max,2019-11-06,Booster,VaccinationRemainder,10198,2026-11-25T00:00:00.000,"unknown, Reena Shrestha pet, will need to be vaccinated against Booster on November 25."
+104,Lily,2020-08-31,Annual Vaccination,VaccinationRemainder,100,2026-11-26T00:00:00.000,"Lily, shiva mali pet, will need to be vaccinated against Annual Vaccination on November 26."
+10641,Pukuli,2019-11-27,Vaccination,FollowupRemainder,10574,2025-11-30T00:00:00.000,"Pukuli, Sumnima Rai pet, will need to be follow up for Vaccination on November 30."
+10641,Pukuli,2019-11-27,Vaccination,FollowupRemainder,1,2025-12-01T10:38:31.487,
+10642,GUMBO,2019-11-27,Follow up,FollowupRemainder,10575,2025-11-28T00:00:00.000,"Unknown, Abhishek  KC pet, will need to be follow up for Follow up on November 28."
+10642,GUMBO,2019-11-27,Follow up,FollowupRemainder,1,2025-11-29T09:12:39.840,
+10643,Kali,,Update,FollowupRemainder,10576,2025-12-02T00:00:00.000,"Kali, Aarishi Shah pet, will need to be follow up for Update on December 2."
+10643,Kali,,Update,FollowupRemainder,1,2025-12-03T11:06:34.703,
+10644,Bella,2025-07-28,Booster Dhppil and Arv,VaccinationRemainder,10577,2025-12-20T00:00:00.000,"Bella, Sita Thapa pet, will need to be vaccinated against Booster Dhppil and Arv on December 20."
+10644,Bella,2025-07-28,Booster Dhppil and Arv,VaccinationRemainder,1,2025-12-21T13:35:31.423,
+10630,Sani,,Update,FollowupRemainder,10564,2025-12-07T00:00:00.000,"Sani, Dibya Mishra pet, will need to be follow up for Update on December 7."
+10630,Sani,,Update,FollowupRemainder,1,2025-12-08T15:08:53.560,
+10646,QB,2017-11-28,Anti rabies,Follow-up / Vaccination,10579,2026-11-28T00:00:00.000,"QB, Surendra  Rai pet, will need to be visit for Anti rabies on November 28."
+10647,Rott,,Booster anti rabies,VaccinationRemainder,131,2026-11-27T00:00:00.000,"Rott, sunil  maharjan pet, will need to be vaccinated against Booster anti rabies on November 27."
+10648,JS,,Booster anti rabies,VaccinationRemainder,131,2026-11-27T00:00:00.000,"JS, sunil  maharjan pet, will need to be vaccinated against Booster anti rabies on November 27."
+10649,Yuki,2017-11-30,Wound update,FollowupRemainder,10580,2025-12-05T00:00:00.000,"Yuki, Roma Adhikari pet, will need to be follow up for Wound update on December 5."
+10649,Yuki,2017-11-30,Wound update,FollowupRemainder,1,2025-12-06T08:41:54.127,
+10650,Jasper,2019-11-30,Annual booster,VaccinationRemainder,10581,2026-11-30T00:00:00.000,"Jasper, Aakrity Shrestha pet, will need to be vaccinated against Annual booster on November 30."
+10651,Dog,2025-09-30,X ray follow up,FollowupRemainder,10582,2025-12-14T00:00:00.000,"Dog, Jeena Parajuli pet, will need to be follow up for X ray follow up on December 14."
+10651,Dog,2025-09-30,X ray follow up,FollowupRemainder,1,2025-12-15T16:41:16.373,
+10458,Tate,2016-11-29,Repeat liver function and kidney function,Blood Test,61,2025-12-06T00:00:00.000,"Tate, Sharmila Bista pet, will need to be visit for Repeat liver function and kidney function  on December 6."
+10458,Tate,2016-11-29,Repeat liver function and kidney function,Blood Test,1,2025-12-07T19:02:53.937,
+10654,Lucy,,Annual Rabies Vaccination,VaccinationRemainder,10585,2026-12-04T00:00:00.000,"Lucy, Kalidash Shrestha pet, will need to be vaccinated against Annual Rabies Vaccination on December 4."
+10655,Appy,2023-12-05,Annual vaccination,VaccinationRemainder,10416,2026-12-05T00:00:00.000,"Appy, Sadis Chhetri pet, will need to be vaccinated against Annual vaccination on December 5."
+10657,Melo,2025-10-20,Dhppil and Arv vaccine,VaccinationRemainder,10589,2026-01-08T00:00:00.000,"Melo, Dipesh Giri pet, will need to be vaccinated against Dhppil and Arv vaccine on January 8."
+10657,Melo,2025-10-20,Dhppil and Arv vaccine,VaccinationRemainder,1,2026-01-09T09:30:26.000,
+64,prince,2019-07-25,Annual vaccination,VaccinationRemainder,61,2026-12-13T00:00:00.000,"prince, Sharmila Bista pet, will need to be vaccinated against Annual vaccination on December 13."
+179,Hero,2023-10-17,Annual vaccination,VaccinationRemainder,172,2026-12-11T00:00:00.000,"Hero, Sweta Shrestha pet, will need to be vaccinated against Annual vaccination on December 11."
+10257,snooky,2024-12-18,Annual vaccination,VaccinationRemainder,10243,2026-12-17T00:00:00.000,"snooky, Jason Gurung pet, will need to be vaccinated against Annual vaccination on December 17."
+129,Lily,2021-09-15,Annual vaccination,VaccinationRemainder,127,2026-12-17T00:00:00.000,"Lily, Rachana Shrestha pet, will need to be vaccinated against Annual vaccination on December 17."
+139,lily,2021-09-23,Annual vaccination,VaccinationRemainder,137,2026-12-17T00:00:00.000,"lily, Anira Shrestha pet, will need to be vaccinated against Annual vaccination on December 17."
+10660,Mimi,2025-11-07,First vaccination,VaccinationRemainder,10593,2025-12-25T00:00:00.000,"Mimi, Ashma Shrestha pet, will need to be vaccinated against First vaccination on December 25."
+10660,Mimi,2025-11-07,First vaccination,VaccinationRemainder,1,2025-12-26T16:25:12.613,
+10261,Lucy,2023-06-26,Annual vaccination,VaccinationRemainder,10247,2026-12-13T00:00:00.000,"Lucy, Dewakar Karki pet, will need to be vaccinated against Annual vaccination on December 13."
+10640,Sweety,,Follow up injection,FollowupRemainder,10573,2025-12-20T00:00:00.000,"Sweety, Dipesh Neupane pet, will need to be follow up for Follow up injection on December 20."
+10640,Sweety,,Follow up injection,FollowupRemainder,1,2025-12-21T13:35:31.423,
+10356,Tiger,2015-03-20,Follow up update,FollowupRemainder,10326,2025-12-22T00:00:00.000,"Tiger, Siddhi Deshar pet, will need to be follow up for Follow up update on December 22."
+10356,Tiger,2015-03-20,Follow up update,FollowupRemainder,1,2025-12-23T10:21:22.660,
+10664,Unknown,,Vaccination,VaccinationRemainder,10595,2025-12-29T00:00:00.000,"Unknown, Palden Lah pet, will need to be vaccinated against Vaccination on December 29."
+10241,RAKA,2024-11-29,Annual vaccination,VaccinationRemainder,10228,2026-12-01T00:00:00.000,"RAKA, Ramesh Maharjan pet, will need to be vaccinated against Annual vaccination on December 1."
+10670,Cat,2021-12-21,Follow up to obtain a  clinical update,FollowupRemainder,10601,2026-01-03T00:00:00.000,"Cat, Usha Bhatta pet, will need to be follow up for Follow up to obtain a  clinical update on January 3."
+10644,Bella,2025-07-28,Annual vaccination,VaccinationRemainder,10577,2026-12-21T00:00:00.000,"Bella, Sita Thapa pet, will need to be vaccinated against Annual vaccination on December 21."
+10526,Angel,2022-07-25,Annual vaccination,VaccinationRemainder,10475,2026-12-25T00:00:00.000,"Angel, Sirish Joshi pet, will need to be vaccinated against Annual vaccination on December 25."
+10626,Oreo,2025-08-10,Annual vaccination,VaccinationRemainder,10560,2026-12-26T00:00:00.000,"Oreo, Ansu Rai pet, will need to be vaccinated against Annual vaccination on December 26."
+10677,Bravo,2025-10-26,Booster rabies and dhppil,VaccinationRemainder,10607,2026-01-25T00:00:00.000,"Bravo, Sanjoj Dhakal pet, will need to be vaccinated against Booster rabies and dhppil on January 25."
+10679,Suri,,Annual vaccination,VaccinationRemainder,10608,2026-12-21T00:00:00.000,"Suri, Koshika Acharya pet, will need to be vaccinated against Annual vaccination on December 21."
+10486,Sweeti,,Update and med add,FollowupRemainder,10438,2025-12-30T00:00:00.000,"Sweeti, Narayan Karki pet, will need to be follow up for Update and med add on December 30."
+10486,Sweeti,,Update and med add,FollowupRemainder,1,2025-12-31T12:01:51.897,
+10683,Yumi,2025-07-31,update,FollowupRemainder,10611,2026-01-07T00:00:00.000,"Yumi, sumnima Mabo pet, will need to be follow up for update on January 7."
+10683,Yumi,2025-07-31,update,FollowupRemainder,1,2026-01-08T14:49:08.090,
+10684,Jelly,2023-12-31,UPDATE,FollowupRemainder,10527,2026-01-10T00:00:00.000,"Jelly, Ishan Ishan pet, will need to be follow up for UPDATE on January 10."
+10684,Jelly,2023-12-31,UPDATE,FollowupRemainder,1,2026-01-11T18:38:56.647,
+10674,Joy,2017-12-26,update,FollowupRemainder,10604,2026-01-11T00:00:00.000,"Joy, Prava Baral pet, will need to be follow up for update on January 11."
+10674,Joy,2017-12-26,update,FollowupRemainder,1,2026-01-12T16:03:15.490,
+10664,Unknown,,annual vaccination,VaccinationRemainder,10595,2026-12-31T00:00:00.000,"Unknown, Palden Lah pet, will need to be vaccinated against annual vaccination on December 31."
+10664,Unknown,,annual vaccination,VaccinationRemainder,10595,2026-12-31T00:00:00.000,"Unknown, Palden Lah pet, will need to be vaccinated against annual vaccination on December 31."
+10639,Angel,2025-09-25,annual vaccination,VaccinationRemainder,10572,2026-12-31T00:00:00.000,"Angel, Bigyan Kc pet, will need to be vaccinated against annual vaccination on December 31."
+10685,Bruno,2025-02-28,booster vaccination,VaccinationRemainder,10612,2026-01-31T00:00:00.000,"Bruno, Shishir Bhusal pet, will need to be vaccinated against booster vaccination on January 31."
+10639,Angel,2025-09-25,RABIES BOOSTER,VaccinationRemainder,10572,2026-01-31T00:00:00.000,"Angel, Bigyan Kc pet, will need to be vaccinated against RABIES BOOSTER on January 31."
+10686,Kale,,follow up visit,FollowupRemainder,10613,2026-01-06T00:00:00.000,"Kale, Abhishek Singh pet, will need to be follow up for follow up visit on January 6."
+10686,Kale,,follow up visit,FollowupRemainder,1,2026-01-07T10:38:25.747,
+10688,Luna,2025-04-30,update,FollowupRemainder,10615,2026-01-07T00:00:00.000,"Luna, Divya Mahat pet, will need to be follow up for update on January 7."
+10688,Luna,2025-04-30,update,FollowupRemainder,1,2026-01-08T14:49:08.093,
+10634,Dog,2025-10-11,annual vaccination,VaccinationRemainder,10567,2026-12-29T00:00:00.000,"Dog, Salina Shrestha pet, will need to be vaccinated against annual vaccination on December 29."
+154,Maggie das,2021-09-30,Annual vaccination,VaccinationRemainder,149,2027-01-01T00:00:00.000,"Maggie das, Narayan das pet, will need to be vaccinated against Annual vaccination on January 1."
+10611,Jenny,,PHC BOOSTER,VaccinationRemainder,10547,2026-12-30T00:00:00.000,"Meow, Reena Shrestha pet, will need to be vaccinated against PHC BOOSTER on December 30."
+10213,tashi,2024-11-11,Update,FollowupRemainder,10204,2026-01-06T00:00:00.000,"tashi, Sanjay Shrestha pet, will need to be follow up for Update on January 6."
+10213,tashi,2024-11-11,Update,FollowupRemainder,1,2026-01-07T10:38:25.747,
+10690,Jimmy,2025-11-01,Update,FollowupRemainder,10617,2026-01-06T00:00:00.000,"Jimmy, Ajay Karki pet, will need to be follow up for Update on January 6."
+10690,Jimmy,2025-11-01,Update,FollowupRemainder,1,2026-01-07T10:38:25.747,
+10216,kali,2021-06-09,annual vaccination,VaccinationRemainder,10206,2027-01-04T00:00:00.000,"kali, Pranisha Silwal pet, will need to be vaccinated against annual vaccination on January 4."
+10638,Soul,2022-11-24,update and follow up,FollowupRemainder,10571,2026-01-10T00:00:00.000,"Soul, Deeasha Basnet pet, will need to be follow up for update and follow up on January 10."
+10638,Soul,2022-11-24,update and follow up,FollowupRemainder,1,2026-01-11T18:38:56.647,
+10691,Max,2025-10-05,FOLLOW UP UPDATE,FollowupRemainder,10618,2026-02-02T00:00:00.000,"Max, Sarita Rai pet, will need to be follow up for FOLLOW UP UPDATE on February 2."
+10692,June,2024-01-06,annual vaccination,VaccinationRemainder,10619,2027-01-06T00:00:00.000,"June, Binjila Shakya pet, will need to be vaccinated against annual vaccination on January 6."
+10693,Simba,2025-10-06,annual vaccination,VaccinationRemainder,10620,2027-01-03T00:00:00.000,"Simba, Chandani Karmacharya pet, will need to be vaccinated against annual vaccination on January 3."
+10603,chibbi,2025-03-01,booster vaccination PHC,VaccinationRemainder,10514,2026-01-22T00:00:00.000,"chibbi, Subham Shakya pet, will need to be vaccinated against booster vaccination PHC on January 22."
+10603,chibbi,2025-03-01,booster vaccination PHC,VaccinationRemainder,1,2026-01-23T15:21:27.527,
+10231,spitz,2023-11-23,annual vaccination,VaccinationRemainder,10219,2027-01-08T00:00:00.000,"spitz, Ariga Khadka pet, will need to be vaccinated against annual vaccination on January 8."
+10694,Kenji,2025-10-08,PHC BOOSTER,VaccinationRemainder,10621,2026-01-29T00:00:00.000,"Kenji, Prajwal Rai pet, will need to be vaccinated against PHC BOOSTER on January 29."
+10694,Kenji,2025-10-08,PHC BOOSTER,VaccinationRemainder,1,2026-01-30T10:41:05.343,
+10696,Kaju,2025-12-12,First vaccination,VaccinationRemainder,10623,2026-01-23T00:00:00.000,"Kaju, Rimsha Maharjan pet, will need to be vaccinated against First vaccination on January 23."
+10696,Kaju,2025-12-12,First vaccination,VaccinationRemainder,1,2026-01-24T15:38:48.120,
+10269,japanese spitz,2022-01-12,annual vaccination,VaccinationRemainder,10255,2027-01-08T00:00:00.000,"japanese spitz, Sami Shrestha pet, will need to be vaccinated against annual vaccination on January 8."
+10657,Melo,2025-10-20,rabies vaccination,VaccinationRemainder,10589,2026-02-01T00:00:00.000,"Melo, Dipesh Giri pet, will need to be vaccinated against rabies vaccination on February 1."
+10657,Melo,2025-10-20,rabies vaccination,VaccinationRemainder,1,2026-02-02T18:02:22.157,
+10258,buka,2022-12-19,Annual vaccination,VaccinationRemainder,10245,2026-01-11T00:00:00.000,"buka, Sushant Pradhan pet, will need to be vaccinated against Annual vaccination on January 11."
+10258,buka,2022-12-19,Annual vaccination,VaccinationRemainder,1,2026-01-12T16:03:15.490,
+10699,Pugu,2025-11-11,Dhppil booster and antirabies,VaccinationRemainder,10626,2026-02-10T00:00:00.000,"Pugu, Shristi Thapa magar pet, will need to be vaccinated against Dhppil booster and antirabies on February 10."
+10699,Pugu,2025-11-11,Dhppil booster and antirabies,VaccinationRemainder,1,2026-02-11T10:51:14.797,
+10258,buka,2022-12-19,Annual vaccination,VaccinationRemainder,10245,2027-01-11T00:00:00.000,"buka, Sushant Pradhan pet, will need to be vaccinated against Annual vaccination on January 11."
+10704,Biralo,2025-01-15,annual vaccination,VaccinationRemainder,10630,2027-01-13T00:00:00.000,"Biralo, Naim Khan pet, will need to be vaccinated against annual vaccination on January 13."
+10704,Biralo,2025-01-15,Update and follow up injection,FollowupRemainder,10630,2026-01-20T00:00:00.000,"Biralo, Naim Khan pet, will need to be follow up for Update and follow up injection on January 20."
+10705,Community dog,2025-11-15,follow up update,FollowupRemainder,22,2026-01-20T00:00:00.000,"Community dog, Sanjan Gautam pet, will need to be follow up for follow up update on January 20."
+10274,pami,2022-01-23,Annual vaccination,VaccinationRemainder,10259,2027-01-16T00:00:00.000,"pami, Anita Thapa pet, will need to be vaccinated against Annual vaccination on January 16."
+10706,Seti,2018-01-16,Repeat X Ray,FollowupRemainder,10631,2026-02-16T00:00:00.000,"Seti, Sujan KC pet, will need to be follow up for Repeat X Ray on February 16."
+10706,Seti,2018-01-16,Repeat X Ray,FollowupRemainder,1,2026-02-17T15:59:13.480,
+175,Tobby,2016-04-13,Follow up update,FollowupRemainder,168,2026-01-23T00:00:00.000,"Tobby, Astha Shakya pet, will need to be follow up for Follow up update on January 23."
+175,Tobby,2016-04-13,Follow up update,FollowupRemainder,1,2026-01-24T15:38:48.120,
+10707,Moto,2021-01-16,Update,FollowupRemainder,10632,2026-01-23T00:00:00.000,"Moto, Ishwor Bode pet, will need to be follow up for Update on January 23."
+10707,Moto,2021-01-16,Update,FollowupRemainder,1,2026-01-24T15:38:48.120,
+10233,bogi,2024-11-24,Annual Vaccination,VaccinationRemainder,10220,2027-01-20T00:00:00.000,"bogi, Akash Puri pet, will need to be vaccinated against Annual Vaccination on January 20."
+10708,Ruru,2023-01-20,Annual vaccination,VaccinationRemainder,10633,2027-01-19T00:00:00.000,"Ruru, Sneha Ojaswi pet, will need to be vaccinated against Annual vaccination on January 19."
+16,Popcorn,2020-07-02,Annual vaccination,VaccinationRemainder,15,2026-12-24T00:00:00.000,"Popcorn, Dev Bista pet, will need to be vaccinated against Annual vaccination on December 24."
+10709,Kubu,2025-10-20,Annual vaccination,VaccinationRemainder,10634,2027-01-20T00:00:00.000,"Kubu, Kubu Bhattarai pet, will need to be vaccinated against Annual vaccination on January 20."
+10710,Rocky,2025-01-20,Follow up update,FollowupRemainder,10635,2026-01-24T00:00:00.000,"Rocky, Pralab Maharjan pet, will need to be follow up for Follow up update on January 24."
+10710,Rocky,2025-01-20,Follow up update,FollowupRemainder,1,2026-01-25T10:40:24.987,
+10286,Labrador,2025-02-02,Annual Vaccination,VaccinationRemainder,10270,2027-01-22T00:00:00.000,"Labrador, Bijeeta Mandal pet, will need to be vaccinated against Annual Vaccination on January 22."
+10589,Cat,,Annual vaccination,VaccinationRemainder,10530,2026-10-13T00:00:00.000,"Cat, Awantika Joshi pet, will need to be vaccinated against Annual vaccination on October 13."
+10711,Bhuke,2024-01-23,Annual vaccination,VaccinationRemainder,10636,2027-01-23T00:00:00.000,"Bhuke, Madan Kumar Shrestha pet, will need to be vaccinated against Annual vaccination on January 23."
+10712,Maiya,,Annual vaccination,VaccinationRemainder,14,2027-01-02T00:00:00.000,"Maiya, RUCHIKA BAIDHYA pet, will need to be vaccinated against Annual vaccination on January 2."
+10246,Jacky,2014-12-08,annual vaccination,VaccinationRemainder,10233,2027-01-25T00:00:00.000,"Jacky, Saisa Budathoki pet, will need to be vaccinated against annual vaccination on January 25."
+10718,Khaire,2022-01-27,Follow up update,FollowupRemainder,10639,2026-02-03T00:00:00.000,"Khaire, Sanjan Basnet pet, will need to be follow up for Follow up update on February 3."
+10718,Khaire,2022-01-27,Follow up update,FollowupRemainder,1,2026-02-04T18:39:34.487,
+10719,Coini,2025-10-27,PHC reminder,FollowupRemainder,10640,2026-02-25T00:00:00.000,"Coini, Jeevan Dotel pet, will need to be follow up for PHC reminder on February 25."
+10726,Lily,2025-06-05,Booster vaccination,VaccinationRemainder,10646,2026-03-05T00:00:00.000,"Lily, Sabitri Shrestha pet, will need to be vaccinated against Booster vaccination on March 5."
+10726,Lily,2025-06-05,Booster vaccination,VaccinationRemainder,1,2026-03-06T09:14:52.677,
+71,LUFY,2023-08-29,Annual vaccination,VaccinationRemainder,68,2027-02-05T00:00:00.000,"LUFY, BIDISHA SHRESTHA pet, will need to be vaccinated against Annual vaccination on February 5."
+10271,Scooby,,Booster vaccination dhppil,VaccinationRemainder,10256,2026-03-03T00:00:00.000,"Scooby, Upasana Shrestha pet, will need to be vaccinated against Booster vaccination dhppil on March 3."
+10271,Scooby,,Booster vaccination dhppil,VaccinationRemainder,1,2026-03-04T16:00:30.837,
+10694,Kenji,2025-10-08,Annual vaccination,VaccinationRemainder,10621,2027-01-25T00:00:00.000,"Kenji, Prajwal Rai pet, will need to be vaccinated against Annual vaccination on January 25."
+10299,Nala,2015-02-08,Annual vaccination,VaccinationRemainder,10280,2027-02-06T00:00:00.000,"Nala, Simrita Rana pet, will need to be vaccinated against Annual vaccination on February 6."
+10300,Tin tin,2022-02-08,Annual vaccination,VaccinationRemainder,10280,2027-02-06T00:00:00.000,"Tin tin, Simrita Rana pet, will need to be vaccinated against Annual vaccination  on February 6."
+10728,Mai,2025-12-07,Annual vaccination,VaccinationRemainder,10647,2026-03-07T00:00:00.000,"Mai, Suresh Shrestha pet, will need to be vaccinated against Annual vaccination on March 7."
+10728,Mai,2025-12-07,Annual vaccination,VaccinationRemainder,1,2026-03-08T12:52:36.103,
+10295,Princy,2015-02-06,Annual vaccination,VaccinationRemainder,10276,2027-02-06T00:00:00.000,"Princy, Rajana Shrestha pet, will need to be vaccinated against Annual vaccination on February 6."
+10641,Pukuli,2019-11-27,Bravecto,FollowupRemainder,10574,2026-02-23T00:00:00.000,"Pukuli, Sumnima Rai pet, will need to be follow up for Bravecto on February 23."
+10641,Pukuli,2019-11-27,Bravecto,FollowupRemainder,1,2026-02-24T15:46:29.700,
+10731,Sora,,Annual vaccination,VaccinationRemainder,10339,2027-02-10T00:00:00.000,"Sora, Rajiv Tamang pet, will need to be vaccinated against Annual vaccination on February 10."
+10733,Meuso,2025-12-11,phc and arv,VaccinationRemainder,10650,2026-03-11T00:00:00.000,"enzo, janvi khadka pet, will need to be vaccinated against phc and arv on March 11."
+10733,Meuso,2025-12-11,phc and arv,VaccinationRemainder,1,2026-03-12T09:46:12.457,
+171,cookie,2023-10-10,Annual vaccination,VaccinationRemainder,164,2027-02-08T00:00:00.000,"cookie, Poonam Shrestha pet, will need to be vaccinated against Annual vaccination on February 8."
+10736,Pom,2025-12-12,Booster vaccination,VaccinationRemainder,10653,2026-03-12T00:00:00.000,"Pom, Ridhima Khadgi pet, will need to be vaccinated against Booster vaccination on March 12."
+10736,Pom,2025-12-12,Booster vaccination,VaccinationRemainder,1,2026-03-13T15:27:22.423,
+10639,Angel,2025-09-25,Annual vaccination,VaccinationRemainder,10572,2026-12-15T00:00:00.000,"Angel, Bigyan Kc pet, will need to be vaccinated against Annual vaccination on December 15."
+10657,Melo,2025-10-20,Annual vaccination,VaccinationRemainder,10589,2027-02-15T00:00:00.000,"Melo, Dipesh Giri pet, will need to be vaccinated against Annual vaccination on February 15."
+10742,Lucy,2025-10-17,First vaccination,VaccinationRemainder,10659,2026-02-24T00:00:00.000,"Lucy, Firoj Timilsina pet, will need to be vaccinated against First vaccination on February 24."
+10742,Lucy,2025-10-17,First vaccination,VaccinationRemainder,1,2026-02-25T17:54:04.420,
+10739,Lily,,Reminder,FollowupRemainder,10656,2026-02-21T00:00:00.000,"Local cat, Pabita Bhujel pet, will need to be follow up for Reminder on February 21."
+10739,Lily,,Reminder,FollowupRemainder,1,2026-02-22T08:25:40.687,
+45,Moon,2023-07-19,Reminder,FollowupRemainder,43,2026-02-24T00:00:00.000,"Moon, Pramila Upreti pet, will need to be follow up for Reminder on February 24."
+45,Moon,2023-07-19,Reminder,FollowupRemainder,1,2026-02-25T17:54:04.420,
+10309,Ferry,2025-02-15,Annual vaccination,VaccinationRemainder,10283,2027-02-05T00:00:00.000,"Ferry, Atish Dangol pet, will need to be vaccinated against Annual vaccination on February 5."
+10316,Kaley,2024-02-19,Annual vaccination,VaccinationRemainder,14,2027-01-18T00:00:00.000,"Kaley, RUCHIKA BAIDHYA pet, will need to be vaccinated against Annual vaccination on January 18."
+10660,Mimi,2025-11-07,Arv,VaccinationRemainder,10593,2027-02-18T00:00:00.000,"Mimi, Ashma Shrestha pet, will need to be vaccinated against Arv on February 18."
+10745,Gole,2025-02-20,Annual vaccination,VaccinationRemainder,10661,2027-02-19T00:00:00.000,"Gole, Anisha Rana pet, will need to be vaccinated against Annual vaccination on February 19."
+10638,Soul,2022-11-24,Update,FollowupRemainder,10571,2026-02-25T00:00:00.000,"Soul, Deeasha Basnet pet, will need to be follow up for Update on February 25."
+10660,Mimi,2025-11-07,Annual vaccination,VaccinationRemainder,10593,2027-03-18T00:00:00.000,"Mimi, Ashma Shrestha pet, will need to be vaccinated against Annual vaccination on March 18."
+10746,Cherry,,Update,FollowupRemainder,10662,2026-02-25T00:00:00.000,"Cherry, Laxman Shrestha pet, will need to be follow up for Update on February 25."
+10747,Clowd,2025-02-21,Update,FollowupRemainder,10663,2026-02-28T00:00:00.000,"Clowd, Kripa Subedi pet, will need to be follow up for Update on February 28."
+10747,Clowd,2025-02-21,Update,FollowupRemainder,1,2026-03-01T15:59:51.730,
+10615,Rio,2025-10-02,Annual vaccination,VaccinationRemainder,10551,2027-02-21T00:00:00.000,"Rio, Mahesh Majhi pet, will need to be vaccinated against Annual vaccination on February 21."
+10749,Euro,2025-11-22,Annual vaccination,VaccinationRemainder,10664,2027-02-22T00:00:00.000,"Yunu, Kamala Pun pet, will need to be vaccinated against Annual vaccination on February 22."
+10750,Mun Mun,2025-02-22,Annual vaccination,VaccinationRemainder,10665,2027-02-22T00:00:00.000,"Mun Mun, Poonam Shrestha pet, will need to be vaccinated against Annual vaccination on February 22."
+10590,Shelby,,Annual vaccination,VaccinationRemainder,10531,2027-02-22T00:00:00.000,"Shelby, Saisha Maharjan pet, will need to be vaccinated against Annual vaccination on February 22."
+10597,Adi,2021-10-16,Annual vaccination,VaccinationRemainder,10537,2027-02-23T00:00:00.000,"Adi, Sanjay Ghising pet, will need to be vaccinated against Annual vaccination on February 23."
+10263,Kali,2024-12-26,Annual vaccination,VaccinationRemainder,10249,2027-02-25T00:00:00.000,"Kali, Bindhya  Tuladhar pet, will need to be vaccinated against Annual vaccination on February 25."
+10752,Kio,2025-12-27,Booster PHC Vaccination & Arv,VaccinationRemainder,10659,2026-03-26T00:00:00.000,"Kio, Firoj Timilsina pet, will need to be vaccinated against Booster PHC Vaccination & Arv on March 26."
+10752,Kio,2025-12-27,Booster PHC Vaccination & Arv,VaccinationRemainder,1,2026-03-27T09:07:59.800,
+10755,Puntu,,Annual vaccination,VaccinationRemainder,10669,2027-02-27T00:00:00.000,"Puntu, Manbahadur Khadka pet, will need to be vaccinated against Annual vaccination on February 27."
+10742,Lucy,2025-10-17,Annual vaccination,VaccinationRemainder,10659,2027-01-20T00:00:00.000,"Lucy, Firoj Timilsina pet, will need to be vaccinated against Annual vaccination on January 20."
+10759,Chibi or Kalu,2023-03-02,Anti rabies annual vaccination,VaccinationRemainder,10672,2027-03-02T00:00:00.000,"Chibi or Kalu, Urmila Tamang pet, will need to be vaccinated against Anti rabies annual vaccination on March 2."
+10271,Scooby,,Anti rabies to puppy,VaccinationRemainder,10256,2026-04-02T00:00:00.000,"Scooby, Upasana Shrestha pet, will need to be vaccinated against Anti rabies to puppy on April 2."
+10271,Scooby,,Anti rabies to puppy,VaccinationRemainder,1,2026-04-03T22:30:47.410,
+10760,JS,2023-03-03,Annual vaccination,VaccinationRemainder,10673,2027-03-03T00:00:00.000,"JS, Kul Gurung pet, will need to be vaccinated against Annual vaccination on March 3."
+10358,Appu,2025-03-23,Annual vaccination,VaccinationRemainder,10327,2027-03-06T00:00:00.000,"Appu, Pratima Budathoki pet, will need to be vaccinated against Annual vaccination  on March 6."
+10560,Dhamfu,2025-05-07,Follow up update,FollowupRemainder,10329,2026-03-13T00:00:00.000,"Dhamfu, Sugat Bajracharya pet, will need to be follow up for Follow up update on March 13."
+10560,Dhamfu,2025-05-07,Follow up update,FollowupRemainder,1,2026-03-14T13:26:17.253,
+10560,Dhamfu,2025-05-07,Follow up update,FollowupRemainder,10329,2026-03-13T00:00:00.000,"Dhamfu, Sugat Bajracharya pet, will need to be follow up for Follow up update on March 13."
+10560,Dhamfu,2025-05-07,Follow up update,FollowupRemainder,1,2026-03-14T13:26:17.253,
+10560,Dhamfu,2025-05-07,Follow up update,FollowupRemainder,10329,2026-03-13T00:00:00.000,"Dhamfu, Sugat Bajracharya pet, will need to be follow up for Follow up update on March 13."
+10560,Dhamfu,2025-05-07,Follow up update,FollowupRemainder,1,2026-03-14T13:26:17.253,
+10232,moomin / Kale,2023-10-20,Annual vaccination,VaccinationRemainder,100,2027-03-06T00:00:00.000,"moomin, shiva mali pet, will need to be vaccinated against Annual vaccination on March 6."
+10764,Motte,2026-02-07,First Vaccination,VaccinationRemainder,10677,2026-03-17T00:00:00.000,"Motte, Pradip Rai pet, will need to be vaccinated against First Vaccination on March 17."
+10764,Motte,2026-02-07,First Vaccination,VaccinationRemainder,1,2026-03-18T18:35:19.117,
+10726,Lily,2025-06-05,Annual vaccination,VaccinationRemainder,10646,2027-03-08T00:00:00.000,"Lily, Sabitri Shrestha pet, will need to be vaccinated against Annual vaccination on March 8."
+10308,Khaire,2022-02-13,Annual vaccination,VaccinationRemainder,10287,2027-03-08T00:00:00.000,"Khaire, Shree Subedi pet, will need to be vaccinated against Annual vaccination on March 8."
+10768,Cat,2025-12-10,Anti rabies and PHC,VaccinationRemainder,10680,2026-04-09T00:00:00.000,"Cat, Sang Sang Limbu pet, will need to be vaccinated against Anti rabies and PHC on April 9."
+10768,Cat,2025-12-10,Anti rabies and PHC,VaccinationRemainder,1,2026-04-10T16:04:19.107,
+10733,Meuso,2025-12-11,Ani rabies Vaccine,VaccinationRemainder,10650,2026-03-18T00:00:00.000,"Meuso, janvi khadka pet, will need to be vaccinated against Ani rabies Vaccine on March 18."
+10733,Meuso,2025-12-11,Ani rabies Vaccine,VaccinationRemainder,1,2026-03-19T14:46:51.520,
+10771,Danzy,2025-11-12,Annual vaccination,VaccinationRemainder,10682,2027-03-11T00:00:00.000,"Danzy, Malvika Shrestha pet, will need to be vaccinated against Annual vaccination on March 11."
+10690,Jimmy,2025-11-01,Booster vaccination,VaccinationRemainder,10617,2026-04-13T00:00:00.000,"Jimmy, Ajay Karki pet, will need to be vaccinated against Booster vaccination on April 13."
+10690,Jimmy,2025-11-01,Booster vaccination,VaccinationRemainder,1,2026-04-14T11:00:28.010,
+10775,Puku,2025-12-14,Booster vaccination,VaccinationRemainder,10686,2026-04-14T00:00:00.000,"Puku, Sambriddhi  Rai pet, will need to be vaccinated against Booster vaccination on April 14."
+10775,Puku,2025-12-14,Booster vaccination,VaccinationRemainder,1,2026-04-15T14:09:37.910,
+10728,Mai,2025-12-07,Arv,VaccinationRemainder,10647,2026-04-14T00:00:00.000,"Mai, Suresh Shrestha pet, will need to be vaccinated against Arv on April 14."
+10728,Mai,2025-12-07,Arv,VaccinationRemainder,1,2026-04-15T14:09:37.910,
+61,cat,2024-04-25,Annual vaccination,VaccinationRemainder,58,2027-03-15T00:00:00.000,"cat, Bijohn Maharjan pet, will need to be vaccinated against Annual vaccination on March 15."
+10778,Cat,2026-01-15,PHC VACCINE BOOSTER,VaccinationRemainder,10385,2026-04-06T00:00:00.000,"Cat, Dipti Labung pet, will need to be vaccinated against PHC VACCINE BOOSTER on April 6."
+10778,Cat,2026-01-15,PHC VACCINE BOOSTER,VaccinationRemainder,1,2026-04-07T17:59:56.520,
+10773,Snowy,2023-03-12,Follow up update and check e canis,FollowupRemainder,10684,2026-04-02T00:00:00.000,"Snowy, Bindu Rana Magar pet, will need to be follow up for Follow up update and check e canis on April 2."
+10773,Snowy,2023-03-12,Follow up update and check e canis,FollowupRemainder,1,2026-04-03T22:30:47.413,
+10315,Oreo,2021-05-21,Vaccination and castration surgery,FollowupRemainder,10293,2026-03-21T00:00:00.000,"Oreo, B R Rai pet, will need to be follow up for Vaccination and castration surgery on March 21."
+10315,Oreo,2021-05-21,Vaccination and castration surgery,FollowupRemainder,1,2026-03-22T06:59:35.677,
+10766,Zico,2025-09-08,Giardia preventive care,FollowupRemainder,10679,2026-03-20T00:00:00.000,"Zico, Utsab Maharjan pet, will need to be follow up for Giardia preventive care on March 20."
+10766,Zico,2025-09-08,Giardia preventive care,FollowupRemainder,1,2026-03-21T21:38:29.473,
+10638,Soul,2022-11-24,PHC VACCINATION,VaccinationRemainder,10571,2026-04-13T00:00:00.000,"Soul, Deeasha Basnet pet, will need to be vaccinated against PHC VACCINATION on April 13."
+10638,Soul,2022-11-24,PHC VACCINATION,VaccinationRemainder,1,2026-04-14T11:00:28.023,
+10782,Kalu,2025-11-18,booster vaccination,VaccinationRemainder,10690,2026-04-17T00:00:00.000,"Kalu, Rakesh Mahato pet, will need to be vaccinated against booster vaccination on April 17."
+10782,Kalu,2025-11-18,booster vaccination,VaccinationRemainder,1,2026-04-18T07:29:07.993,
+10764,Motte,2026-02-07,dhppil booster,VaccinationRemainder,10677,2026-04-17T00:00:00.000,"Motte, Pradip Rai pet, will need to be vaccinated against dhppil booster on April 17."
+10764,Motte,2026-02-07,dhppil booster,VaccinationRemainder,1,2026-04-18T07:29:07.993,
+10304,Coco,2021-05-11,Annual vaccination,VaccinationRemainder,10284,2027-03-23T00:00:00.000,"Coco, Mamata Khatri pet, will need to be vaccinated against Annual vaccination on March 23."
+10305,Luna,2021-05-11,Annual vaccination,VaccinationRemainder,10284,2027-03-23T00:00:00.000,"Luna, Mamata Khatri pet, will need to be vaccinated against Annual vaccination on March 23."
+10338,Leo,2025-03-08,Annual vaccination,VaccinationRemainder,10284,2027-03-23T00:00:00.000,"Leo, Mamata Khatri pet, will need to be vaccinated against Annual vaccination on March 23."
+10789,Coco,2025-12-23,Dhppil and Arv,VaccinationRemainder,10696,2026-04-06T00:00:00.000,"Coco, Rabindra Hyoju pet, will need to be vaccinated against Dhppil and Arv  on April 6."
+10789,Coco,2025-12-23,Dhppil and Arv,VaccinationRemainder,1,2026-04-07T17:59:56.520,
+10795,Merry,2013-03-28,Anti rabies vaccination,VaccinationRemainder,10702,2027-03-25T00:00:00.000,"Kalu, Ramita  pet, will need to be vaccinated against Anti rabies vaccination on March 25."
+10371,pintu,2025-04-02,Annual vaccination,VaccinationRemainder,10335,2027-03-27T00:00:00.000,"pintu, Ganga Mehta pet, will need to be vaccinated against Annual vaccination on March 27."
+10371,pintu,2025-04-02,Half simparica,Update,10335,2026-09-27T00:00:00.000,"pintu, Ganga Mehta pet, will need to be visit for Half simparica on September 27."
+10799,Rocky,2016-03-27,Bandaging change,FollowupRemainder,10704,2026-03-29T00:00:00.000,"Rocky, Laxmi Shrestha pet, will need to be follow up for Bandaging change on March 29."
+10799,Rocky,2016-03-27,Bandaging change,FollowupRemainder,1,2026-03-30T12:16:05.770,
+10699,Pugu,2025-11-11,Annual vaccination,VaccinationRemainder,10626,2027-03-28T00:00:00.000,"Pugu, Shristi Thapa magar pet, will need to be vaccinated against Annual vaccination on March 28."
+202,Feri,2019-11-06,Annual vaccination,VaccinationRemainder,195,2027-03-03T00:00:00.000,"Feri, Archana Shakya pet, will need to be vaccinated against Annual vaccination on March 3."
+10342,Cricket,2016-03-11,Annual vaccination,VaccinationRemainder,10313,2027-03-28T00:00:00.000,"Cricket, Mahasachiv Mahasachiv pet, will need to be vaccinated against Annual vaccination on March 28."
+10366,Dog,2024-03-27,annual vaccination,VaccinationRemainder,10330,2027-03-27T00:00:00.000,"Dog, Niran Shahi pet, will need to be vaccinated against annual vaccination on March 27."
+98,Lucky,2021-08-27,annual vaccination,VaccinationRemainder,93,2027-03-31T00:00:00.000,"Lucky, Prashant Jha pet, will need to be vaccinated against annual vaccination on March 31."
+10808,Goldie,,annual vaccination,VaccinationRemainder,93,2027-03-31T00:00:00.000,"Goldie, Prashant Jha pet, will need to be vaccinated against annual vaccination on March 31."
+10794,Coco,2026-01-25,dhppil vaccination,VaccinationRemainder,10701,2026-04-05T00:00:00.000,"Coco, Ayush Neupane pet, will need to be vaccinated against dhppil vaccination on April 5."
+10794,Coco,2026-01-25,dhppil vaccination,VaccinationRemainder,1,2026-04-06T10:03:50.900,
+10764,Motte,2026-02-07,skin issue,FollowupRemainder,10677,2026-04-05T00:00:00.000,"Motte, Pradip Rai pet, will need to be follow up for skin issue on April 5."
+10764,Motte,2026-02-07,skin issue,FollowupRemainder,1,2026-04-06T10:03:50.900,
+10802,Luka,2025-02-26,simparica medication,FollowupRemainder,10707,2026-04-05T00:00:00.000,"Luka, Gita Shrestha pet, will need to be follow up for simparica medication on April 5."
+10802,Luka,2025-02-26,simparica medication,FollowupRemainder,1,2026-04-06T10:03:50.900,
+10811,JS,2014-04-01,annual vaccination,VaccinationRemainder,10714,2027-03-29T00:00:00.000,"JS, Rubika Shrestha pet, will need to be vaccinated against annual vaccination on March 29."
+10731,Sora,,dhppil vaccination,VaccinationRemainder,10339,2026-04-05T00:00:00.000,"Sora, Rajiv Tamang pet, will need to be vaccinated against dhppil vaccination on April 5."
+10731,Sora,,dhppil vaccination,VaccinationRemainder,1,2026-04-06T10:03:50.900,
+60,cat,2024-07-25,Annual vaccination,VaccinationRemainder,57,2027-04-05T00:00:00.000,"cat, Georjina Joshi pet, will need to be vaccinated against Annual vaccination on April 5."
+10778,Cat,2026-01-15,Annual vaccination,VaccinationRemainder,10385,2027-04-04T00:00:00.000,"Cat, Dipti Labung pet, will need to be vaccinated against Annual vaccination on April 4."
+10271,Scooby,,Annual vaccination,VaccinationRemainder,10256,2027-04-02T00:00:00.000,"Scooby, Upasana Shrestha pet, will need to be vaccinated against Annual vaccination on April 2."
+10315,Oreo,2021-05-21,Annual vaccination,VaccinationRemainder,10293,2027-04-04T00:00:00.000,"Oreo, B R Rai pet, will need to be vaccinated against Annual vaccination on April 4."
+10315,Oreo,2021-05-21,Update,FollowupRemainder,10293,2026-04-11T00:00:00.000,"Oreo, B R Rai pet, will need to be follow up for Update on April 11."
+10315,Oreo,2021-05-21,Update,FollowupRemainder,1,2026-04-12T12:47:34.743,
+10820,Kaya,2026-02-20,Dhppil booster,VaccinationRemainder,10722,2026-04-24T00:00:00.000,"Kaya, Menuka Yadav pet, will need to be vaccinated against Dhppil booster on April 24."
+10820,Kaya,2026-02-20,Dhppil booster,VaccinationRemainder,1,2026-04-25T11:01:30.930,
+52,Tiger,2021-07-21,Annual vaccination,VaccinationRemainder,50,2027-04-01T00:00:00.000,"Tiger, Nabin Shrestha pet, will need to be vaccinated against Annual vaccination on April 1."
+22,puku,2021-08-17,Annual vaccination,VaccinationRemainder,21,2027-04-07T00:00:00.000,"puku, Iccha  Chand pet, will need to be vaccinated against Annual vaccination on April 7."
+10260,ladu,2017-12-20,Annual vaccination,VaccinationRemainder,10246,2027-04-10T00:00:00.000,"ladu, Bikash Shrestha pet, will need to be vaccinated against Annual vaccination on April 10."
+10826,Bonzo,2018-04-11,Annual vaccination,VaccinationRemainder,10727,2027-04-10T00:00:00.000,"Bonzo, Rishima Giri pet, will need to be vaccinated against Annual vaccination on April 10."
+10794,Coco,2026-01-25,Booster vaccination,VaccinationRemainder,10701,2026-05-11T00:00:00.000,"Coco, Ayush Neupane pet, will need to be vaccinated against Booster vaccination on May 11."
+10794,Coco,2026-01-25,Booster vaccination,VaccinationRemainder,1,2026-05-12T18:12:34.387,
+10828,Puppy,2026-02-26,Dhppil booster,VaccinationRemainder,10728,2026-05-11T00:00:00.000,"Puppy, Bijay Subedi pet, will need to be vaccinated against Dhppil booster on May 11."
+10828,Puppy,2026-02-26,Dhppil booster,VaccinationRemainder,1,2026-05-12T18:12:34.387,
+10829,Alex,,DHPPil vaccination,VaccinationRemainder,10728,2026-05-11T00:00:00.000,"Alex, Bijay Subedi pet, will need to be vaccinated against DHPPil vaccination  on May 11."
+10829,Alex,,DHPPil vaccination,VaccinationRemainder,1,2026-05-12T18:12:34.387,
+10775,Puku,2025-12-14,Annual vaccination,VaccinationRemainder,10686,2027-04-13T00:00:00.000,"Puku, Sambriddhi  Rai pet, will need to be vaccinated against Annual vaccination on April 13."
+10822,Bella,2026-02-27,Booster vaccination,VaccinationRemainder,10723,2026-04-20T00:00:00.000,"Bella, Anushree Karki pet, will need to be vaccinated against Booster vaccination on April 20."
+10822,Bella,2026-02-27,Booster vaccination,VaccinationRemainder,1,2026-04-21T14:37:51.143,
+10833,Broon,2026-02-14,Booster vaccination,VaccinationRemainder,10732,2026-04-27T00:00:00.000,"Broon, Krishika Khadka pet, will need to be vaccinated against Booster vaccination on April 27."
+10365,coco,2025-03-27,Annual vaccination,VaccinationRemainder,22,2027-04-13T00:00:00.000,"coco, Sanjan Gautam pet, will need to be vaccinated against Annual vaccination on April 13."
+23,Kiyo,2024-08-06,Annual vaccination,VaccinationRemainder,22,2027-04-13T00:00:00.000,"Kiyo, Sanjan Gautam pet, will need to be vaccinated against Annual vaccination on April 13."
+10783,Sanu,2025-06-19,First vaccination reminder,VaccinationRemainder,10692,2026-04-21T00:00:00.000,"Sanu, Prakriti Shrestha pet, will need to be vaccinated against First vaccination reminder on April 21."
+10783,Sanu,2025-06-19,First vaccination reminder,VaccinationRemainder,1,2026-04-22T14:42:13.583,
+10791,Jasper,2025-12-25,Booster vaccination,VaccinationRemainder,10698,2026-04-16T00:00:00.000,"Jasper, Narayan Kc pet, will need to be vaccinated against Booster vaccination on April 16."
+10791,Jasper,2025-12-25,Booster vaccination,VaccinationRemainder,1,2026-04-17T15:53:38.920,
+10764,Motte,2026-02-07,Annual vaccination,VaccinationRemainder,10677,2027-04-17T00:00:00.000,"Motte, Pradip Rai pet, will need to be vaccinated against Annual vaccination on April 17."
+10822,Bella,2026-02-27,Update,FollowupRemainder,10723,2026-04-22T00:00:00.000,"Bella, Anushree Karki pet, will need to be follow up for Update on April 22."
+10822,Bella,2026-02-27,Update,FollowupRemainder,1,2026-04-23T07:59:18.527,
+10842,Tommy,2025-04-18,Annual vaccination,VaccinationRemainder,10739,2027-04-18T00:00:00.000,"Tommy, Sushant Khan pet, will need to be vaccinated against Annual vaccination on April 18."
+10844,Mistu,2021-04-18,Repeat test,FollowupRemainder,10741,2026-04-30T00:00:00.000,"Mistu, Asmita Dangal pet, will need to be follow up for Repeat test on April 30."
+10844,Mistu,2021-04-18,Repeat test,FollowupRemainder,1,2026-05-01T18:42:39.190,
+10431,Rio,2025-02-20,Annual vaccination,VaccinationRemainder,10388,2027-04-20T00:00:00.000,"Rio, kUSHAGRA Tamrakar pet, will need to be vaccinated against Annual vaccination on April 20."
+194,haku,2024-01-31,Annual vaccination,VaccinationRemainder,187,2027-04-21T00:00:00.000,"haku, Nidar  Maharjan pet, will need to be vaccinated against Annual vaccination on April 21."
+10822,Bella,2026-02-27,Anti rabies vaccination,VaccinationRemainder,10723,2026-05-20T00:00:00.000,"Bella, Anushree Karki pet, will need to be vaccinated against Anti rabies vaccination on May 20."
+10822,Bella,2026-02-27,Anti rabies vaccination,VaccinationRemainder,1,2026-05-21T07:36:48.440,
+10848,Joya,2026-02-21,Booster vaccination,VaccinationRemainder,10745,2026-05-21T00:00:00.000,"Joya, Acc Acc pet, will need to be vaccinated against Booster vaccination on May 21."
+10848,Joya,2026-02-21,Booster vaccination,VaccinationRemainder,1,2026-05-22T09:36:34.017,
+10849,Ri Ri,2025-04-22,Annual vaccinatio,VaccinationRemainder,10746,2027-04-22T00:00:00.000,"Ri Ri, Riwaz Shrestha pet, will need to be vaccinated against Annual vaccinatio on April 22."
+10850,Jacky,2021-04-23,Annual vaccination,VaccinationRemainder,10747,2027-04-22T00:00:00.000,"Jacky, Anuj Shrestha pet, will need to be vaccinated against Annual vaccination on April 22."
+10774,Supu,2014-03-14,Annual vaccination,VaccinationRemainder,10685,2027-04-22T00:00:00.000,"Supu, Rupa Shrestha pet, will need to be vaccinated against Annual vaccination on April 22."
+10851,Sheru,2021-04-23,Annual vaccination,VaccinationRemainder,10748,2027-04-22T00:00:00.000,"Sheru, Rabin Shrestha pet, will need to be vaccinated against Annual vaccination on April 22."
+10852,Munu,2014-04-25,Annual vaccination,VaccinationRemainder,10749,2027-04-23T00:00:00.000,"Munu, Keshav Parajuli pet, will need to be vaccinated against Annual vaccination  on April 23."
+10820,Kaya,2026-02-20,AntiRabies vaccination,VaccinationRemainder,10722,2026-05-24T00:00:00.000,"Kaya, Menuka Yadav pet, will need to be vaccinated against AntiRabies vaccination on May 24."
+10820,Kaya,2026-02-20,AntiRabies vaccination,VaccinationRemainder,1,2026-05-25T10:16:55.953,
+10783,Sanu,2025-06-19,PHC and anti rabies vaccination,VaccinationRemainder,10692,2026-05-23T00:00:00.000,"Sanu, Prakriti Shrestha pet, will need to be vaccinated against PHC and anti rabies vaccination on May 23."
+10783,Sanu,2025-06-19,PHC and anti rabies vaccination,VaccinationRemainder,1,2026-05-24T10:41:39.223,
+10854,Bunny,,Annual vaccination,VaccinationRemainder,10750,2027-04-22T00:00:00.000,"Bunny, Raju Shrestha pet, will need to be vaccinated against Annual vaccination on April 22."
+10855,Poodle,,Dhppil booster for 3 poodle,VaccinationRemainder,10751,2026-05-20T00:00:00.000,"Poodle , Sailendra Shakya pet, will need to be vaccinated against Dhppil booster for 3 poodle on May 20."
+10855,Poodle,,Dhppil booster for 3 poodle,VaccinationRemainder,1,2026-05-21T07:36:48.440,
+10791,Jasper,2025-12-25,Annual vaccination,VaccinationRemainder,10698,2027-04-25T00:00:00.000,"Jasper, Narayan Kc pet, will need to be vaccinated against Annual vaccination on April 25."
+7,kuku,2023-06-30,Annual vaccination,VaccinationRemainder,7,2027-04-25T00:00:00.000,"kuku, Melina Rai pet, will need to be vaccinated against Annual vaccination on April 25."
+10638,Soul,2022-11-24,Annual vaccination,VaccinationRemainder,10571,2027-04-27T00:00:00.000,"Soul, Deeasha Basnet pet, will need to be vaccinated against Annual vaccination on April 27."
+10396,Jacky,2019-04-21,Annual vaccination,VaccinationRemainder,10357,2027-04-21T00:00:00.000,"Jacky, Danish Shrestha pet, will need to be vaccinated against Annual vaccination on April 21."
+10202,Brownie,2020-11-06,Annual vaccination,VaccinationRemainder,10194,2027-04-28T00:00:00.000,"Brownie, Ritu Maharjan pet, will need to be vaccinated against Annual vaccination on April 28."
+10390,Lab,2022-04-17,Annual vaccination,VaccinationRemainder,10352,2027-04-28T00:00:00.000,"Lab, saurab RajBhandari pet, will need to be vaccinated against Annual vaccination on April 28."
+10361,D9g,2025-03-25,Annual vaccination,VaccinationRemainder,10328,2027-04-28T00:00:00.000,"D9g, Rabindra Amatya pet, will need to be vaccinated against Annual vaccination on April 28."
+5,Joy,2022-06-29,Annual vaccination,VaccinationRemainder,5,2027-04-28T00:00:00.000,"Joy, Raunak Amatya pet, will need to be vaccinated against Annual vaccination on April 28."
+10833,Broon,2026-02-14,Anti rabies vaccination,VaccinationRemainder,10732,2026-05-13T00:00:00.000,"Broon, Krishika Khadka pet, will need to be vaccinated against Anti rabies vaccination on May 13."
+10833,Broon,2026-02-14,Anti rabies vaccination,VaccinationRemainder,1,2026-05-14T16:39:25.577,
+10859,Coco,2020-04-29,Annual vaccination,VaccinationRemainder,10754,2027-04-28T00:00:00.000,"Coco, Sunita  pet, will need to be vaccinated against Annual vaccination on April 28."
+5,Joy,2022-06-29,Blood check,FollowupRemainder,5,2026-05-13T00:00:00.000,"Joy, Raunak Amatya pet, will need to be follow up for Blood check on May 13."
+5,Joy,2022-06-29,Blood check,FollowupRemainder,1,2026-05-14T16:39:25.577,"The deadline for Joy, Bitspanda pet's vaccinations, which was 13 May 2026, has passed."
+10739,Lily,,Update,FollowupRemainder,10656,2026-05-08T00:00:00.000,"Lily, Pabita Bhujel pet, will need to be follow up for Update on May 8."
+10739,Lily,,Update,FollowupRemainder,1,2026-05-09T11:29:31.887,
+10860,Cat,2026-02-01,Annual vaccination,VaccinationRemainder,10755,2027-05-01T00:00:00.000,"Cat, Komal Pradhan pet, will need to be vaccinated against Annual vaccination on May 1."
+10861,Kalu,2025-05-01,Annual vaccination,VaccinationRemainder,10550,2027-02-20T00:00:00.000,"Kalu, Ganesh Shrestha pet, will need to be vaccinated against Annual vaccination on February 20."
+125,Shelby,2019-09-10,Annual vaccination,VaccinationRemainder,123,2027-05-03T00:00:00.000,"Shelby, SHREETIKA BISTA pet, will need to be vaccinated against Annual vaccination on May 3."
+10866,Cleo,2026-03-24,PHC booster,VaccinationRemainder,10760,2026-06-03T00:00:00.000,"Cleo, Mandira Adhikari pet, will need to be vaccinated against PHC booster on June 3."
+10866,Cleo,2026-03-24,PHC booster,VaccinationRemainder,1,2026-06-04T08:15:04.860,
+10867,Lucy,2025-10-03,Annual vaccination,VaccinationRemainder,10761,2027-05-03T00:00:00.000,"Lucy, Binay Bajgain pet, will need to be vaccinated against Annual vaccination on May 3."
+10869,Leo,2026-03-05,Dhppil and Arv,VaccinationRemainder,10763,2026-06-05T00:00:00.000,"Leo, Sandip Karki pet, will need to be vaccinated against Dhppil and Arv on June 5."
+10869,Leo,2026-03-05,Dhppil and Arv,VaccinationRemainder,1,2026-06-06T16:23:16.823,
+10874,Kiara,2026-03-28,PHC Booster vaccination,VaccinationRemainder,10767,2026-06-07T00:00:00.000,"Kiara, Supradiptee Shrestha pet, will need to be vaccinated against PHC Booster vaccination on June 7."
+10874,Kiara,2026-03-28,PHC Booster vaccination,VaccinationRemainder,1,2026-06-08T10:35:10.820,
+10874,Kiara,2026-03-28,Update on deworming,FollowupRemainder,10767,2026-05-21T00:00:00.000,"Kiara, Supradiptee Shrestha pet, will need to be follow up for Update on deworming on May 21."
+10874,Kiara,2026-03-28,Update on deworming,FollowupRemainder,1,2026-05-22T09:36:34.020,
+10553,Charlie,2024-08-29,Follow up,FollowupRemainder,10495,2026-05-14T00:00:00.000,"Charlie, Sujan Sainju pet, will need to be follow up for Follow up on May 14."
+10553,Charlie,2024-08-29,Follow up,FollowupRemainder,1,2026-05-15T07:22:39.880,
+10877,Moti,2025-05-08,Annual vaccination,VaccinationRemainder,10769,2027-05-08T00:00:00.000,"Moti, Pushkar KC pet, will need to be vaccinated against Annual vaccination on May 8."
+10876,Kira,2024-05-08,Annual vaccination,VaccinationRemainder,10769,2027-05-08T00:00:00.000,"Kira, Pushkar KC pet, will need to be vaccinated against Annual vaccination on May 8."
+10878,Dausi,2025-05-08,Skin follow up,FollowupRemainder,10770,2026-05-15T00:00:00.000,"Dausi, Srijan Gautam pet, will need to be follow up for Skin follow up  on May 15."
+10878,Dausi,2025-05-08,Skin follow up,FollowupRemainder,1,2026-05-16T10:21:45.427,
+131,JUJU,2016-09-15,Annual vaccination,VaccinationRemainder,129,2027-05-06T00:00:00.000,"JUJU, NAMEEK LIMBU pet, will need to be vaccinated against Annual vaccination on May 6."
+10267,Blossom,2020-12-30,Annual vaccination,VaccinationRemainder,10253,2027-05-09T00:00:00.000,"Blossom, Elishiba Rai pet, will need to be vaccinated against Annual vaccination on May 9."
+10267,Blossom,2020-12-30,Reminder for surgery,FollowupRemainder,10253,2026-05-15T00:00:00.000,"Blossom, Elishiba Rai pet, will need to be follow up for Reminder for surgery on May 15."
+10267,Blossom,2020-12-30,Reminder for surgery,FollowupRemainder,1,2026-05-16T10:21:45.427,
+10794,Coco,2026-01-25,Annual vaccination,VaccinationRemainder,10701,2027-05-11T00:00:00.000,"Coco, Ayush Neupane pet, will need to be vaccinated against Annual vaccination on May 11."
+62,husky,2024-07-25,Annual vaccination,VaccinationRemainder,59,2027-04-28T00:00:00.000,"husky, Rakesh Nembang pet, will need to be vaccinated against Annual vaccination on April 28."
+10881,Bhai,2025-05-12,Annual vaccination,VaccinationRemainder,10295,2026-05-16T00:00:00.000,"Bhai, Amir Budathoki pet, will need to be vaccinated against Annual vaccination on May 16."
+10881,Bhai,2025-05-12,Annual vaccination,VaccinationRemainder,1,2026-05-17T10:06:14.850,
+10829,Alex,,Annual vaccination,VaccinationRemainder,10728,2027-05-11T00:00:00.000,"Alex, Bijay Subedi pet, will need to be vaccinated against Annual vaccination on May 11."
+10567,Luna,2024-09-18,Annual vaccination,VaccinationRemainder,10509,2026-09-18T00:00:00.000,"Luna, Sushil Shrestha pet, will need to be vaccinated against Annual vaccination on September 18."
+200,pug,2024-11-05,Annual vaccination,VaccinationRemainder,193,2027-05-14T00:00:00.000,"pug, Monica Ori Hine pet, will need to be vaccinated against Annual vaccination on May 14."
+10427,Phuche,2025-05-18,Annual vaccination,VaccinationRemainder,10384,2027-05-16T00:00:00.000,"Phuche, Babin Thapa pet, will need to be vaccinated against Annual vaccination on May 16."
+10553,Charlie,2024-08-29,Update & repeat test,FollowupRemainder,10495,2026-06-04T00:00:00.000,"Charlie, Sujan Sainju pet, will need to be follow up for Update & repeat test on June 4."
+10553,Charlie,2024-08-29,Update & repeat test,FollowupRemainder,1,2026-06-05T12:22:35.010,
+10220,cherry,2017-11-16,Annual vaccination,VaccinationRemainder,10210,2027-05-17T00:00:00.000,"cherry, Bimla Chaudhary pet, will need to be vaccinated against Annual vaccination on May 17."
+10382,Suri,2020-04-08,Annual vaccination,VaccinationRemainder,10346,2027-04-08T00:00:00.000,"Suri, Mabina Thapa pet, will need to be vaccinated against Annual vaccination on April 8."
+10888,"Cat 1 ,2 & 3",2026-04-08,Booster PHC Vaccination,VaccinationRemainder,10675,2026-06-15T00:00:00.000,"Cat 1 ,2 & 3, Avinash Mukhiya pet, will need to be vaccinated against Booster PHC Vaccination on June 15."
+10888,"Cat 1 ,2 & 3",2026-04-08,Booster PHC Vaccination,VaccinationRemainder,1,2026-06-16T13:49:45.223,
+10762,Motu,2025-04-06,Anti rabies vaccination,VaccinationRemainder,10675,2026-06-16T00:00:00.000,"Motu, Avinash Mukhiya pet, will need to be vaccinated against Anti rabies vaccination on June 16."
+10762,Motu,2025-04-06,Anti rabies vaccination,VaccinationRemainder,1,2026-06-17T08:25:08.017,
+10409,Julfu,2024-12-30,Annual vaccination,VaccinationRemainder,10369,2027-05-18T00:00:00.000,"Julfu, Asmita Gajmer pet, will need to be vaccinated against Annual vaccination on May 18."
+10848,Joya,2026-02-21,Annual vaccination,VaccinationRemainder,10745,2027-05-19T00:00:00.000,"Joya, Anandit charity Center pet, will need to be vaccinated against Annual vaccination on May 19."
+10443,Bruno,2020-05-29,annual vaccination,VaccinationRemainder,10399,2027-05-22T00:00:00.000,"Bruno, Asmi Subedi pet, will need to be vaccinated against annual vaccination on May 22."
+10783,Sanu,2025-06-19,Annual vacccination,VaccinationRemainder,10692,2027-05-23T00:00:00.000,"Sanu, Prakriti Shrestha pet, will need to be vaccinated against Annual vacccination on May 23."
+10893,Mili,2026-04-22,First vaccination,VaccinationRemainder,10781,2026-06-01T00:00:00.000,"Mili, Subina Tamang pet, will need to be vaccinated against First vaccination on June 1."
+10893,Mili,2026-04-22,First vaccination,VaccinationRemainder,1,2026-06-02T08:41:32.100,
+10822,Bella,2026-02-27,annual vaccination,VaccinationRemainder,10723,2027-04-21T00:00:00.000,"Bella, Anushree Karki pet, will need to be vaccinated against annual vaccination on April 21."
+10851,Sheru,2021-04-23,Follow up,FollowupRemainder,10748,2026-05-30T00:00:00.000,"Sheru, Rabin Shrestha pet, will need to be follow up for Follow up on May 30."
+10851,Sheru,2021-04-23,Follow up,FollowupRemainder,1,2026-05-31T09:29:47.057,
+10820,Kaya,2026-02-20,Annual vaccination 24 April or 24 may,VaccinationRemainder,10722,2027-04-24T00:00:00.000,"Kaya, Menuka Yadav pet, will need to be vaccinated against Annual vaccination 24 April or 24 may on April 24."
+20894,"Kalu, Roko",2022-05-28,Follow up,FollowupRemainder,20781,2026-06-03T00:00:00.000,"Kalu, Roko, Amita Thapa pet, will need to be follow up for Follow up on June 3."
+20894,"Kalu, Roko",2022-05-28,Follow up,FollowupRemainder,1,2026-06-04T08:15:04.860,
+20895,Lucy,2025-06-28,Annual vaccination,VaccinationRemainder,20782,2027-05-27T00:00:00.000,"Lucy, Khubi Magar pet, will need to be vaccinated against Annual vaccination on May 27."
+10508,Mushu,2023-07-16,Follow up,FollowupRemainder,10457,2026-06-03T00:00:00.000,"Mushu, Paramananda  Bajracharya pet, will need to be follow up for Follow up on June 3."
+10508,Mushu,2023-07-16,Follow up,FollowupRemainder,1,2026-06-04T08:15:04.860,
+20899,Jerry,2025-05-29,Annual vaccination,VaccinationRemainder,20786,2027-05-29T00:00:00.000,"Jerry, Rahul Singh pet, will need to be vaccinated against Annual vaccination on May 29."
+20900,Ranger,2022-05-29,Annual vaccination,VaccinationRemainder,20787,2027-05-28T00:00:00.000,"Ranger, Prabin  Maharjan pet, will need to be vaccinated against Annual vaccination on May 28."
+10882,Haku,2015-05-13,Stitch cutting,FollowupRemainder,10685,2026-06-15T00:00:00.000,"Haku, Rupa Shrestha pet, will need to be follow up for Stitch cutting on June 15."
+10882,Haku,2015-05-13,Stitch cutting,FollowupRemainder,1,2026-06-16T13:49:45.223,
+10451,Jerry,2016-06-05,Annual vaccination,Vaccination,10406,2027-06-02T00:00:00.000,"Jerry, Laxman Thapa magar's pet, will need to be vaccinated against Annual vaccination on 02 June 2027."
+10460,Coco,2022-06-12,Annual vaccination,Vaccination,10413,2027-06-02T00:00:00.000,"Lab, Imadol store Tika dd's pet, will need to be vaccinated against Annual vaccination on 02 June 2027."
+20904,Oreo,2026-04-23,Vaccination & follow up,Follow-up,10539,2026-06-09T00:00:00.000,"Buntu, Alex Shakya's pet, will need to be follow up for Vaccination & follow up on 09 June 2026."
+20904,Oreo,2026-04-23,Vaccination & follow up,Follow-up,1,2026-06-10T09:11:15.650,
+20907,Community dog,2021-06-04,annual vaccination,Vaccination,6,2027-06-04T00:00:00.000,"Community dog, Bidhan Pradhan's pet, will need to be vaccinated against annual vaccination on 04 June 2027."
+20908,Bella,2026-03-04,booster vaccination,Vaccination,20793,2026-07-04T00:00:00.000,"Bella, Babita Karki's pet, will need to be vaccinated against booster vaccination on 04 July 2026."
+10708,Ruru,2023-01-20,UPDATE,Follow-up,10633,2026-06-11T00:00:00.000,"Ruru, Sneha Ojaswi's pet, will need to be follow up for UPDATE on 11 June 2026."
+20910,Max,2020-06-05,annual vaccination,Vaccination,20794,2027-05-23T00:00:00.000,"Max, Shanti Sarki's pet, will need to be vaccinated against annual vaccination on 23 May 2027."
+10562,Leo,2025-04-10,Anti Rabies Vaccine,Vaccination,10503,2027-06-05T00:00:00.000,"Leo, Sanjay Thapa's pet, will need to be vaccinated against Anti Rabies Vaccine on 05 June 2027."
+10866,Cleo,2026-03-24,Anti Rabies Vaccine,Vaccination,10760,2026-06-18T00:00:00.000,"Cleo, Mandira Adhikari's pet, will need to be vaccinated against Anti Rabies Vaccine on 18 June 2026."
+10866,Cleo,2026-03-24,Anti Rabies Vaccine,Vaccination,1,2026-06-19T09:13:19.073,
+10833,Broon,2026-02-14,annual vaccination,Vaccination,10732,2027-05-13T00:00:00.000,"Broon, Krishika Khadka's pet, will need to be vaccinated against annual vaccination on 13 May 2027."
+20913,Kali,2025-10-07,update,Follow-up,20797,2026-06-11T00:00:00.000,"Kali, Milan Thakuri's pet, will need to be follow up for update on 11 June 2026."
+10827,Coco,2023-09-13,update,Follow-up,10601,2026-06-11T00:00:00.000,"Coco, Usha Bhatta's pet, will need to be follow up for update on 11 June 2026."
+20904,Oreo,2026-04-23,Booster vaccination,Vaccination,10539,2026-06-30T00:00:00.000,"Oreo, Alex Shakya's pet, will need to be vaccinated against Booster vaccination on 30 June 2026."
+10874,Kiara,2026-03-28,Anti rabies,Vaccination,10767,2026-06-21T00:00:00.000,"Kiara, Supradiptee Shrestha's pet, will need to be vaccinated against Anti rabies on 21 June 2026."
+10874,Kiara,2026-03-28,Anti rabies,Vaccination,1,2026-06-22T17:06:48.920,
+175,Tobby,2016-04-13,Annual vaccination,Vaccination,168,2027-06-08T00:00:00.000,"Tobby, Astha Shakya's pet, will need to be vaccinated against Annual vaccination on 08 June 2027."
+10397,MiMi,2025-03-09,Annual vaccination,Vaccination,10358,2027-06-11T00:00:00.000,"MiMi, Roshan Chaudhary's pet, will need to be vaccinated against Annual vaccination on 11 June 2027."
+10461,lily,,Annual vaccination,Vaccination,10414,2027-06-11T00:00:00.000,"lily, Madhu rana magar's pet, will need to be vaccinated against Annual vaccination on 11 June 2027."
+10472,Boxer,2023-06-18,annual vaccination,Vaccination,10425,2027-06-13T00:00:00.000,"Boxer, Sumeal Bomzon's pet, will need to be vaccinated against annual vaccination on 13 June 2027."
+10326,Cofy,2024-11-26,annual vaccination,Vaccination,10299,2027-06-07T00:00:00.000,"Cofy, Prapty Rajbhandari's pet, will need to be vaccinated against annual vaccination on 07 June 2027."
+10325,Bruno,2025-02-26,annual vaccination,Vaccination,10299,2027-06-07T00:00:00.000,"Bruno, Prapty Rajbhandari's pet, will need to be vaccinated against annual vaccination on 07 June 2027."
+10553,Charlie,2024-08-29,test,Follow-up,10495,2026-07-04T00:00:00.000,"Charlie, Sujan Sainju's pet, will need to be follow up for test on 04 July 2026."
+20926,Summer,2026-03-20,booster vaccination,Vaccination,20811,2026-07-16T00:00:00.000,"Summer, Gaurab Pandey's pet, will need to be vaccinated against booster vaccination on 16 July 2026."
+10855,Poodle,,Anti Rabies Vaccine,Follow-up,10751,2026-07-15T00:00:00.000,"Poodle , Sailendra Shakya's pet, will need to be follow up for Anti Rabies Vaccine on 15 July 2026."
+10810,casper,2012-04-01,annual vaccination,Vaccination,10713,2027-06-19T00:00:00.000,"casper, Mukunda Maharjan's pet, will need to be vaccinated against annual vaccination on 19 June 2027."
+20929,MURHY,2022-06-20,annual vaccination,Vaccination,20814,2027-06-19T00:00:00.000,"MURHY, ELIZA BASNET's pet, will need to be vaccinated against annual vaccination on 19 June 2027."
+10204,snowy,2020-11-06,annual vaccination,Vaccination,10196,2027-06-22T00:00:00.000,"snowy, Shristika Shakya's pet, will need to be vaccinated against annual vaccination on 22 June 2027."
+10480,Spitz,2017-06-25,annual vaccination,Vaccination,10432,2027-06-21T00:00:00.000,"Spitz, Bishal Shrestha's pet, will need to be vaccinated against annual vaccination on 21 June 2027."
+10239,BRUNO,2022-11-27,annual vaccination,Vaccination,10226,2027-06-21T00:00:00.000,"BRUNO, NIRUTA KUNWAR's pet, will need to be vaccinated against annual vaccination on 21 June 2027."
