@@ -59,7 +59,7 @@ export default function LocationMap() {
                 <div>
                   <h4 className="text-sm font-bold text-foreground">Contact</h4>
                   <p className="text-sm text-muted-foreground mt-1">
-                    +977 980-0000000 / info@happypets.com
+                    <a href="tel:+9779860872125" className="hover:text-primary transition-colors">9860872125</a> / info@happypets.com
                   </p>
                 </div>
               </div>

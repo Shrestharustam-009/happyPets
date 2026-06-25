@@ -8,38 +8,52 @@ export default function AdminTabMedicalRecords() {
   const [records, setRecords] = useState([])
   const [patients, setPatients] = useState([])
   const [vets, setVets] = useState([])
+  const [clients, setClients] = useState([])
   const [loading, setLoading] = useState(true)
   const [isModalOpen, setIsModalOpen] = useState(false)
   const [isEditMode, setIsEditMode] = useState(false)
   const [currentRecord, setCurrentRecord] = useState(null)
   
   const [formData, setFormData] = useState({
-    pet_id: "",
-    vet_id: "",
-    visit_date: "",
-    chief_complaint: "",
-    temperature: "",
-    pulse: "",
-    respiration: "",
-    weight: "",
-    clinical_findings: "",
-    primary_diagnosis: "",
-    differential_diagnoses: "",
-    treatment_interventions: "",
-    prescribed_medicines: "",
-    attachments_url: "",
-    history: ""
+    pet_id: "", vet_id: "", visit_date: "", chief_complaint: "", temperature: "", pulse: "", respiration: "", weight: "", clinical_findings: "", primary_diagnosis: "", differential_diagnoses: "", treatment_interventions: "", prescribed_medicines: "", attachments_url: "", history: ""
   })
 
   const [weightUnitMR, setWeightUnitMR] = useState("kg")
 
+  // Registration Wizard State
+  const [isRegistrationModalOpen, setIsRegistrationModalOpen] = useState(false)
+  const [regStep, setRegStep] = useState(1) // 1: Client, 2: Pet
+  const [regMode, setRegMode] = useState("create") // "create" or "select" client
+  const [selectedClientId, setSelectedClientId] = useState("")
+  const [newClientData, setNewClientData] = useState({
+    full_name: "", email: "", phone_number: "", address: ""
+  })
+  const [newPetData, setNewPetData] = useState({
+    name: "", species: "", breed: "", dob: "", sex: "", color: "", weight: "", identifying_marks: "", medical_history: "", photo_url: ""
+  })
+  const [regWeightUnit, setRegWeightUnit] = useState("kg")
+  const [uploadingPetPhoto, setUploadingPetPhoto] = useState(false)
+  const petPhotoInputRef = useRef(null)
+
+  // Expandable list state
+  const [expandedClients, setExpandedClients] = useState({})
+  const [expandedPets, setExpandedPets] = useState({})
+
+  const toggleClient = (id) => setExpandedClients(prev => ({ ...prev, [id]: !prev[id] }))
+  const togglePet = (id) => setExpandedPets(prev => ({ ...prev, [id]: !prev[id] }))
+
+  // Searchable patient state for medical record modal
+  const [petSearchText, setPetSearchText] = useState("")
+  const [isPetDropdownOpen, setIsPetDropdownOpen] = useState(false)
+  const petSearchRef = useRef(null)
+
   // Consent form & image uploads
-  const [consentFile, setConsentFile] = useState(null) // { name, url }
+  const [consentFile, setConsentFile] = useState(null)
   const [uploadingConsent, setUploadingConsent] = useState(false)
   const consentInputRef = useRef(null)
 
   const IMAGE_SLOTS = 5
-  const [imageFiles, setImageFiles] = useState(Array(IMAGE_SLOTS).fill(null)) // [{ name, url } | null]
+  const [imageFiles, setImageFiles] = useState(Array(IMAGE_SLOTS).fill(null))
   const [uploadingImage, setUploadingImage] = useState(Array(IMAGE_SLOTS).fill(false))
   const imageInputRefs = useRef([])
 
@@ -56,28 +70,33 @@ export default function AdminTabMedicalRecords() {
     }
   }, [])
 
+  useEffect(() => {
+    function handleClickOutside(event) {
+      if (petSearchRef.current && !petSearchRef.current.contains(event.target)) {
+        setIsPetDropdownOpen(false)
+      }
+    }
+    document.addEventListener("mousedown", handleClickOutside)
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside)
+    }
+  }, [])
+
   const fetchData = async () => {
     try {
       setLoading(true)
-      const [recordsRes, patientsRes, usersRes] = await Promise.all([
+      const [recordsRes, patientsRes, usersRes, clientsRes] = await Promise.all([
         fetchWithAuth("/api/admin/medical-records"),
         fetchWithAuth("/api/admin/patients"),
-        fetchWithAuth("/api/users", { headers: { Authorization: `Bearer ${localStorage.getItem("adminToken")}` } })
+        fetchWithAuth("/api/users", { headers: { Authorization: `Bearer ${localStorage.getItem("adminToken")}` } }),
+        fetchWithAuth("/api/admin/clients")
       ])
       
-      if (recordsRes.ok) {
-        const rData = await recordsRes.json()
-        setRecords(rData)
-      }
-      
-      if (patientsRes.ok) {
-        const pData = await patientsRes.json()
-        setPatients(pData)
-      }
-      
+      if (recordsRes.ok) setRecords(await recordsRes.json())
+      if (patientsRes.ok) setPatients(await patientsRes.json())
+      if (clientsRes.ok) setClients(await clientsRes.json())
       if (usersRes.ok) {
         const uData = await usersRes.json()
-        // Filter users to only show those who can be vets (admin, veterinarian, vet_assistant)
         const staff = uData.filter(u => ['admin', 'veterinarian', 'vet_assistant'].includes(u.role))
         setVets(staff)
       }
@@ -140,6 +159,100 @@ export default function AdminTabMedicalRecords() {
     if (imageInputRefs.current[index]) imageInputRefs.current[index].value = ""
   }
 
+  const openRegistrationWizard = () => {
+    setIsRegistrationModalOpen(true)
+    setRegStep(1)
+    setRegMode("create")
+    setSelectedClientId("")
+    setNewClientData({ full_name: "", email: "", phone_number: "", address: "" })
+    setNewPetData({ name: "", species: "", breed: "", dob: "", sex: "", color: "", weight: "", identifying_marks: "", medical_history: "", photo_url: "" })
+    setRegWeightUnit("kg")
+  }
+
+  const handleRegClientSubmit = async (e) => {
+    e.preventDefault()
+    if (regMode === "create") {
+      try {
+        const res = await fetchWithAuth("/api/admin/clients", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(newClientData),
+        })
+        if (!res.ok) {
+          const err = await res.json()
+          alert(err.error || "Failed to create client")
+          return
+        }
+        const data = await res.json()
+        setSelectedClientId(data.id)
+        await fetchData()
+        setRegStep(2)
+      } catch (error) {
+        alert("Error creating client")
+      }
+    } else {
+      if (!selectedClientId) return alert("Please select a client")
+      setRegStep(2)
+    }
+  }
+
+  const handlePetPhotoUpload = async (e) => {
+    const file = e.target.files?.[0]
+    if (!file) return
+    setUploadingPetPhoto(true)
+    const fd = new FormData()
+    fd.append("file", file)
+    try {
+      const res = await fetchWithAuth("/api/admin/patients/upload", { method: "POST", body: fd })
+      if (res.ok) {
+        const data = await res.json()
+        setNewPetData(prev => ({ ...prev, photo_url: data.photo_url }))
+      }
+    } catch {
+      alert("Error uploading file")
+    } finally {
+      setUploadingPetPhoto(false)
+    }
+  }
+
+  const handleRegPetSubmit = async (e) => {
+    e.preventDefault()
+    try {
+      let normalizedWeight = newPetData.weight;
+      if (normalizedWeight && regWeightUnit === "gram") {
+        normalizedWeight = (parseFloat(normalizedWeight) / 1000).toFixed(4);
+      }
+      const payload = {
+        ...newPetData,
+        weight: normalizedWeight ? parseFloat(normalizedWeight) : null,
+        user_id: selectedClientId
+      }
+      const res = await fetchWithAuth("/api/admin/patients", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload),
+      })
+      if (!res.ok) {
+        const err = await res.json()
+        alert(err.error || "Failed to register pet")
+        return
+      }
+      const data = await res.json()
+      await fetchData()
+      if (confirm("Pet registered successfully! Do you want to log an initial visit now?")) {
+        setIsRegistrationModalOpen(false)
+        openAddModal()
+        const clientName = regMode === "create" ? newClientData.full_name : clients.find(c => c.id == selectedClientId)?.full_name || "";
+        setPetSearchText(`${newPetData.name} (${clientName})`);
+        setFormData(prev => ({ ...prev, pet_id: data.id }))
+      } else {
+        setIsRegistrationModalOpen(false)
+      }
+    } catch (error) {
+      alert("Error registering pet")
+    }
+  }
+
   const openAddModal = () => {
     setIsEditMode(false)
     setFormData({
@@ -163,6 +276,8 @@ export default function AdminTabMedicalRecords() {
     setConsentFile(null)
     setImageFiles(Array(IMAGE_SLOTS).fill(null))
     setCurrentRecord(null)
+    setPetSearchText("")
+    setIsPetDropdownOpen(false)
     setIsModalOpen(true)
   }
 
@@ -200,6 +315,9 @@ export default function AdminTabMedicalRecords() {
       setConsentFile(null)
       setImageFiles(Array(IMAGE_SLOTS).fill(null))
     }
+    const petObj = patients.find(p => Number(p.id) === Number(record.pet_id));
+    setPetSearchText(petObj ? `${petObj.name} (${petObj.owner_name || ""})` : "");
+    setIsPetDropdownOpen(false);
     setCurrentRecord(record)
     setIsModalOpen(true)
   }
@@ -211,6 +329,11 @@ export default function AdminTabMedicalRecords() {
   const handleSubmit = async (e) => {
     e.preventDefault()
     
+    if (!formData.pet_id) {
+      alert("Please select a valid patient (pet) from the list.")
+      return
+    }
+
     // Build the attachments JSON
     const attachmentsData = {
       consent: consentFile || null,
@@ -283,87 +406,306 @@ export default function AdminTabMedicalRecords() {
     <div>
       <div className="flex justify-between items-center mb-6">
         <h2 className="text-2xl font-bold">Medical Case Records (EHR)</h2>
-        <button
-          onClick={openAddModal}
-          className="bg-primary text-primary-foreground px-4 py-2 rounded-lg hover:bg-primary/90 transition-colors"
-        >
-          Add New Visit Record
-        </button>
-      </div>
-
-      <div className="bg-background border border-border rounded-lg overflow-hidden">
-        <div className="overflow-x-auto">
-          <table className="w-full">
-            <thead className="bg-muted/50 border-b border-border">
-              <tr>
-                <th className="px-6 py-3 text-left text-xs font-medium text-muted-foreground uppercase tracking-wider">
-                  Date & Vet
-                </th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-muted-foreground uppercase tracking-wider">
-                  Patient Info
-                </th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-muted-foreground uppercase tracking-wider">
-                  Diagnosis / Complaint
-                </th>
-                <th className="px-6 py-3 text-right text-xs font-medium text-muted-foreground uppercase tracking-wider">
-                  Actions
-                </th>
-              </tr>
-            </thead>
-            <tbody className="divide-y divide-border">
-              {records.map((record) => (
-                <tr key={record.id} className="hover:bg-muted/30">
-                  <td className="px-6 py-4 whitespace-nowrap">
-                    <div className="font-medium text-foreground">
-                      {new Date(record.visit_date).toLocaleDateString()}
-                    </div>
-                    <div className="text-xs text-muted-foreground">
-                      {new Date(record.visit_date).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})}
-                    </div>
-                    <div className="text-xs text-primary mt-1">Dr. {record.vet_name}</div>
-                  </td>
-                  <td className="px-6 py-4">
-                    <div className="font-medium">{record.pet_name}</div>
-                    <div className="text-xs text-muted-foreground">{record.species} ({record.breed || 'Unknown'})</div>
-                    <div className="text-xs text-muted-foreground mt-1">Owner: {record.owner_name}</div>
-                  </td>
-                  <td className="px-6 py-4">
-                    <div className="text-sm font-medium text-foreground">
-                      {record.primary_diagnosis || "No formal diagnosis"}
-                    </div>
-                    <div className="text-xs text-muted-foreground line-clamp-2 mt-1">
-                      <span className="font-semibold">CC:</span> {record.chief_complaint || "-"}
-                    </div>
-                  </td>
-                  <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-                    <button
-                      onClick={() => openEditModal(record)}
-                      className="text-primary hover:text-primary/80 mr-4"
-                    >
-                      View / Edit
-                    </button>
-                    {isAdmin && (
-                      <button
-                        onClick={() => handleDelete(record.id)}
-                        className="text-red-500 hover:text-red-700"
-                      >
-                        Delete
-                      </button>
-                    )}
-                  </td>
-                </tr>
-              ))}
-              {records.length === 0 && (
-                <tr>
-                  <td colSpan="4" className="px-6 py-8 text-center text-muted-foreground">
-                    No medical records found. Click "Add New Visit Record" to create one.
-                  </td>
-                </tr>
-              )}
-            </tbody>
-          </table>
+        <div className="flex gap-3">
+          <button
+            onClick={openRegistrationWizard}
+            className="bg-emerald-600 text-white px-4 py-2 rounded-lg hover:bg-emerald-700 transition-colors font-medium text-sm"
+          >
+            Register Client & Pet
+          </button>
+          <button
+            onClick={openAddModal}
+            className="bg-primary text-primary-foreground px-4 py-2 rounded-lg hover:bg-primary/90 transition-colors text-sm"
+          >
+            Add New Visit Record
+          </button>
         </div>
       </div>
+
+      <div className="bg-background border border-border rounded-lg overflow-hidden shadow-sm">
+        {clients.length === 0 ? (
+          <div className="p-8 text-center text-muted-foreground">No clients found. Click "Register Client & Pet" to start.</div>
+        ) : (
+          <div className="divide-y divide-border">
+            {clients.map(client => {
+              const clientPets = patients.filter(p => Number(p.user_id) === Number(client.id));
+              const isExpanded = expandedClients[client.id];
+              return (
+                <div key={client.id} className="bg-white">
+                  <div 
+                    onClick={() => toggleClient(client.id)}
+                    className="flex items-center justify-between p-4 cursor-pointer hover:bg-slate-50 transition-colors"
+                  >
+                    <div className="flex flex-col">
+                      <span className="font-bold text-lg text-slate-800">{client.full_name}</span>
+                      <span className="text-xs text-slate-500">{client.email || 'No email'} | {client.phone_number || 'No phone'}</span>
+                    </div>
+                    <div className="flex items-center gap-4">
+                      <span className="text-sm font-semibold text-slate-600 bg-slate-100 px-3 py-1 rounded-full">{clientPets.length} Pets</span>
+                      <svg className={`w-5 h-5 text-slate-400 transition-transform ${isExpanded ? 'rotate-180' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" /></svg>
+                    </div>
+                  </div>
+
+                  {isExpanded && (
+                    <div className="bg-slate-50 border-t border-border p-4 pl-8 space-y-4">
+                      {clientPets.length === 0 ? (
+                        <div className="text-sm text-slate-500 italic">No pets registered for this client.</div>
+                      ) : (
+                        clientPets.map(pet => {
+                          const petRecords = records.filter(r => Number(r.pet_id) === Number(pet.id));
+                          const isPetExpanded = expandedPets[pet.id];
+                          return (
+                            <div key={pet.id} className="bg-white border border-slate-200 rounded-lg overflow-hidden shadow-sm">
+                              <div 
+                                onClick={() => togglePet(pet.id)}
+                                className="flex items-center justify-between p-3 cursor-pointer hover:bg-slate-50 border-b border-slate-100"
+                              >
+                                <div className="flex items-center gap-3">
+                                  {pet.photo_url ? (
+                                    <img src={pet.photo_url} alt={pet.name} className="w-10 h-10 rounded-full object-cover border border-slate-200" />
+                                  ) : (
+                                    <div className="w-10 h-10 rounded-full bg-blue-100 flex items-center justify-center text-blue-600 font-bold">{pet.name.charAt(0)}</div>
+                                  )}
+                                  <div>
+                                    <span className="font-bold text-slate-800">{pet.name}</span>
+                                    <div className="text-xs text-slate-500">{pet.species} - {pet.breed || 'Unknown'} | {pet.sex || 'Unknown Sex'}</div>
+                                  </div>
+                                </div>
+                                <div className="flex items-center gap-4">
+                                  <span className="text-xs font-semibold text-blue-600 bg-blue-50 px-2.5 py-1 rounded-full border border-blue-100">{petRecords.length} Visits</span>
+                                  <svg className={`w-4 h-4 text-slate-400 transition-transform ${isPetExpanded ? 'rotate-180' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" /></svg>
+                                </div>
+                              </div>
+
+                              {isPetExpanded && (
+                                <div className="bg-slate-50 p-3">
+                                  {petRecords.length === 0 ? (
+                                    <div className="flex items-center justify-between">
+                                      <span className="text-xs text-slate-500 italic">No medical records found for this pet.</span>
+                                      <button onClick={() => { openAddModal(); setPetSearchText(`${pet.name} (${client.full_name})`); setFormData(prev => ({ ...prev, pet_id: pet.id })) }} className="text-xs text-primary font-semibold hover:underline">Log Initial Visit</button>
+                                    </div>
+                                  ) : (
+                                    <table className="w-full text-left text-sm">
+                                      <thead>
+                                        <tr className="text-xs text-slate-500 border-b border-slate-200">
+                                          <th className="pb-2 font-medium">Date & Vet</th>
+                                          <th className="pb-2 font-medium">Diagnosis / CC</th>
+                                          <th className="pb-2 font-medium text-right">Actions</th>
+                                        </tr>
+                                      </thead>
+                                      <tbody className="divide-y divide-slate-100">
+                                        {petRecords.map(record => (
+                                          <tr key={record.id} className="hover:bg-slate-100/50">
+                                            <td className="py-2">
+                                              <div className="font-semibold text-slate-700">{new Date(record.visit_date).toLocaleDateString()}</div>
+                                              <div className="text-[10px] text-slate-500">Dr. {record.vet_name}</div>
+                                            </td>
+                                            <td className="py-2">
+                                              <div className="font-medium text-slate-800">{record.primary_diagnosis || "No formal diagnosis"}</div>
+                                              <div className="text-xs text-slate-500 truncate max-w-[200px]">{record.chief_complaint || "-"}</div>
+                                            </td>
+                                            <td className="py-2 text-right">
+                                              <button onClick={() => openEditModal(record)} className="text-xs font-semibold text-primary hover:text-primary/80 mr-3">View/Edit</button>
+                                              {isAdmin && (
+                                                <button onClick={() => handleDelete(record.id)} className="text-xs font-semibold text-red-500 hover:text-red-700">Delete</button>
+                                              )}
+                                            </td>
+                                          </tr>
+                                        ))}
+                                      </tbody>
+                                    </table>
+                                  )}
+                                  <div className="mt-3 text-right">
+                                    <button onClick={() => { openAddModal(); setPetSearchText(`${pet.name} (${client.full_name})`); setFormData(prev => ({ ...prev, pet_id: pet.id })) }} className="text-xs font-semibold bg-white border border-slate-300 text-slate-700 px-3 py-1.5 rounded hover:bg-slate-100">
+                                      + Log New Visit
+                                    </button>
+                                  </div>
+                                </div>
+                              )}
+                            </div>
+                          )
+                        })
+                      )}
+                    </div>
+                  )}
+                </div>
+              )
+            })}
+          </div>
+        )}
+      </div>
+
+      {/* Registration Wizard Modal */}
+      {isRegistrationModalOpen && (
+        <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4 overflow-y-auto">
+          <div className="bg-background rounded-lg shadow-xl w-full max-w-2xl overflow-hidden my-8">
+            <div className="flex justify-between items-center p-6 border-b border-border bg-slate-50">
+              <h3 className="text-lg font-bold text-slate-800">
+                Register New Client & Patient
+              </h3>
+              <button onClick={() => setIsRegistrationModalOpen(false)} className="text-slate-400 hover:text-slate-600">
+                <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" /></svg>
+              </button>
+            </div>
+            
+            <div className="p-6">
+              {/* Stepper Header */}
+              <div className="flex items-center justify-center mb-8">
+                <div className={`flex flex-col items-center ${regStep >= 1 ? 'text-primary' : 'text-slate-400'}`}>
+                  <div className={`w-8 h-8 rounded-full flex items-center justify-center font-bold mb-2 ${regStep >= 1 ? 'bg-primary text-white' : 'bg-slate-200 text-slate-500'}`}>1</div>
+                  <span className="text-xs font-bold uppercase tracking-wider">Client Details</span>
+                </div>
+                <div className={`w-16 h-1 mx-4 rounded ${regStep >= 2 ? 'bg-primary' : 'bg-slate-200'}`}></div>
+                <div className={`flex flex-col items-center ${regStep >= 2 ? 'text-primary' : 'text-slate-400'}`}>
+                  <div className={`w-8 h-8 rounded-full flex items-center justify-center font-bold mb-2 ${regStep >= 2 ? 'bg-primary text-white' : 'bg-slate-200 text-slate-500'}`}>2</div>
+                  <span className="text-xs font-bold uppercase tracking-wider">Patient (Pet)</span>
+                </div>
+              </div>
+
+              {/* Step 1: Client */}
+              {regStep === 1 && (
+                <form onSubmit={handleRegClientSubmit} className="space-y-6">
+                  <div className="flex gap-6 py-2 border-b border-slate-100">
+                    <label className="flex items-center gap-2 text-sm font-semibold cursor-pointer text-slate-700">
+                      <input type="radio" name="regMode" value="create" checked={regMode === "create"} onChange={() => setRegMode("create")} className="h-4 w-4 text-primary focus:ring-primary border-slate-300" />
+                      + Register New Client
+                    </label>
+                    <label className="flex items-center gap-2 text-sm font-semibold cursor-pointer text-slate-700">
+                      <input type="radio" name="regMode" value="select" checked={regMode === "select"} onChange={() => setRegMode("select")} className="h-4 w-4 text-primary focus:ring-primary border-slate-300" />
+                      Select Existing Client
+                    </label>
+                  </div>
+
+                  {regMode === "create" ? (
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                      <div>
+                        <label className="block text-xs font-semibold mb-1 text-slate-600">Client Full Name *</label>
+                        <input type="text" value={newClientData.full_name} onChange={e => setNewClientData(prev => ({...prev, full_name: e.target.value}))} required className="w-full px-3 py-2 border border-slate-300 rounded focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none bg-background" />
+                      </div>
+                      <div>
+                        <label className="block text-xs font-semibold mb-1 text-slate-600">Email Address</label>
+                        <input type="email" value={newClientData.email} onChange={e => setNewClientData(prev => ({...prev, email: e.target.value}))} className="w-full px-3 py-2 border border-slate-300 rounded focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none bg-background" />
+                      </div>
+                      <div>
+                        <label className="block text-xs font-semibold mb-1 text-slate-600">Phone Number</label>
+                        <input type="tel" value={newClientData.phone_number} onChange={e => setNewClientData(prev => ({...prev, phone_number: e.target.value}))} className="w-full px-3 py-2 border border-slate-300 rounded focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none bg-background" />
+                      </div>
+                      <div>
+                        <label className="block text-xs font-semibold mb-1 text-slate-600">Physical Address</label>
+                        <input type="text" value={newClientData.address} onChange={e => setNewClientData(prev => ({...prev, address: e.target.value}))} className="w-full px-3 py-2 border border-slate-300 rounded focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none bg-background" />
+                      </div>
+                    </div>
+                  ) : (
+                    <div>
+                      <label className="block text-xs font-semibold mb-1 text-slate-600">Select Existing Client *</label>
+                      <select value={selectedClientId} onChange={e => setSelectedClientId(e.target.value)} required className="w-full px-3 py-2 border border-slate-300 rounded focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none bg-background">
+                        <option value="">-- Choose a Client --</option>
+                        {clients.map(c => (
+                          <option key={c.id} value={c.id}>{c.full_name} {c.email ? `(${c.email})` : ''}</option>
+                        ))}
+                      </select>
+                    </div>
+                  )}
+
+                  <div className="flex justify-end pt-4 border-t border-slate-100">
+                    <button type="submit" className="bg-primary text-primary-foreground px-6 py-2 rounded-lg font-semibold hover:bg-primary/90 transition-colors shadow-sm">
+                      Continue to Pet Details →
+                    </button>
+                  </div>
+                </form>
+              )}
+
+              {/* Step 2: Patient/Pet */}
+              {regStep === 2 && (
+                <form onSubmit={handleRegPetSubmit} className="space-y-4">
+                  <div className="flex items-center gap-4 mb-6 bg-blue-50 p-4 rounded-lg border border-blue-100">
+                    <div className="w-12 h-12 bg-blue-200 text-blue-700 rounded-full flex items-center justify-center font-bold">
+                      {regMode === "create" ? newClientData.full_name.charAt(0) : clients.find(c => c.id == selectedClientId)?.full_name?.charAt(0) || '?'}
+                    </div>
+                    <div>
+                      <div className="text-xs text-blue-600 font-bold uppercase tracking-wider">Owner Verified</div>
+                      <div className="font-semibold text-slate-800">
+                        {regMode === "create" ? newClientData.full_name : clients.find(c => c.id == selectedClientId)?.full_name}
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    {/* Photo Upload */}
+                    <div className="md:col-span-2 flex items-center gap-4">
+                      {newPetData.photo_url ? (
+                        <img src={newPetData.photo_url} alt="Pet Preview" className="w-16 h-16 rounded-full object-cover border shadow-sm" />
+                      ) : (
+                        <div className="w-16 h-16 rounded-full bg-slate-100 flex items-center justify-center text-[10px] text-slate-400 font-medium border border-slate-200">No Photo</div>
+                      )}
+                      <div>
+                        <input type="file" accept="image/*" ref={petPhotoInputRef} onChange={handlePetPhotoUpload} className="hidden" />
+                        <button type="button" onClick={() => petPhotoInputRef.current?.click()} disabled={uploadingPetPhoto} className="px-3 py-1.5 text-xs font-semibold bg-white border border-slate-300 text-slate-700 rounded hover:bg-slate-50 transition-colors">
+                          {uploadingPetPhoto ? "Uploading..." : "Upload Pet Photo"}
+                        </button>
+                      </div>
+                    </div>
+
+                    <div>
+                      <label className="block text-xs font-semibold mb-1 text-slate-600">Pet Name *</label>
+                      <input type="text" value={newPetData.name} onChange={e => setNewPetData(prev => ({...prev, name: e.target.value}))} required className="w-full px-3 py-2 border border-slate-300 rounded focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none bg-background" />
+                    </div>
+                    <div>
+                      <label className="block text-xs font-semibold mb-1 text-slate-600">Species *</label>
+                      <select value={newPetData.species} onChange={e => setNewPetData(prev => ({...prev, species: e.target.value}))} required className="w-full px-3 py-2 border border-slate-300 rounded focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none bg-background">
+                        <option value="">Select...</option>
+                        <option value="Dog">Dog</option>
+                        <option value="Cat">Cat</option>
+                        <option value="Rabbit">Rabbit</option>
+                        <option value="Bird">Bird</option>
+                        <option value="Other">Other</option>
+                      </select>
+                    </div>
+                    <div>
+                      <label className="block text-xs font-semibold mb-1 text-slate-600">Breed</label>
+                      <input type="text" value={newPetData.breed} onChange={e => setNewPetData(prev => ({...prev, breed: e.target.value}))} className="w-full px-3 py-2 border border-slate-300 rounded focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none bg-background" />
+                    </div>
+                    <div>
+                      <label className="block text-xs font-semibold mb-1 text-slate-600">Date of Birth</label>
+                      <input type="date" value={newPetData.dob} onChange={e => setNewPetData(prev => ({...prev, dob: e.target.value}))} className="w-full px-3 py-2 border border-slate-300 rounded focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none bg-background" />
+                    </div>
+                    <div>
+                      <label className="block text-xs font-semibold mb-1 text-slate-600">Sex</label>
+                      <select value={newPetData.sex} onChange={e => setNewPetData(prev => ({...prev, sex: e.target.value}))} className="w-full px-3 py-2 border border-slate-300 rounded focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none bg-background">
+                        <option value="">Select...</option>
+                        <option value="Male (Intact)">Male (Intact)</option>
+                        <option value="Male (Neutered)">Male (Neutered)</option>
+                        <option value="Female (Intact)">Female (Intact)</option>
+                        <option value="Female (Spayed)">Female (Spayed)</option>
+                        <option value="Unknown">Unknown</option>
+                      </select>
+                    </div>
+                    <div>
+                      <label className="block text-xs font-semibold mb-1 text-slate-600">Weight</label>
+                      <div className="flex gap-2">
+                        <input type="number" step="0.001" value={newPetData.weight} onChange={e => setNewPetData(prev => ({...prev, weight: e.target.value}))} className="flex-1 w-full px-3 py-2 border border-slate-300 rounded focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none bg-background" />
+                        <select value={regWeightUnit} onChange={e => setRegWeightUnit(e.target.value)} className="w-20 px-2 py-2 border border-slate-300 rounded focus:ring-2 focus:ring-primary/20 outline-none bg-slate-50">
+                          <option value="kg">kg</option>
+                          <option value="gram">g</option>
+                        </select>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="flex justify-between pt-6 border-t border-slate-100 mt-6">
+                    <button type="button" onClick={() => setRegStep(1)} className="text-slate-500 font-semibold text-sm hover:text-slate-800">
+                      ← Back to Client
+                    </button>
+                    <button type="submit" className="bg-emerald-600 text-white px-6 py-2 rounded-lg font-semibold hover:bg-emerald-700 transition-colors shadow-sm shadow-emerald-600/20">
+                      Register Pet & Finish
+                    </button>
+                  </div>
+                </form>
+              )}
+            </div>
+          </div>
+        </div>
+      )}
 
       {/* Modal */}
       {isModalOpen && (
@@ -384,22 +726,50 @@ export default function AdminTabMedicalRecords() {
                   <div className="md:col-span-2 bg-muted/30 p-4 rounded-lg border border-border">
                     <h4 className="font-semibold mb-3 text-primary">Visit Information</h4>
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                      <div>
+                      <div className="relative" ref={petSearchRef}>
                         <label className="block text-xs font-medium mb-1">Patient (Pet) *</label>
-                        <select
-                          name="pet_id"
-                          value={formData.pet_id}
-                          onChange={handleInputChange}
-                          className="w-full px-3 py-2 text-sm border border-border rounded-md focus:outline-none focus:ring-1 focus:ring-primary"
+                        <input
+                          type="text"
+                          value={petSearchText}
+                          onFocus={() => setIsPetDropdownOpen(true)}
+                          onChange={(e) => {
+                            setPetSearchText(e.target.value)
+                            setIsPetDropdownOpen(true)
+                            const matched = patients.find(p => p.name?.toLowerCase() === e.target.value.toLowerCase())
+                            if (matched) {
+                              setFormData(prev => ({ ...prev, pet_id: matched.id }))
+                            } else {
+                              setFormData(prev => ({ ...prev, pet_id: "" }))
+                            }
+                          }}
+                          placeholder="Type patient name..."
                           required
-                        >
-                          <option value="">Select Patient...</option>
-                          {patients.map(p => (
-                            <option key={p.id} value={p.id}>
-                              {p.name} ({p.owner_name})
-                            </option>
-                          ))}
-                        </select>
+                          className="w-full px-3 py-2 text-sm border border-border rounded-md focus:outline-none focus:ring-1 focus:ring-primary bg-background text-foreground"
+                        />
+                        {isPetDropdownOpen && (
+                          <div className="absolute z-50 w-full mt-1 bg-background border border-border rounded-md shadow-lg max-h-60 overflow-y-auto">
+                            {patients.filter(p => p.name?.toLowerCase().startsWith(petSearchText.toLowerCase())).length > 0 ? (
+                              patients
+                                .filter(p => p.name?.toLowerCase().startsWith(petSearchText.toLowerCase()))
+                                .map(p => (
+                                  <button
+                                    key={p.id}
+                                    type="button"
+                                    onClick={() => {
+                                      setPetSearchText(`${p.name} (${p.owner_name || ""})`)
+                                      setFormData(prev => ({ ...prev, pet_id: p.id }))
+                                      setIsPetDropdownOpen(false)
+                                    }}
+                                    className="w-full px-3 py-2 text-left text-sm hover:bg-muted/80 focus:bg-muted/80 focus:outline-none text-foreground font-normal"
+                                  >
+                                    {p.name} ({p.owner_name})
+                                  </button>
+                                ))
+                            ) : (
+                              <div className="px-3 py-2 text-xs text-muted-foreground">No patients starting with "{petSearchText}"</div>
+                            )}
+                          </div>
+                        )}
                       </div>
                       <div>
                         <label className="block text-xs font-medium mb-1">Attending Veterinarian *</label>

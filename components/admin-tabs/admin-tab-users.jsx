@@ -22,7 +22,8 @@ export default function AdminTabUsers() {
       })
       if (response.ok) {
         const data = await response.json()
-        setUsers(data)
+        const staff = data.filter((user) => user.role !== "client")
+        setUsers(staff)
       }
     } catch (error) {
       console.error("[v0] Error fetching users:", error)

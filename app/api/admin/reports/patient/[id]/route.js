@@ -55,11 +55,21 @@ export async function GET(request, { params }) {
       inv.items = items
     }
 
+    // 5. Consent Forms related to the client (owner)
+    const consentForms = await query(`
+      SELECT cf.*, p.name as pet_name
+      FROM consent_forms cf
+      LEFT JOIN pets p ON cf.pet_id = p.id
+      WHERE cf.client_id = ?
+      ORDER BY cf.created_at DESC
+    `, [patient.user_id])
+
     return NextResponse.json({
       patient,
       medical,
       vaccinations,
-      billing: invoices
+      billing: invoices,
+      consentForms
     })
 
   } catch (error) {

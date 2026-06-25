@@ -5,6 +5,16 @@ import { useState, useEffect } from "react"
 import Image from "next/image"
 import jsPDF from "jspdf"
 import autoTable from "jspdf-autotable"
+import { QRCodeSVG } from "qrcode.react"
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogDescription,
+  DialogFooter,
+  DialogClose,
+} from "@/components/ui/dialog"
 
 
 export default function AdminTabReports() {
@@ -26,6 +36,15 @@ export default function AdminTabReports() {
   const [reportType, setReportType] = useState(null) // 'medical', 'vaccination', 'billing', 'full'
   const [isModalOpen, setIsModalOpen] = useState(false)
   const [fetchingReport, setFetchingReport] = useState(false)
+
+  // QR Code Modal State
+  const [qrModalOpen, setQrModalOpen] = useState(false)
+  const [qrPet, setQrPet] = useState(null)
+
+  const openQrModal = (pet) => {
+    setQrPet(pet)
+    setQrModalOpen(true)
+  }
 
   useEffect(() => {
     fetchPatients()
@@ -253,13 +272,16 @@ export default function AdminTabReports() {
                 <th className="px-6 py-4 text-center font-bold text-muted-foreground uppercase tracking-wider">
                   Full Report
                 </th>
+                <th className="px-6 py-4 text-center font-bold text-muted-foreground uppercase tracking-wider">
+                  QR Code
+                </th>
               </tr>
             </thead>
             <tbody className="divide-y divide-border">
               {loading ? (
-                <tr><td colSpan="5" className="px-6 py-12 text-center text-muted-foreground">Loading patient directory...</td></tr>
+                <tr><td colSpan="6" className="px-6 py-12 text-center text-muted-foreground">Loading patient directory...</td></tr>
               ) : filteredPatients.length === 0 ? (
-                <tr><td colSpan="5" className="px-6 py-12 text-center text-muted-foreground">No matching patients found.</td></tr>
+                <tr><td colSpan="6" className="px-6 py-12 text-center text-muted-foreground">No matching patients found.</td></tr>
               ) : filteredPatients.map((pet) => (
                 <tr key={pet.id} className="hover:bg-muted/30 transition-colors">
                   <td className="px-6 py-4 whitespace-nowrap">
@@ -309,6 +331,14 @@ export default function AdminTabReports() {
                       className="px-4 py-2 bg-primary/10 text-primary hover:bg-primary hover:text-primary-foreground font-semibold rounded-md border border-primary/20 transition-colors text-xs"
                     >
                       Full Report
+                    </button>
+                  </td>
+                  <td className="px-6 py-4 text-center whitespace-nowrap">
+                    <button
+                      onClick={() => openQrModal(pet)}
+                      className="px-4 py-2 bg-violet-50 text-violet-600 hover:bg-violet-100 font-semibold rounded-md border border-violet-200 transition-colors text-xs"
+                    >
+                      Generate QR
                     </button>
                   </td>
                 </tr>
@@ -464,6 +494,59 @@ export default function AdminTabReports() {
                     </div>
                   )}
 
+                  {/* Consent Forms Section */}
+                  {reportType === 'full' && (
+                    <div className="bg-background p-5 rounded-lg border border-border shadow-sm">
+                      <div className="flex justify-between items-center mb-4 border-b border-border pb-2">
+                        <h4 className="font-bold text-lg text-emerald-600">Consent & Waiver Forms ({reportData.consentForms?.length || 0} records)</h4>
+                      </div>
+
+                      {!reportData.consentForms || reportData.consentForms.length === 0 ? (
+                        <p className="text-sm text-muted-foreground italic">No consent forms found.</p>
+                      ) : (
+                        <table className="w-full text-sm">
+                          <thead className="bg-muted text-left">
+                            <tr>
+                              <th className="p-2 font-semibold">Form Type</th>
+                              <th className="p-2 font-semibold">Pet Name</th>
+                              <th className="p-2 font-semibold">Date Signed</th>
+                              <th className="p-2 font-semibold text-center">Status</th>
+                              <th className="p-2 font-semibold text-center">Signed Form</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            {reportData.consentForms.map(cf => (
+                              <tr key={cf.id} className="border-b border-border">
+                                <td className="p-2 font-medium capitalize">{cf.form_type}</td>
+                                <td className="p-2">{cf.pet_name || 'N/A'}</td>
+                                <td className="p-2">{new Date(cf.created_at).toLocaleDateString()}</td>
+                                <td className="p-2 text-center">
+                                  <span className="px-2 py-0.5 rounded text-xs font-bold bg-green-50 text-green-800 border border-green-200">
+                                    {cf.status || 'Signed'}
+                                  </span>
+                                </td>
+                                <td className="p-2 text-center">
+                                  {cf.attachment_url ? (
+                                    <a
+                                      href={cf.attachment_url}
+                                      target="_blank"
+                                      rel="noopener noreferrer"
+                                      className="text-xs font-semibold text-emerald-600 hover:text-emerald-700 bg-emerald-50 px-2.5 py-1 rounded border border-emerald-100 hover:bg-emerald-100 inline-block transition-colors"
+                                    >
+                                      View Signature/File
+                                    </a>
+                                  ) : (
+                                    <span className="text-xs text-muted-foreground italic">No attachment</span>
+                                  )}
+                                </td>
+                              </tr>
+                            ))}
+                          </tbody>
+                        </table>
+                      )}
+                    </div>
+                  )}
+
                 </div>
               ) : null}
             </div>
@@ -489,6 +572,37 @@ export default function AdminTabReports() {
           </div>
         </div>
       )}
+
+      {/* QR Code Modal */}
+      <Dialog open={qrModalOpen} onOpenChange={setQrModalOpen}>
+        <DialogContent className="sm:max-w-md">
+          <DialogHeader>
+            <DialogTitle>Patient Report QR Code</DialogTitle>
+            <DialogDescription>
+              Scan this code to view the full report for <strong>{qrPet?.name}</strong> in a separate browser tab.
+            </DialogDescription>
+          </DialogHeader>
+          <div className="flex justify-center py-6">
+            {qrPet && (
+              <div className="bg-white p-4 rounded-xl border border-border shadow-sm">
+                <QRCodeSVG
+                  value={`${typeof window !== 'undefined' ? window.location.origin : ''}/shared/report/${qrPet.id}`}
+                  size={200}
+                  level="H"
+                  includeMargin={true}
+                />
+              </div>
+            )}
+          </div>
+          <DialogFooter>
+            <DialogClose asChild>
+              <button className="w-full px-4 py-2 border border-border font-medium rounded-lg hover:bg-muted transition-colors text-sm">
+                Close
+              </button>
+            </DialogClose>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
     </div>
   )
 }

@@ -29,7 +29,8 @@ import {
   Wrench,
   UserCheck,
   Image,
-  Star
+  Star,
+  FlaskConical
 } from "lucide-react"
 
 export default function AdminDashboardLayout({ children }) {
@@ -151,10 +152,10 @@ export default function AdminDashboardLayout({ children }) {
     { id: "overview", label: "Overview", path: `${prefix}`, icon: Activity },
     { id: "appointments", label: "Appointments", path: `${prefix}/appointments`, icon: Calendar },
     { id: "reminders", label: "Reminders", path: `${prefix}/reminders`, icon: Bell },
-    { id: "patients", label: "Patients (Pets)", path: `${prefix}/patients`, icon: Stethoscope },
     { id: "medical_records", label: "Medical Records", path: `${prefix}/medical-records`, icon: FileText },
     { id: "vaccinations", label: "Vaccinations", path: `${prefix}/vaccinations`, icon: Syringe },
     { id: "consent_forms", label: "Consent Forms", path: `${prefix}/consent-forms`, icon: ClipboardCheck },
+    { id: "test_reports", label: "Test Reports", path: `${prefix}/test-reports`, icon: FlaskConical },
     { id: "billing", label: "Billing", path: `${prefix}/billing`, icon: DollarSign },
     { id: "inventory", label: "Inventory", path: `${prefix}/inventory`, icon: Package },
     { id: "orders", label: "Orders", path: `${prefix}/orders`, icon: ShoppingCart },
@@ -215,7 +216,7 @@ export default function AdminDashboardLayout({ children }) {
         </div>
 
         {/* Sidebar Tabs */}
-        <nav className="flex-1 px-4 py-6 space-y-1 overflow-y-auto">
+        <nav className="sidebar-scroll flex-1 px-4 py-6 space-y-1 overflow-y-auto">
           {tabs.map((tab) => {
             const isActive = tab.id === 'overview' ? pathname === prefix : pathname === tab.path || pathname.startsWith(tab.path + '/')
             return (
@@ -260,7 +261,7 @@ export default function AdminDashboardLayout({ children }) {
                 <X className="w-5 h-5 text-blue-300" />
               </button>
             </div>
-            <nav className="flex-1 px-4 py-6 space-y-1 overflow-y-auto">
+            <nav className="sidebar-scroll flex-1 px-4 py-6 space-y-1 overflow-y-auto">
               {tabs.map((tab) => {
                  const isActive = tab.id === 'overview' ? pathname === prefix : pathname === tab.path || pathname.startsWith(tab.path + '/')
                 return (

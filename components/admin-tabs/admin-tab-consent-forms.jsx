@@ -21,6 +21,11 @@ export default function AdminTabConsentForms() {
   // Pets data
   const [allPets, setAllPets] = useState([])
 
+  // Searchable client state
+  const [clientSearchText, setClientSearchText] = useState("")
+  const [isClientDropdownOpen, setIsClientDropdownOpen] = useState(false)
+  const clientSearchRef = useRef(null)
+
   // Form Fields
   const [clientId, setClientId] = useState("")
   const [petId, setPetId] = useState("")
@@ -93,6 +98,18 @@ export default function AdminTabConsentForms() {
         const parsed = JSON.parse(adminData)
         setIsAdmin(parsed.role === "admin")
       } catch (e) { }
+    }
+  }, [])
+
+  useEffect(() => {
+    function handleClickOutside(event) {
+      if (clientSearchRef.current && !clientSearchRef.current.contains(event.target)) {
+        setIsClientDropdownOpen(false)
+      }
+    }
+    document.addEventListener("mousedown", handleClickOutside)
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside)
     }
   }, [])
 
@@ -363,6 +380,7 @@ export default function AdminTabConsentForms() {
 
   const resetFormStates = () => {
     setClientId("")
+    setClientSearchText("")
     setPetId("")
     setFormType("surgery")
     setAttachmentUrl("")
@@ -534,6 +552,11 @@ export default function AdminTabConsentForms() {
 
   const clientPets = allPets.filter(p => Number(p.user_id) === Number(clientId))
 
+  // Filter clients whose full name starts with the typed prefix
+  const filteredClients = clients.filter(c =>
+    c.full_name?.toLowerCase().startsWith(clientSearchText.toLowerCase())
+  )
+
   const filteredForms = consentForms.filter(f => {
     const clientName = f.client_name?.toLowerCase() || ""
     const clientEmail = f.client_email?.toLowerCase() || ""
@@ -691,19 +714,48 @@ export default function AdminTabConsentForms() {
 
             {/* Quick selectors row */}
             <div className="bg-slate-50 p-4 border-b border-border grid grid-cols-1 md:grid-cols-3 gap-4 shrink-0 print:hidden">
-              <div>
+              <div className="relative" ref={clientSearchRef}>
                 <label className="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-1">Select Client</label>
-                <select
-                  value={clientId}
-                  onChange={(e) => handleClientChange(e.target.value)}
+                <input
+                  type="text"
+                  value={clientSearchText}
+                  onFocus={() => setIsClientDropdownOpen(true)}
+                  onChange={(e) => {
+                    setClientSearchText(e.target.value)
+                    setIsClientDropdownOpen(true)
+                    const matched = clients.find(c => c.full_name?.toLowerCase() === e.target.value.toLowerCase())
+                    if (matched) {
+                      handleClientChange(matched.id)
+                    } else {
+                      handleClientChange("")
+                    }
+                  }}
+                  placeholder="Type client name..."
                   required
                   className="w-full px-3 py-2 border border-border rounded-lg bg-background text-foreground text-sm focus:outline-none focus:ring-2 focus:ring-primary/20"
-                >
-                  <option value="">-- Choose Client --</option>
-                  {clients.map(c => (
-                    <option key={c.id} value={c.id}>{c.full_name} ({c.email})</option>
-                  ))}
-                </select>
+                />
+                {isClientDropdownOpen && (
+                  <div className="absolute z-50 w-full mt-1 bg-background border border-border rounded-lg shadow-lg max-h-60 overflow-y-auto">
+                    {filteredClients.length > 0 ? (
+                      filteredClients.map(c => (
+                        <button
+                          key={c.id}
+                          type="button"
+                          onClick={() => {
+                            setClientSearchText(c.full_name)
+                            handleClientChange(c.id)
+                            setIsClientDropdownOpen(false)
+                          }}
+                          className="w-full px-3 py-2 text-left text-sm hover:bg-muted/80 focus:bg-muted/80 focus:outline-none text-foreground"
+                        >
+                          {c.full_name} ({c.email || 'No email'})
+                        </button>
+                      ))
+                    ) : (
+                      <div className="px-3 py-2 text-xs text-muted-foreground">No clients starting with "{clientSearchText}"</div>
+                    )}
+                  </div>
+                )}
               </div>
 
               <div>
