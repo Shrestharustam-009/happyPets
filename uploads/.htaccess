@@ -1,0 +1,17 @@
+# .htaccess in public/uploads/
+<IfModule mod_expires.c>
+  ExpiresActive On
+  ExpiresByType image/jpg "access plus 0 seconds"
+  ExpiresByType image/jpeg "access plus 0 seconds"
+  ExpiresByType image/png "access plus 0 seconds"
+  ExpiresByType image/gif "access plus 0 seconds"
+  ExpiresByType image/webp "access plus 0 seconds"
+  ExpiresDefault "access plus 0 seconds"
+</IfModule>
+
+# Prevent outdated browser caching with cache-control header
+<IfModule mod_headers.c>
+  Header set Cache-Control "no-cache, no-store, must-revalidate"
+  Header set Pragma "no-cache"
+  Header set Expires 0
+</IfModule>

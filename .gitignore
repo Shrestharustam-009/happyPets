@@ -38,7 +38,7 @@ Thumbs.db
 *.sw?
 
 # Local uploads
-uploads/
+public/uploads/
 scratch/
 implementation.md
 *.txt
