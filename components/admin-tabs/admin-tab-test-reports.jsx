@@ -1,4 +1,4 @@
-"use client"
+﻿"use client"
 
 import React, { useState, useEffect, useRef } from "react"
 import { fetchWithAuth } from "@/lib/api"
@@ -21,12 +21,12 @@ const labTestCategories = [
     tests: [
       { key: "hemoglobin", name: "Hemoglobin", ref: "(13-20)" },
       { key: "pcv", name: "PCV (%)", ref: "(35-60)" },
-      { key: "rbc", name: "RBC Count (M/µL)", ref: "(5-7)" },
+      { key: "rbc", name: "RBC Count (M/ÂµL)", ref: "(5-7)" },
       { key: "mcv", name: "MCV (fL)", ref: "(60-73)" },
       { key: "mch", name: "MCH (pg)", ref: "(21-25)" },
       { key: "mchc", name: "MCHC (g/dl)", ref: "(32-38)" },
       { key: "wbc", name: "WBC Count", ref: "05-17" },
-      { key: "platelets", name: "Platelet Count (K/µL)", ref: "(148-484)" }
+      { key: "platelets", name: "Platelet Count (K/ÂµL)", ref: "(148-484)" }
     ]
   },
   {
@@ -45,7 +45,7 @@ const labTestCategories = [
       { key: "esr", name: "ESR (mm/hr)", ref: "(5-10)" },
       { key: "blood_parasites", name: "Blood Parasites", ref: "" },
       { key: "rdw", name: "RDW (%)", ref: "(32-22)" },
-      { key: "retic", name: "RETIC (K/µL)", ref: "(10-110)" }
+      { key: "retic", name: "RETIC (K/ÂµL)", ref: "(10-110)" }
     ]
   },
   {
@@ -80,7 +80,7 @@ const labTestCategories = [
       { key: "chloride", name: "Chloride (mmol/L)", ref: "(110-124)" },
       { key: "calcium", name: "Calcium (mg/dl)", ref: "(5.1-10.0)" },
       { key: "lipase", name: "Lipase (U/L)", ref: "(200-1800)" },
-      { key: "nh3", name: "NH3 (µmol/L)", ref: "(0-98)" },
+      { key: "nh3", name: "NH3 (Âµmol/L)", ref: "(0-98)" },
       { key: "ck", name: "CK (U/L)", ref: "(100-200)" },
       { key: "lac", name: "LAC (mmol/L)", ref: "(0.5-2.5)" },
       { key: "ldh", name: "LDH (U/L)", ref: "(40-400)" },
@@ -904,7 +904,7 @@ export default function AdminTabTestReports() {
         </div>
       )}
 
-      {/* View and Print Modal — full-page scrollable */}
+      {/* View and Print Modal â€” full-page scrollable */}
       {isViewModalOpen && activeReport && (
         <div className="fixed inset-0 z-50 bg-slate-100 flex flex-col">
           
@@ -1054,141 +1054,8 @@ export default function AdminTabTestReports() {
 
         </div>
       )}
-              
-
-
-
-              {/* Clinic Banner */}
-              <div className="flex items-center justify-center border-b border-slate-300 pb-6 mb-6">
-                <div className="text-center">
-                  <img src="/happy_pets_logo.jpg" alt="Happy Pets Animal Clinic Logo" className="w-28 h-28 mx-auto mb-3 object-contain" />
-                  <h1 className="text-3xl font-black tracking-wider uppercase text-slate-900 font-sans">HAPPY PETS ANIMAL CLINIC</h1>
-                  <p className="text-sm font-semibold text-slate-600 font-sans mt-0.5">Imadol, Lalitpur, NEPAL</p>
-                  <p className="text-xs text-slate-500 font-sans mt-0.5">9860872125, 9860872125 | happypetsnepal@gmail.com</p>
-                </div>
-              </div>
-
-              {/* Owner and Pet Info Box */}
-              <div className="grid grid-cols-1 md:grid-cols-2 border border-slate-300 text-xs font-sans rounded-none divide-y md:divide-y-0 md:divide-x divide-slate-300 mb-6 bg-slate-50/30">
-                
-                {/* Left side: Owner */}
-                <div className="p-4 space-y-2">
-                  <h3 className="font-extrabold text-sm border-b border-slate-200 pb-1 text-slate-800 uppercase tracking-wider">Owner's Details</h3>
-                  <div className="grid grid-cols-12 gap-1.5">
-                    <span className="col-span-4 font-bold text-slate-500">Name</span>
-                    <span className="col-span-8 font-extrabold text-slate-800">{activeReport.parsedResults?.metadata?.owner_name || activeReport.client_name || "N/A"}</span>
-                    
-                    <span className="col-span-4 font-bold text-slate-500">Address</span>
-                    <span className="col-span-8 font-medium text-slate-700">{activeReport.parsedResults?.metadata?.owner_address || activeReport.client_address || "N/A"}</span>
-                    
-                    <span className="col-span-4 font-bold text-slate-500">Contact</span>
-                    <span className="col-span-8 font-medium text-slate-700">{activeReport.parsedResults?.metadata?.owner_contact || activeReport.client_phone || "N/A"}</span>
-                    
-                    <span className="col-span-4 font-bold text-slate-500">Email</span>
-                    <span className="col-span-8 font-medium text-slate-700">{activeReport.parsedResults?.metadata?.owner_email || activeReport.client_email || "N/A"}</span>
-                  </div>
-                </div>
-
-                {/* Right side: Pet */}
-                <div className="p-4 space-y-2">
-                  <h3 className="font-extrabold text-sm border-b border-slate-200 pb-1 text-slate-800 uppercase tracking-wider">Pet's Details</h3>
-                  <div className="grid grid-cols-12 gap-x-2 gap-y-1.5">
-                    <span className="col-span-3 font-bold text-slate-500">Name</span>
-                    <span className="col-span-4 font-extrabold text-slate-800">{activeReport.parsedResults?.metadata?.pet_name || activeReport.pet_name || "N/A"}</span>
-                    <span className="col-span-2 font-bold text-slate-500">Breed</span>
-                    <span className="col-span-3 font-semibold text-slate-700">{activeReport.parsedResults?.metadata?.pet_breed || activeReport.pet_breed || "N/A"}</span>
-
-                    <span className="col-span-3 font-bold text-slate-500">DOB/Age</span>
-                    <span className="col-span-4 font-medium text-slate-700">{activeReport.parsedResults?.metadata?.pet_age || getAgeString(activeReport.pet_dob) || "N/A"}</span>
-                    <span className="col-span-2 font-bold text-slate-500">Color</span>
-                    <span className="col-span-3 font-medium text-slate-700">{activeReport.parsedResults?.metadata?.pet_color || activeReport.pet_color || "N/A"}</span>
-
-                    <span className="col-span-3 font-bold text-slate-500">Species</span>
-                    <span className="col-span-4 font-semibold text-slate-700">{activeReport.parsedResults?.metadata?.pet_species || activeReport.pet_species || "N/A"}</span>
-                    <span className="col-span-2 font-bold text-slate-500">Microchip</span>
-                    <span className="col-span-3 font-medium text-slate-700">{activeReport.parsedResults?.metadata?.pet_microchip || activeReport.pet_identifying_marks || "0"}</span>
-
-                    <span className="col-span-3 font-bold text-slate-500">Sex</span>
-                    <span className="col-span-4 font-medium text-slate-700">{activeReport.parsedResults?.metadata?.pet_sex || activeReport.pet_sex || "N/A"}</span>
-                    <span className="col-span-2 font-bold text-slate-500">Weight</span>
-                    <span className="col-span-3 font-semibold text-slate-700">{activeReport.parsedResults?.metadata?.pet_weight || (activeReport.pet_weight ? `${activeReport.pet_weight} Kg` : "") || "N/A"}</span>
-                  </div>
-                </div>
-
-              </div>
-
-              {/* Dates & Vet details */}
-              <div className="flex justify-between items-center text-xs font-bold font-sans text-slate-700 mb-6 border-b border-slate-200 pb-3">
-                <div>
-                  Attending Vet: <span className="font-extrabold text-slate-900">Dr. {activeReport.vet_name || "N/A"}</span>
-                </div>
-                <div className="text-right space-y-1">
-                  <div>Printed Date: <span className="font-extrabold text-slate-900">{activeReport.parsedResults?.metadata?.printed_date || new Date().toLocaleString("en-US", { hour12: false }).replace(",", "")}</span></div>
-                  <div>Date: <span className="font-extrabold text-slate-900">{new Date(activeReport.report_date).toLocaleDateString("en-US", { year: 'numeric', month: 'short', day: 'numeric' })}</span></div>
-                </div>
-              </div>
-
-              {/* Laboratory Report Table */}
-              <div className="border border-slate-400 rounded-none overflow-hidden">
-                <table className="w-full text-left font-sans text-xs">
-                  <thead className="bg-slate-100 border-b border-slate-400">
-                    <tr className="divide-x divide-slate-300">
-                      <th className="px-4 py-2 font-extrabold text-slate-800 uppercase tracking-wider w-1/2">Test Name</th>
-                      <th className="px-4 py-2 font-extrabold text-slate-800 uppercase tracking-wider w-1/4 text-center">Results</th>
-                      <th className="px-4 py-2 font-extrabold text-slate-800 uppercase tracking-wider w-1/4 text-right">Reference</th>
-                    </tr>
-                  </thead>
-                  <tbody className="divide-y divide-slate-300">
-                    {labTestCategories.map(cat => {
-                      // Filter category to see if any tests have results entered
-                      const testsWithResults = cat.tests.filter(t => activeReport.parsedResults[t.key] !== undefined && activeReport.parsedResults[t.key] !== "")
-                      if (testsWithResults.length === 0) return null // Hide category if no tests filled
-
-                      return (
-                        <React.Fragment key={cat.category}>
-                          <tr className="bg-slate-50/80 font-black border-y border-slate-300">
-                            <td colSpan="3" className="px-4 py-2 text-[11px] text-slate-900 font-extrabold uppercase tracking-wider">
-                              {cat.category}
-                            </td>
-                          </tr>
-                          {testsWithResults.map(test => {
-                            const val = activeReport.parsedResults[test.key]
-                            const isAbnormal = isOutsideRange(val, test.ref)
-                            return (
-                              <tr key={test.key} className="hover:bg-slate-50/50 divide-x divide-slate-200">
-                                <td className="px-4 py-2 text-slate-700 font-semibold">{test.name}</td>
-                                <td className={`px-4 py-2 text-center text-slate-900 ${isAbnormal ? "font-black text-sm text-red-700" : "font-medium"}`}>
-                                  {val}
-                                </td>
-                                <td className="px-4 py-2 text-right text-slate-500 font-mono">{test.ref || "Variable"}</td>
-                              </tr>
-                            )
-                          })}
-                        </React.Fragment>
-                      )
-                    })}
-                  </tbody>
-                </table>
-              </div>
-
-              {/* Signature / Stamp line */}
-              <div className="mt-20 flex justify-between items-end font-sans">
-                <div className="text-center w-48 border-t border-slate-300 pt-2 text-[10px] text-slate-500">
-                  Laboratory Technician
-                </div>
-                <div className="text-center w-48 border-t border-slate-300 pt-2 text-[10px] text-slate-500">
-                  Authorized Signature
-                </div>
-              </div>
-
-            </div>
-
-            </div>{/* end scrollable wrapper */}
-
-          </div>
-        </div>
-      )}
 
     </div>
   )
 }
+
