@@ -16,7 +16,6 @@ export default function LoginForm() {
     setError("")
     setLoading(true)
 
-    console.log(email, password);
 
     try {
       if (!email || !password) {

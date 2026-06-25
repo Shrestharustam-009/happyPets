@@ -3,9 +3,14 @@ import bcrypt from "bcryptjs"
 
 export async function POST(req) {
   try {
-    const { email, password } = await req.json();
-    console.log(email, password);
-
+    let email, password;
+    try {
+      const body = await req.json();
+      email = body?.email;
+      password = body?.password;
+    } catch (parseError) {
+      return Response.json({ message: "Invalid request format" }, { status: 400 });
+    }
     if (!email || !password) {
       return Response.json({ message: "Email and password are required" }, { status: 400 })
     }
