@@ -5,7 +5,12 @@ export async function POST(req) {
   try {
     let email, password;
     try {
-      const body = await req.json();
+      let body;
+    try {
+      body = await req.json();
+    } catch (err) {
+      return (typeof NextResponse !== 'undefined' ? NextResponse : Response).json({ error: "Invalid JSON payload" }, { status: 400 });
+    };
       email = body?.email;
       password = body?.password;
     } catch (parseError) {

@@ -50,7 +50,12 @@ export async function POST(request) {
       return NextResponse.json({ error: "Forbidden" }, { status: 403 })
     }
 
-    const body = await request.json()
+    let body;
+    try {
+      body = await request.json();
+    } catch (err) {
+      return (typeof NextResponse !== 'undefined' ? NextResponse : Response).json({ error: "Invalid JSON payload" }, { status: 400 });
+    }
     const { client_id, phone_number, pet_id, total_amount, status, due_date, notes, items } = body
 
     if (!client_id || !items || !items.length) {

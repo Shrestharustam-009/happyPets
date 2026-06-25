@@ -1,9 +1,19 @@
 import { query } from "@/lib/db"
+import { validateAdminRequest } from "@/lib/auth-middleware"
 
 export async function PUT(req, { params }) {
   try {
+    if (!(await validateAdminRequest(req))) {
+      return Response.json({ error: "Forbidden" }, { status: 403 })
+    }
     const { id } = await params;
-    const body = await req.json()
+    
+    let body;
+    try {
+      body = await req.json();
+    } catch (err) {
+      return Response.json({ error: "Invalid JSON" }, { status: 400 });
+    }
     const { is_active, role } = body
 
     const updates = []

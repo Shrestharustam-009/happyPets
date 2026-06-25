@@ -35,7 +35,12 @@ export async function POST(request) {
       return NextResponse.json({ error: "Forbidden" }, { status: 403 })
     }
 
-    const body = await request.json()
+    let body;
+    try {
+      body = await request.json();
+    } catch (err) {
+      return (typeof NextResponse !== 'undefined' ? NextResponse : Response).json({ error: "Invalid JSON payload" }, { status: 400 });
+    }
     const { name, description, price, category, stock, image_url, is_visible } = body
 
     if (!name || !price || !category) {

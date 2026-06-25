@@ -1,4 +1,5 @@
 import { NextResponse } from "next/server"
+import { validateAdminRequest } from "@/lib/auth-middleware"
 import fs from "fs"
 import path from "path"
 
@@ -10,6 +11,9 @@ if (!fs.existsSync(UPLOAD_DIR)) {
 
 export async function POST(request) {
   try {
+    if (!(await validateAdminRequest(request))) {
+      return NextResponse.json({ error: "Forbidden" }, { status: 403 })
+    }
     const formData = await request.formData()
     const file = formData.get("file")
 

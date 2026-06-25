@@ -9,7 +9,12 @@ export async function PUT(request, { params }) {
     }
 
     const { id } = await params
-    const body = await request.json()
+    let body;
+    try {
+      body = await request.json();
+    } catch (err) {
+      return (typeof NextResponse !== 'undefined' ? NextResponse : Response).json({ error: "Invalid JSON payload" }, { status: 400 });
+    }
     const { name, description, price, category, stock, image_url, is_visible } = body
 
     if (!name || !price || !category) {

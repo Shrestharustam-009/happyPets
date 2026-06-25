@@ -1,4 +1,5 @@
 import { NextResponse } from "next/server"
+import { validateAdminRequest } from "@/lib/auth-middleware"
 import { saveMedicalRecordAttachment } from "@/lib/file-upload"
 
 export async function POST(request) {
