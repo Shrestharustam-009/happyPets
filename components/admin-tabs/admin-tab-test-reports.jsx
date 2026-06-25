@@ -904,57 +904,159 @@ export default function AdminTabTestReports() {
         </div>
       )}
 
-      {/* View & Print Modal */}
+      {/* View and Print Modal — full-page scrollable */}
       {isViewModalOpen && activeReport && (
-        <div className="fixed inset-0 bg-black/70 flex items-start justify-center z-50 p-4 overflow-y-auto">
-          <div className="bg-white text-slate-900 rounded-lg shadow-2xl w-full max-w-4xl my-8 border border-border flex flex-col max-h-[90vh]">
-            
-            {/* Header controls inside modal */}
-            <div className="flex justify-between items-center p-4 border-b border-border bg-slate-50 no-print shrink-0">
-              <span className="font-semibold text-slate-700">Lab Test Report Preview</span>
-              <div className="flex gap-2">
-                <button
-                  onClick={() => window.print()}
-                  className="bg-primary text-primary-foreground hover:bg-primary/90 px-4 py-2 rounded font-semibold text-sm flex items-center gap-1.5 cursor-pointer shadow-sm"
-                >
-                  <Printer className="w-4 h-4" /> Print Report
-                </button>
-                <button
-                  onClick={() => setIsViewModalOpen(false)}
-                  className="border border-border hover:bg-slate-100 px-4 py-2 rounded text-slate-700 font-semibold text-sm cursor-pointer"
-                >
-                  Close
-                </button>
-              </div>
+        <div className="fixed inset-0 z-50 bg-slate-100 flex flex-col">
+          
+          {/* Sticky top bar with Print + Close */}
+          <div className="shrink-0 flex justify-between items-center px-6 py-3 bg-white border-b border-border shadow-sm no-print">
+            <span className="font-bold text-slate-800 text-lg">Lab Test Report Preview</span>
+            <div className="flex gap-3">
+              <button
+                onClick={() => window.print()}
+                className="bg-primary text-primary-foreground hover:bg-primary/90 px-5 py-2 rounded-lg font-semibold text-sm flex items-center gap-2 cursor-pointer shadow-sm"
+              >
+                <Printer className="w-4 h-4" /> Print Report
+              </button>
+              <button
+                onClick={() => setIsViewModalOpen(false)}
+                className="border border-border hover:bg-slate-100 px-5 py-2 rounded-lg text-slate-700 font-semibold text-sm cursor-pointer"
+              >
+                Close
+              </button>
             </div>
+          </div>
 
-            {/* Printable Area - scrollable */}
-            <div className="flex-1 overflow-y-auto">
-            <div id="printable-report" className="p-8 md:p-12 bg-white text-slate-950 font-serif leading-normal">
+          {/* Scrollable report content */}
+          <div className="flex-1 overflow-y-auto p-6">
+            <div id="printable-report" className="max-w-4xl mx-auto bg-white rounded-lg shadow-lg border border-border p-8 md:p-12 text-slate-950 font-serif leading-normal">
               
-              {/* Add custom print media style locally */}
+              {/* Print media style */}
               <style dangerouslySetInnerHTML={{__html: `
                 @media print {
-                  body * {
-                    visibility: hidden !important;
-                  }
-                  #printable-report, #printable-report * {
-                    visibility: visible !important;
-                  }
+                  body * { visibility: hidden !important; }
+                  #printable-report, #printable-report * { visibility: visible !important; }
                   #printable-report {
                     position: absolute !important;
-                    left: 0 !important;
-                    top: 0 !important;
+                    left: 0 !important; top: 0 !important;
                     width: 100% !important;
-                    padding: 0 !important;
+                    padding: 20px !important;
                     margin: 0 !important;
                     border: none !important;
+                    box-shadow: none !important;
                   }
-                  .no-print {
-                    display: none !important;
-                  }
+                  .no-print { display: none !important; }
                 }
               `}} />
+
+              {/* Clinic Banner */}
+              <div className="flex items-center justify-center border-b border-slate-300 pb-6 mb-6">
+                <div className="text-center">
+                  <img src="/happy_pets_logo.jpg" alt="Happy Pets Animal Clinic Logo" className="w-28 h-28 mx-auto mb-3 object-contain" />
+                  <h1 className="text-3xl font-black tracking-wider uppercase text-slate-900 font-sans">HAPPY PETS ANIMAL CLINIC</h1>
+                  <p className="text-sm font-semibold text-slate-600 font-sans mt-0.5">Imadol, Lalitpur, NEPAL</p>
+                  <p className="text-xs text-slate-500 font-sans mt-0.5">9860872125, 9860872125 | happypetsnepal@gmail.com</p>
+                </div>
+              </div>
+
+              {/* Owner and Pet Info Box */}
+              <div className="grid grid-cols-1 md:grid-cols-2 border border-slate-300 text-xs font-sans rounded-none divide-y md:divide-y-0 md:divide-x divide-slate-300 mb-6 bg-slate-50/30">
+                <div className="p-4 space-y-2">
+                  <h3 className="font-extrabold text-sm border-b border-slate-200 pb-1 text-slate-800 uppercase tracking-wider">{"Owner's Details"}</h3>
+                  <div className="grid grid-cols-12 gap-1.5">
+                    <span className="col-span-4 font-bold text-slate-500">Name</span>
+                    <span className="col-span-8 font-extrabold text-slate-800">{activeReport.parsedResults?.metadata?.owner_name || activeReport.client_name || "N/A"}</span>
+                    <span className="col-span-4 font-bold text-slate-500">Address</span>
+                    <span className="col-span-8 font-medium text-slate-700">{activeReport.parsedResults?.metadata?.owner_address || activeReport.client_address || "N/A"}</span>
+                    <span className="col-span-4 font-bold text-slate-500">Contact</span>
+                    <span className="col-span-8 font-medium text-slate-700">{activeReport.parsedResults?.metadata?.owner_contact || activeReport.client_phone || "N/A"}</span>
+                    <span className="col-span-4 font-bold text-slate-500">Email</span>
+                    <span className="col-span-8 font-medium text-slate-700">{activeReport.parsedResults?.metadata?.owner_email || activeReport.client_email || "N/A"}</span>
+                  </div>
+                </div>
+                <div className="p-4 space-y-2">
+                  <h3 className="font-extrabold text-sm border-b border-slate-200 pb-1 text-slate-800 uppercase tracking-wider">{"Pet's Details"}</h3>
+                  <div className="grid grid-cols-12 gap-x-2 gap-y-1.5">
+                    <span className="col-span-3 font-bold text-slate-500">Name</span>
+                    <span className="col-span-4 font-extrabold text-slate-800">{activeReport.parsedResults?.metadata?.pet_name || activeReport.pet_name || "N/A"}</span>
+                    <span className="col-span-2 font-bold text-slate-500">Breed</span>
+                    <span className="col-span-3 font-semibold text-slate-700">{activeReport.parsedResults?.metadata?.pet_breed || activeReport.pet_breed || "N/A"}</span>
+                    <span className="col-span-3 font-bold text-slate-500">DOB/Age</span>
+                    <span className="col-span-4 font-medium text-slate-700">{activeReport.parsedResults?.metadata?.pet_age || getAgeString(activeReport.pet_dob) || "N/A"}</span>
+                    <span className="col-span-2 font-bold text-slate-500">Color</span>
+                    <span className="col-span-3 font-medium text-slate-700">{activeReport.parsedResults?.metadata?.pet_color || activeReport.pet_color || "N/A"}</span>
+                    <span className="col-span-3 font-bold text-slate-500">Species</span>
+                    <span className="col-span-4 font-semibold text-slate-700">{activeReport.parsedResults?.metadata?.pet_species || activeReport.pet_species || "N/A"}</span>
+                    <span className="col-span-2 font-bold text-slate-500">Microchip</span>
+                    <span className="col-span-3 font-medium text-slate-700">{activeReport.parsedResults?.metadata?.pet_microchip || activeReport.pet_identifying_marks || "0"}</span>
+                    <span className="col-span-3 font-bold text-slate-500">Sex</span>
+                    <span className="col-span-4 font-medium text-slate-700">{activeReport.parsedResults?.metadata?.pet_sex || activeReport.pet_sex || "N/A"}</span>
+                    <span className="col-span-2 font-bold text-slate-500">Weight</span>
+                    <span className="col-span-3 font-semibold text-slate-700">{activeReport.parsedResults?.metadata?.pet_weight || (activeReport.pet_weight ? `${activeReport.pet_weight} Kg` : "") || "N/A"}</span>
+                  </div>
+                </div>
+              </div>
+
+              {/* Dates and Vet details */}
+              <div className="flex justify-between items-center text-xs font-bold font-sans text-slate-700 mb-6 border-b border-slate-200 pb-3">
+                <div>Attending Vet: <span className="font-extrabold text-slate-900">Dr. {activeReport.vet_name || "N/A"}</span></div>
+                <div className="text-right space-y-1">
+                  <div>Printed Date: <span className="font-extrabold text-slate-900">{activeReport.parsedResults?.metadata?.printed_date || new Date().toLocaleString("en-US", { hour12: false }).replace(",", "")}</span></div>
+                  <div>Date: <span className="font-extrabold text-slate-900">{new Date(activeReport.report_date).toLocaleDateString("en-US", { year: 'numeric', month: 'short', day: 'numeric' })}</span></div>
+                </div>
+              </div>
+
+              {/* Laboratory Report Table */}
+              <div className="border border-slate-400 rounded-none overflow-hidden">
+                <table className="w-full text-left font-sans text-xs">
+                  <thead className="bg-slate-100 border-b border-slate-400">
+                    <tr className="divide-x divide-slate-300">
+                      <th className="px-4 py-2 font-extrabold text-slate-800 uppercase tracking-wider w-1/2">Test Name</th>
+                      <th className="px-4 py-2 font-extrabold text-slate-800 uppercase tracking-wider w-1/4 text-center">Results</th>
+                      <th className="px-4 py-2 font-extrabold text-slate-800 uppercase tracking-wider w-1/4 text-right">Reference</th>
+                    </tr>
+                  </thead>
+                  <tbody className="divide-y divide-slate-300">
+                    {labTestCategories.map(cat => {
+                      const testsWithResults = cat.tests.filter(t => activeReport.parsedResults[t.key] !== undefined && activeReport.parsedResults[t.key] !== "")
+                      if (testsWithResults.length === 0) return null
+                      return (
+                        <React.Fragment key={cat.category}>
+                          <tr className="bg-slate-50/80 font-black border-y border-slate-300">
+                            <td colSpan="3" className="px-4 py-2 text-[11px] text-slate-900 font-extrabold uppercase tracking-wider">{cat.category}</td>
+                          </tr>
+                          {testsWithResults.map(test => {
+                            const val = activeReport.parsedResults[test.key]
+                            const isAbnormal = isOutsideRange(val, test.ref)
+                            return (
+                              <tr key={test.key} className="hover:bg-slate-50/50 divide-x divide-slate-200">
+                                <td className="px-4 py-2 text-slate-700 font-semibold">{test.name}</td>
+                                <td className={`px-4 py-2 text-center text-slate-900 ${isAbnormal ? "font-black text-sm text-red-700" : "font-medium"}`}>{val}</td>
+                                <td className="px-4 py-2 text-right text-slate-500 font-mono">{test.ref || "Variable"}</td>
+                              </tr>
+                            )
+                          })}
+                        </React.Fragment>
+                      )
+                    })}
+                  </tbody>
+                </table>
+              </div>
+
+              {/* Signature / Stamp line */}
+              <div className="mt-20 flex justify-between items-end font-sans">
+                <div className="text-center w-48 border-t border-slate-300 pt-2 text-[10px] text-slate-500">Laboratory Technician</div>
+                <div className="text-center w-48 border-t border-slate-300 pt-2 text-[10px] text-slate-500">Authorized Signature</div>
+              </div>
+
+            </div>
+          </div>
+
+        </div>
+      )}
+              
+
+
 
               {/* Clinic Banner */}
               <div className="flex items-center justify-center border-b border-slate-300 pb-6 mb-6">
