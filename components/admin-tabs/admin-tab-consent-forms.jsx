@@ -1,7 +1,9 @@
 "use client"
+import { fetchWithAuth } from "@/lib/api"
 
 import { useState, useEffect, useRef } from "react"
 import { ClipboardCheck, Plus, Trash2, Eye, Paperclip, Printer, CheckCircle2 } from "lucide-react"
+
 
 export default function AdminTabConsentForms() {
   const [consentForms, setConsentForms] = useState([])
@@ -112,7 +114,7 @@ export default function AdminTabConsentForms() {
   const fetchConsentForms = async () => {
     try {
       setLoading(true)
-      const res = await fetch("/api/admin/consent-forms")
+      const res = await fetchWithAuth("/api/admin/consent-forms")
       if (res.ok) {
         const data = await res.json()
         setConsentForms(data)
@@ -126,7 +128,7 @@ export default function AdminTabConsentForms() {
 
   const fetchClients = async () => {
     try {
-      const res = await fetch("/api/admin/clients")
+      const res = await fetchWithAuth("/api/admin/clients")
       if (res.ok) {
         const data = await res.json()
         setClients(data)
@@ -138,7 +140,7 @@ export default function AdminTabConsentForms() {
 
   const fetchPets = async () => {
     try {
-      const res = await fetch("/api/admin/patients")
+      const res = await fetchWithAuth("/api/admin/patients")
       if (res.ok) {
         const data = await res.json()
         setAllPets(data)
@@ -240,7 +242,7 @@ export default function AdminTabConsentForms() {
 
     try {
       const token = localStorage.getItem("adminToken")
-      const res = await fetch("/api/upload/consent-attachment", {
+      const res = await fetchWithAuth("/api/upload/consent-attachment", {
         method: "POST",
         headers: {
           Authorization: `Bearer ${token}`
@@ -268,7 +270,7 @@ export default function AdminTabConsentForms() {
 
     try {
       const token = localStorage.getItem("adminToken")
-      const res = await fetch(`/api/admin/consent-forms/${id}`, {
+      const res = await fetchWithAuth(`/api/admin/consent-forms/${id}`, {
         method: "DELETE",
         headers: {
           Authorization: `Bearer ${token}`
@@ -333,7 +335,7 @@ export default function AdminTabConsentForms() {
     }
 
     try {
-      const res = await fetch("/api/admin/consent-forms", {
+      const res = await fetchWithAuth("/api/admin/consent-forms", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -484,7 +486,7 @@ export default function AdminTabConsentForms() {
         formData.append("file", file)
 
         const token = localStorage.getItem("adminToken")
-        const res = await fetch("/api/upload/consent-attachment", {
+        const res = await fetchWithAuth("/api/upload/consent-attachment", {
           method: "POST",
           headers: {
             Authorization: `Bearer ${token}`

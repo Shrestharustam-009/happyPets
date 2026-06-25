@@ -1,4 +1,5 @@
 "use client"
+import { fetchWithAuth } from "@/lib/api"
 
 import { useState, useEffect } from "react"
 import { useRouter, useParams } from "next/navigation"
@@ -6,6 +7,7 @@ import Header from "@/components/header"
 import Footer from "@/components/footer"
 import Image from "next/image"
 import { useCart } from "@/lib/cart-context"
+
 
 export default function ProductDetailPage() {
   const { id } = useParams()
@@ -22,7 +24,7 @@ export default function ProductDetailPage() {
     if (!id) return
     const fetchProduct = async () => {
       try {
-        const response = await fetch(`/api/products/${id}`)
+        const response = await fetchWithAuth(`/api/products/${id}`)
         if (!response.ok) throw new Error("Product not found")
         const data = await response.json()
         setProduct(data.product)

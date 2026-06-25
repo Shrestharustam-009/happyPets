@@ -1,9 +1,11 @@
 "use client"
+import { fetchWithAuth } from "@/lib/api"
 
 import { useState, useEffect } from "react"
 import { useRouter, usePathname } from "next/navigation"
 import Link from "next/link"
 import { 
+
   Activity, 
   Users, 
   Stethoscope, 
@@ -42,7 +44,7 @@ export default function AdminDashboardLayout({ children }) {
   useEffect(() => {
     const fetchNotificationCount = async () => {
       try {
-        const res = await fetch("/api/admin/reminders")
+        const res = await fetchWithAuth("/api/admin/reminders")
         if (res.ok) {
           const data = await res.json()
           const today = new Date()

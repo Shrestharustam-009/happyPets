@@ -1,6 +1,8 @@
 "use client"
+import { fetchWithAuth } from "@/lib/api"
 
 import { useState, useEffect } from "react"
+
 
 export default function AdminTabAppointments() {
   const [appointments, setAppointments] = useState([])
@@ -33,7 +35,7 @@ export default function AdminTabAppointments() {
 
   const updateAppointmentStatus = async (appointmentId, newStatus) => {
     try {
-      const response = await fetch(`/api/appointments/${appointmentId}`, {
+      const response = await fetchWithAuth(`/api/appointments/${appointmentId}`, {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",

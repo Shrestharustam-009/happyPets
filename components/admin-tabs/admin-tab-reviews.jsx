@@ -1,7 +1,9 @@
 "use client"
+import { fetchWithAuth } from "@/lib/api"
 
 import { useState, useEffect } from "react"
 import { Star, Edit, Trash2, Plus } from "lucide-react"
+
 
 export default function AdminTabReviews() {
   const [reviews, setReviews] = useState([])
@@ -32,7 +34,7 @@ export default function AdminTabReviews() {
 
   const fetchReviews = async () => {
     try {
-      const response = await fetch("/api/reviews")
+      const response = await fetchWithAuth("/api/reviews")
       if (response.ok) {
         const data = await response.json()
         setReviews(data)
@@ -46,7 +48,7 @@ export default function AdminTabReviews() {
 
   const fetchDropdownData = async () => {
     try {
-      const cliRes = await fetch("/api/admin/clients")
+      const cliRes = await fetchWithAuth("/api/admin/clients")
       if (cliRes.ok) {
         setClients(await cliRes.json())
       }
@@ -98,7 +100,7 @@ export default function AdminTabReviews() {
   const deleteReview = async (reviewId) => {
     if (confirm("Are you sure you want to delete this review?")) {
       try {
-        const response = await fetch(`/api/reviews/${reviewId}`, {
+        const response = await fetchWithAuth(`/api/reviews/${reviewId}`, {
           method: "DELETE",
           headers: {
             Authorization: `Bearer ${localStorage.getItem("adminToken")}`,

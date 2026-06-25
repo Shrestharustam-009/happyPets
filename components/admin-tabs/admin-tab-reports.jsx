@@ -1,9 +1,11 @@
 "use client"
+import { fetchWithAuth } from "@/lib/api"
 
 import { useState, useEffect } from "react"
 import Image from "next/image"
 import jsPDF from "jspdf"
 import autoTable from "jspdf-autotable"
+
 
 export default function AdminTabReports() {
   const [patients, setPatients] = useState([])
@@ -32,7 +34,7 @@ export default function AdminTabReports() {
   const fetchPatients = async () => {
     try {
       setLoading(true)
-      const res = await fetch("/api/admin/patients")
+      const res = await fetchWithAuth("/api/admin/patients")
       if (res.ok) {
         const data = await res.json()
         setPatients(data)
@@ -51,7 +53,7 @@ export default function AdminTabReports() {
     setReportData(null)
 
     try {
-      const res = await fetch(`/api/admin/reports/patient/${petId}`)
+      const res = await fetchWithAuth(`/api/admin/reports/patient/${petId}`)
       if (res.ok) {
         const data = await res.json()
         setReportData(data)

@@ -1,4 +1,5 @@
 "use client"
+import { fetchWithAuth } from "@/lib/api"
 
 import { useState, useEffect } from "react"
 import AdminTabOverview from "@/components/admin-tabs/admin-tab-overview"
@@ -11,6 +12,7 @@ import AdminTabUsers from "@/components/admin-tabs/admin-tab-users"
 import AdminTabReviews from "@/components/admin-tabs/admin-tab-reviews"
 import AdminTabTeam from "@/components/admin-tabs/admin-tab-team"
 import AdminTabImages from "@/components/admin-tabs/admin-tab-images"
+
 
 export default function AdminDashboardContent() {
   const [activeTab, setActiveTab] = useState("overview")
@@ -28,7 +30,7 @@ export default function AdminDashboardContent() {
 
   const fetchStats = async () => {
     try {
-      const response = await fetch("/api/admin/stats")
+      const response = await fetchWithAuth("/api/admin/stats")
       if (response.ok) {
         const data = await response.json()
         setStats(data)

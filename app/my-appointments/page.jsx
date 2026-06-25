@@ -1,8 +1,10 @@
 "use client"
+import { fetchWithAuth } from "@/lib/api"
 
 import { useEffect, useState } from "react"
 import Header from "@/components/header"
 import Footer from "@/components/footer"
+
 
 const STATUS_COLORS = {
   pending: "bg-yellow-100 text-yellow-800",
@@ -36,7 +38,7 @@ export default function MyAppointmentsPage() {
       setLoading(true)
       setError("")
       try {
-        const res = await fetch(`/api/appointments?user_id=${user.id}`)
+        const res = await fetchWithAuth(`/api/appointments?user_id=${user.id}`)
         if (!res.ok) {
           const data = await res.json()
           throw new Error(data.message || "Failed to load appointments")
@@ -57,7 +59,7 @@ export default function MyAppointmentsPage() {
     if (!confirm("Are you sure you want to cancel this appointment?")) return
 
     try {
-      const res = await fetch(`/api/appointments/${appointmentId}`, {
+      const res = await fetchWithAuth(`/api/appointments/${appointmentId}`, {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",

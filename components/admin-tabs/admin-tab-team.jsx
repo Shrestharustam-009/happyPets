@@ -1,6 +1,8 @@
 "use client"
+import { fetchWithAuth } from "@/lib/api"
 
 import { useEffect, useState } from "react"
+
 
 export default function AdminTabTeam() {
   const [members, setMembers] = useState([])
@@ -36,7 +38,7 @@ export default function AdminTabTeam() {
   const fetchTeam = async () => {
     setLoading(true)
     try {
-      const res = await fetch("/api/team")
+      const res = await fetchWithAuth("/api/team")
       if (res.ok) {
         const data = await res.json()
         console.log("data",data)
@@ -123,7 +125,7 @@ export default function AdminTabTeam() {
     }
     if (!confirm("Are you sure you want to remove this team member?")) return
     try {
-      const res = await fetch(`/api/team/${id}`, {
+      const res = await fetchWithAuth(`/api/team/${id}`, {
         method: "DELETE",
         headers: {
           Authorization: `Bearer ${localStorage.getItem("adminToken")}`,
@@ -148,7 +150,7 @@ export default function AdminTabTeam() {
     try {
       const formDataUpload = new FormData()
       formDataUpload.append("file", file)
-      const res = await fetch("/api/upload/team-image", {
+      const res = await fetchWithAuth("/api/upload/team-image", {
         method: "POST",
         headers: {
           Authorization: `Bearer ${localStorage.getItem("adminToken")}`,

@@ -1,6 +1,8 @@
 "use client"
+import { fetchWithAuth } from "@/lib/api"
 
 import { useState, useEffect } from "react"
+
 
 export default function AdminTabServices() {
   const [services, setServices] = useState([])
@@ -29,7 +31,7 @@ export default function AdminTabServices() {
 
   const fetchServices = async () => {
     try {
-      const response = await fetch("/api/services")
+      const response = await fetchWithAuth("/api/services")
       if (response.ok) {
         const data = await response.json()
         setServices(data)
@@ -74,7 +76,7 @@ export default function AdminTabServices() {
   const handleDelete = async (serviceId) => {
     if (confirm("Are you sure you want to delete this service?")) {
       try {
-      const response = await fetch(`/api/services/${serviceId}`, {
+      const response = await fetchWithAuth(`/api/services/${serviceId}`, {
         method: "DELETE",
         headers: {
           Authorization: `Bearer ${localStorage.getItem("adminToken")}`,

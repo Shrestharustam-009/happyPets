@@ -1,10 +1,12 @@
 "use client"
+import { fetchWithAuth } from "@/lib/api"
 
 import { useState, useCallback, useEffect } from "react"
 import Image from "next/image"
 import { ChevronLeft, ChevronRight } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { cn } from "@/lib/utils"
+
 
 export default function MissionImageSlider() {
   const [currentSlide, setCurrentSlide] = useState(0)
@@ -14,7 +16,7 @@ export default function MissionImageSlider() {
   useEffect(() => {
     const fetchImages = async () => {
       try {
-        const res = await fetch("/api/mission-image")
+        const res = await fetchWithAuth("/api/mission-image")
         if (res.ok) {
           const data = await res.json()
           setMissionImages(

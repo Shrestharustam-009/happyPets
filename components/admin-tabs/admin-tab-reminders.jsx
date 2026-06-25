@@ -1,7 +1,9 @@
 "use client"
+import { fetchWithAuth } from "@/lib/api"
 
 import { useState, useEffect } from "react"
 import { Bell, Mail, Phone, Clock, CheckCircle2, AlertCircle } from "lucide-react"
+
 
 export default function AdminTabReminders() {
   const [reminders, setReminders] = useState([])
@@ -15,7 +17,7 @@ export default function AdminTabReminders() {
   const fetchReminders = async () => {
     try {
       setLoading(true)
-      const res = await fetch("/api/admin/reminders")
+      const res = await fetchWithAuth("/api/admin/reminders")
       if (res.ok) {
         const data = await res.json()
         setReminders(data)
@@ -30,7 +32,7 @@ export default function AdminTabReminders() {
   const sendReminder = async (vaccination_id, pet_id, client_id) => {
     try {
       setSending(vaccination_id)
-      const res = await fetch("/api/admin/reminders", {
+      const res = await fetchWithAuth("/api/admin/reminders", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

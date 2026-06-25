@@ -1,8 +1,10 @@
 "use client"
+import { fetchWithAuth } from "@/lib/api"
 
 import { useState } from "react"
 import Link from "next/link"
 import { useRouter } from "next/navigation"
+
 
 export default function RegisterForm() {
   const router = useRouter()
@@ -32,7 +34,7 @@ export default function RegisterForm() {
         throw new Error("Passwords do not match")
       }
 
-      const response = await fetch("/api/auth/register", {
+      const response = await fetchWithAuth("/api/auth/register", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({

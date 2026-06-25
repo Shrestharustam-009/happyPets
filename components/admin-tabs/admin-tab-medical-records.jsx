@@ -1,6 +1,8 @@
 "use client"
+import { fetchWithAuth } from "@/lib/api"
 
 import { useState, useEffect, useRef } from "react"
+
 
 export default function AdminTabMedicalRecords() {
   const [records, setRecords] = useState([])
@@ -58,9 +60,9 @@ export default function AdminTabMedicalRecords() {
     try {
       setLoading(true)
       const [recordsRes, patientsRes, usersRes] = await Promise.all([
-        fetch("/api/admin/medical-records"),
-        fetch("/api/admin/patients"),
-        fetch("/api/users", { headers: { Authorization: `Bearer ${localStorage.getItem("adminToken")}` } })
+        fetchWithAuth("/api/admin/medical-records"),
+        fetchWithAuth("/api/admin/patients"),
+        fetchWithAuth("/api/users", { headers: { Authorization: `Bearer ${localStorage.getItem("adminToken")}` } })
       ])
       
       if (recordsRes.ok) {
@@ -94,7 +96,7 @@ export default function AdminTabMedicalRecords() {
   const uploadFile = async (file) => {
     const fd = new FormData()
     fd.append("file", file)
-    const res = await fetch("/api/admin/medical-records/upload", { method: "POST", body: fd })
+    const res = await fetchWithAuth("/api/admin/medical-records/upload", { method: "POST", body: fd })
     if (!res.ok) throw new Error("Upload failed")
     const data = await res.json()
     return data.url
@@ -255,7 +257,7 @@ export default function AdminTabMedicalRecords() {
   const handleDelete = async (id) => {
     if (confirm("Are you sure you want to delete this medical record? This cannot be undone.")) {
       try {
-        const res = await fetch(`/api/admin/medical-records/${id}`, {
+        const res = await fetchWithAuth(`/api/admin/medical-records/${id}`, {
           method: "DELETE",
           headers: {
             Authorization: `Bearer ${localStorage.getItem("adminToken")}`,

@@ -1,7 +1,9 @@
 "use client"
+import { fetchWithAuth } from "@/lib/api"
 
 import { useState, useEffect } from "react"
 import RichTextEditor from "@/components/rich-text-editor"
+
 
 export default function AdminTabBlog() {
   const [posts, setPosts] = useState([])
@@ -58,7 +60,7 @@ export default function AdminTabBlog() {
         limit: itemsPerPage,
       })
 
-      const response = await fetch(`/api/blog?${params.toString()}`)
+      const response = await fetchWithAuth(`/api/blog?${params.toString()}`)
       if (response.ok) {
         const data = await response.json()
         setPosts(data.posts || [])
@@ -126,7 +128,7 @@ export default function AdminTabBlog() {
   const handleDelete = async (slug) => {
     if (confirm("Are you sure you want to delete this blog post?")) {
       try {
-        const response = await fetch(`/api/blog/${slug}`, {
+        const response = await fetchWithAuth(`/api/blog/${slug}`, {
           method: "DELETE",
           headers: {
             Authorization: `Bearer ${localStorage.getItem("adminToken")}`,
@@ -151,7 +153,7 @@ export default function AdminTabBlog() {
       const uploadData = new FormData()
       uploadData.append("file", file)
 
-      const res = await fetch("/api/upload/blog-image", {
+      const res = await fetchWithAuth("/api/upload/blog-image", {
         method: "POST",
         headers: {
           Authorization: `Bearer ${localStorage.getItem("adminToken")}`,

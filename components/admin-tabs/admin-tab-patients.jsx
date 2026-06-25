@@ -1,7 +1,9 @@
 "use client"
+import { fetchWithAuth } from "@/lib/api"
 
 import { useState, useEffect, useRef } from "react"
 import Image from "next/image"
+
 
 export default function AdminTabPatients() {
   // Patients (Pets) State
@@ -55,8 +57,8 @@ export default function AdminTabPatients() {
     try {
       setLoading(true)
       const [patientsRes, clientsRes] = await Promise.all([
-        fetch("/api/admin/patients"),
-        fetch("/api/admin/clients")
+        fetchWithAuth("/api/admin/patients"),
+        fetchWithAuth("/api/admin/clients")
       ])
       
       if (patientsRes.ok) {
@@ -90,7 +92,7 @@ export default function AdminTabPatients() {
     uploadData.append("file", file)
 
     try {
-      const res = await fetch("/api/admin/patients/upload", {
+      const res = await fetchWithAuth("/api/admin/patients/upload", {
         method: "POST",
         body: uploadData,
       })
@@ -174,7 +176,7 @@ export default function AdminTabPatients() {
           return
         }
         
-        const clientRes = await fetch("/api/admin/clients", {
+        const clientRes = await fetchWithAuth("/api/admin/clients", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify(newOwnerData),
@@ -230,7 +232,7 @@ export default function AdminTabPatients() {
   const handleDelete = async (id) => {
     if (confirm("Are you sure you want to delete this patient (pet)?")) {
       try {
-        const res = await fetch(`/api/admin/patients/${id}`, {
+        const res = await fetchWithAuth(`/api/admin/patients/${id}`, {
           method: "DELETE",
           headers: {
             Authorization: `Bearer ${localStorage.getItem("adminToken")}`,

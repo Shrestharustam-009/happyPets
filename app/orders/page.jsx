@@ -1,9 +1,11 @@
 "use client"
+import { fetchWithAuth } from "@/lib/api"
 
 import { useEffect, useState } from "react"
 import Header from "@/components/header"
 import Footer from "@/components/footer"
 import Link from "next/link"
+
 
 export default function OrdersPage() {
   const [orders, setOrders] = useState([])
@@ -23,7 +25,7 @@ export default function OrdersPage() {
     if (!authToken) return
     const fetchOrders = async () => {
       try {
-        const res = await fetch("/api/orders?scope=customer", {
+        const res = await fetchWithAuth("/api/orders?scope=customer", {
           headers: { Authorization: `Bearer ${authToken}` },
         })
         if (!res.ok) {

@@ -1,7 +1,9 @@
 "use client"
+import { fetchWithAuth } from "@/lib/api"
 
 import { useState, useEffect } from "react"
 import Image from "next/image"
+
 
 export default function AdminTabInventory() {
   const [products, setProducts] = useState([])
@@ -38,7 +40,7 @@ export default function AdminTabInventory() {
   const fetchData = async () => {
     try {
       setLoading(true)
-      const res = await fetch(`/api/admin/inventory?category=${filterCategory}`)
+      const res = await fetchWithAuth(`/api/admin/inventory?category=${filterCategory}`)
       if (res.ok) {
         const data = await res.json()
         setProducts(data)
@@ -64,7 +66,7 @@ export default function AdminTabInventory() {
 
     try {
       setUploadingFile(true)
-      const res = await fetch("/api/admin/inventory/upload", {
+      const res = await fetchWithAuth("/api/admin/inventory/upload", {
         method: "POST",
         body: uploadData,
       })
@@ -152,7 +154,7 @@ export default function AdminTabInventory() {
   const handleDelete = async (id) => {
     if (confirm("Are you sure you want to delete this item? If it has been billed in the past, you should set stock to 0 instead of deleting it.")) {
       try {
-        const res = await fetch(`/api/admin/inventory/${id}`, {
+        const res = await fetchWithAuth(`/api/admin/inventory/${id}`, {
           method: "DELETE",
           headers: {
             Authorization: `Bearer ${localStorage.getItem("adminToken")}`,

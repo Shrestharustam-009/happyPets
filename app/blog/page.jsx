@@ -1,10 +1,12 @@
 "use client"
+import { fetchWithAuth } from "@/lib/api"
 
 import { useState, useEffect } from "react"
 import Header from "@/components/header"
 import Footer from "@/components/footer"
 import BlogCard from "@/components/blog-card"
 import { Facebook, Instagram, Youtube } from "lucide-react"
+
 
 const POSTS_PER_PAGE = 6
 
@@ -35,7 +37,7 @@ export default function BlogPage() {
           params.append("search", searchTerm)
         }
 
-        const res = await fetch(`/api/blog?${params}`)
+        const res = await fetchWithAuth(`/api/blog?${params}`)
         const data = await res.json()
         const normalizedPosts = (data.posts || []).map((p) => ({
           ...p,

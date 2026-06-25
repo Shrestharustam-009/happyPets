@@ -1,6 +1,8 @@
 "use client"
+import { fetchWithAuth } from "@/lib/api"
 
 import { useState, useEffect } from "react"
+
 
 export default function AdminTabUsers() {
   const [users, setUsers] = useState([])
@@ -13,7 +15,7 @@ export default function AdminTabUsers() {
 
   const fetchUsers = async () => {
     try {
-      const response = await fetch("/api/users", {
+      const response = await fetchWithAuth("/api/users", {
         headers: {
           Authorization: `Bearer ${localStorage.getItem("adminToken")}`,
         },
@@ -31,7 +33,7 @@ export default function AdminTabUsers() {
 
   const toggleUserStatus = async (userId, currentStatus) => {
     try {
-      const response = await fetch(`/api/users/${userId}`, {
+      const response = await fetchWithAuth(`/api/users/${userId}`, {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
@@ -49,7 +51,7 @@ export default function AdminTabUsers() {
 
   const changeUserRole = async (userId, newRole) => {
     try {
-      const response = await fetch(`/api/users/${userId}`, {
+      const response = await fetchWithAuth(`/api/users/${userId}`, {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",

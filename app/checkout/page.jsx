@@ -1,4 +1,5 @@
 "use client"
+import { fetchWithAuth } from "@/lib/api"
 
 import { useEffect, useState } from "react"
 import Header from "@/components/header"
@@ -6,6 +7,7 @@ import Footer from "@/components/footer"
 import { useCart } from "@/lib/cart-context"
 import Link from "next/link"
 import Image from "next/image"
+
 
 export default function CheckoutPage() {
   const { cartItems, getCartTotal, clearCart } = useCart()
@@ -125,7 +127,7 @@ export default function CheckoutPage() {
         paymentMethod,
       }
 
-      const response = await fetch("/api/orders/create", {
+      const response = await fetchWithAuth("/api/orders/create", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

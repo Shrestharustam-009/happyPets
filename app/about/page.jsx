@@ -1,4 +1,5 @@
 "use client"
+import { fetchWithAuth } from "@/lib/api"
 
 import { useEffect, useState } from "react"
 import Header from "@/components/header"
@@ -6,6 +7,7 @@ import Footer from "@/components/footer"
 import Image from "next/image"
 import MissionImageSlider from "@/components/mission-image-slider"
 import { title } from "process"
+
 
 export default function AboutPage() {
   const [teamMembers, setTeamMembers] = useState([])
@@ -68,7 +70,7 @@ export default function AboutPage() {
   useEffect(() => {
     const fetchTeam = async () => {
       try {
-        const res = await fetch("/api/team")
+        const res = await fetchWithAuth("/api/team")
         if (!res.ok) throw new Error("Unable to load team data")
         const data = await res.json()
         setTeamMembers(data.members || [])
@@ -86,7 +88,7 @@ export default function AboutPage() {
     const fetchMission = async () => {
       setMissionLoading(true);
       try {
-        const res = await fetch("/api/mission-image")
+        const res = await fetchWithAuth("/api/mission-image")
         if (res.ok) {
           const data = await res.json()
           setMissionImage(data.image)

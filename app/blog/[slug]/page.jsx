@@ -1,4 +1,5 @@
 "use client"
+import { fetchWithAuth } from "@/lib/api"
 
 import { useEffect, useState } from "react"
 import { useRouter, useParams } from "next/navigation"
@@ -6,6 +7,7 @@ import Header from "@/components/header"
 import Footer from "@/components/footer"
 import Link from "next/link"
 import DOMPurify from "dompurify"
+
 
 export default function BlogDetailPage() {
   const { slug } = useParams()
@@ -29,7 +31,7 @@ export default function BlogDetailPage() {
     if (!slug) return
     setLoading(true)
     setError(null)
-    fetch(`/api/blog/${slug}`)
+    fetchWithAuth(`/api/blog/${slug}`)
       .then(async (res) => {
         if (!res.ok) {
           const err = await res.json()

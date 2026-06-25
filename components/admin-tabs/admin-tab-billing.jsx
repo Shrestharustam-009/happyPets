@@ -1,6 +1,8 @@
 "use client"
+import { fetchWithAuth } from "@/lib/api"
 
 import { useState, useEffect, useRef } from "react"
+
 
 export default function AdminTabBilling() {
   const [invoices, setInvoices] = useState([])
@@ -56,11 +58,11 @@ export default function AdminTabBilling() {
     try {
       setLoading(true)
       const [invRes, cliRes, petRes, prodRes, servRes] = await Promise.all([
-        fetch("/api/admin/billing"),
-        fetch("/api/admin/clients"),
-        fetch("/api/admin/patients"),
-        fetch("/api/products"),
-        fetch("/api/services")
+        fetchWithAuth("/api/admin/billing"),
+        fetchWithAuth("/api/admin/clients"),
+        fetchWithAuth("/api/admin/patients"),
+        fetchWithAuth("/api/products"),
+        fetchWithAuth("/api/services")
       ])
       
       if (invRes.ok) setInvoices(await invRes.json())
@@ -178,7 +180,7 @@ export default function AdminTabBilling() {
     }
 
     try {
-      const res = await fetch("/api/admin/billing", {
+      const res = await fetchWithAuth("/api/admin/billing", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(payload),
@@ -199,7 +201,7 @@ export default function AdminTabBilling() {
 
   const updateStatus = async (id, status) => {
     try {
-      const res = await fetch(`/api/admin/billing/${id}`, {
+      const res = await fetchWithAuth(`/api/admin/billing/${id}`, {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ status }),
@@ -217,7 +219,7 @@ export default function AdminTabBilling() {
 
   const fetchInvoiceDetails = async (id) => {
     try {
-      const res = await fetch(`/api/admin/billing/${id}`)
+      const res = await fetchWithAuth(`/api/admin/billing/${id}`)
       if (res.ok) {
         const data = await res.json()
         setViewInvoice(data)

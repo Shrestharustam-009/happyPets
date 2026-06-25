@@ -1,10 +1,12 @@
 "use client"
+import { fetchWithAuth } from "@/lib/api"
 
 import { useState, useEffect, useMemo } from "react"
 import Header from "@/components/header"
 import Footer from "@/components/footer"
 import ProductCard from "@/components/product-card"
 import {
+
   Pagination,
   PaginationContent,
   PaginationEllipsis,
@@ -47,7 +49,7 @@ export default function ShopPage() {
           params.append("category", selectedCategory)
         }
 
-        const res = await fetch(`/api/products?${params}`)
+        const res = await fetchWithAuth(`/api/products?${params}`)
         const data = await res.json()
         setProducts(data.products || [])
 

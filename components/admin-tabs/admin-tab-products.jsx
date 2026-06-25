@@ -1,6 +1,8 @@
 "use client"
+import { fetchWithAuth } from "@/lib/api"
 
 import { useState, useEffect } from "react"
+
 
 export default function AdminTabProducts() {
   const [products, setProducts] = useState([])
@@ -43,7 +45,7 @@ export default function AdminTabProducts() {
         limit: itemsPerPage,
       })
 
-      const response = await fetch(`/api/products?${params.toString()}`)
+      const response = await fetchWithAuth(`/api/products?${params.toString()}`)
       if (response.ok) {
         const data = await response.json()
         const list = data.products || data
@@ -70,7 +72,7 @@ export default function AdminTabProducts() {
       const formDataUpload = new FormData()
       formDataUpload.append("file", file)
 
-      const response = await fetch("/api/upload/product-image", {
+      const response = await fetchWithAuth("/api/upload/product-image", {
         method: "POST",
         headers: {
           Authorization: `Bearer ${localStorage.getItem("adminToken")}`,
@@ -139,7 +141,7 @@ export default function AdminTabProducts() {
   const handleDelete = async (productId) => {
     if (confirm("Are you sure you want to delete this product?")) {
       try {
-        const response = await fetch(`/api/products/${productId}`, {
+        const response = await fetchWithAuth(`/api/products/${productId}`, {
           method: "DELETE",
           headers: {
             Authorization: `Bearer ${localStorage.getItem("adminToken")}`,

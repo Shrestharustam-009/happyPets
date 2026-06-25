@@ -1,9 +1,11 @@
 "use client"
+import { fetchWithAuth } from "@/lib/api"
 
 import { useState, useEffect } from "react"
 import { Users, FileText, Activity, AlertTriangle, TrendingUp, Package, Clock, ArrowRight, UserPlus, FilePlus, Bell, CalendarCheck, Stethoscope, Syringe, ShoppingBag, DollarSign, Shield, Zap } from "lucide-react"
 import Link from "next/link"
 import { PieChart, Pie, Cell, ResponsiveContainer, Tooltip } from 'recharts'
+
 
 const COLORS = ['#2563eb', '#3b82f6', '#0284c7', '#06b6d4', '#6366f1', '#4f46e5']
 
@@ -46,7 +48,7 @@ export default function AdminTabOverview() {
 
   const fetchStats = async () => {
     try {
-      const res = await fetch("/api/admin/dashboard-stats")
+      const res = await fetchWithAuth("/api/admin/dashboard-stats")
       if (res.ok) setStats(await res.json())
     } catch (e) { console.error(e) }
     finally { setLoading(false) }

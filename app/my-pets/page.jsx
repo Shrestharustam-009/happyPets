@@ -1,9 +1,11 @@
 "use client"
+import { fetchWithAuth } from "@/lib/api"
 
 import { useState, useEffect } from "react"
 import Header from "@/components/header"
 import Footer from "@/components/footer"
 import Image from "next/image"
+
 
 export default function MyPetsPage() {
   const [pets, setPets] = useState([])
@@ -26,7 +28,7 @@ export default function MyPetsPage() {
           setLoading(false)
           return
         }
-        const response = await fetch(`/api/users/${user.id}/pets`)
+        const response = await fetchWithAuth(`/api/users/${user.id}/pets`)
         if (response.ok) {
           const data = await response.json()
           setPets(Array.isArray(data) ? data : (data.pets || []))
@@ -49,7 +51,7 @@ export default function MyPetsPage() {
         return
       }
 
-      const response = await fetch(`/api/users/${user.id}/pets`, {
+      const response = await fetchWithAuth(`/api/users/${user.id}/pets`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(formData),
@@ -71,7 +73,7 @@ export default function MyPetsPage() {
     if (confirm("Are you sure you want to delete this pet?")) {
       try {
         const user = JSON.parse(localStorage.getItem("user") || "{}")
-        await fetch(`/api/users/${user.id}/pets/${petId}`, { method: "DELETE" })
+        await fetchWithAuth(`/api/users/${user.id}/pets/${petId}`, { method: "DELETE" })
         setPets(pets.filter((p) => p.id !== petId))
       } catch (error) {
         alert("Error deleting pet")

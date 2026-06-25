@@ -1,6 +1,8 @@
 "use client"
+import { fetchWithAuth } from "@/lib/api"
 
 import { useState, useEffect } from "react"
+
 
 export default function AdminTabOrders() {
   const [orders, setOrders] = useState([])
@@ -33,7 +35,7 @@ export default function AdminTabOrders() {
 
   const updateOrderStatus = async (orderId, newStatus) => {
     try {
-      const response = await fetch(`/api/orders/${orderId}`, {
+      const response = await fetchWithAuth(`/api/orders/${orderId}`, {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",

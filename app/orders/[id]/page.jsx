@@ -1,9 +1,11 @@
 "use client"
+import { fetchWithAuth } from "@/lib/api"
 
 import { useEffect, useState } from "react"
 import { useRouter, useParams } from "next/navigation"
 import Header from "@/components/header"
 import Footer from "@/components/footer"
+
 
 export default function OrderDetailPage() {
   const { id } = useParams()
@@ -25,7 +27,7 @@ export default function OrderDetailPage() {
     if (!id || !authToken) return
     const fetchOrder = async () => {
       try {
-        const res = await fetch(`/api/orders/${id}`, {
+        const res = await fetchWithAuth(`/api/orders/${id}`, {
           headers: { Authorization: `Bearer ${authToken}` },
         })
         const data = await res.json()

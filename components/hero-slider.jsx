@@ -1,4 +1,5 @@
 "use client"
+import { fetchWithAuth } from "@/lib/api"
 
 import { useState, useEffect, useCallback } from "react"
 import Image from "next/image"
@@ -6,6 +7,7 @@ import { ChevronLeft, ChevronRight } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { cn } from "@/lib/utils"
 import Link from "next/link"
+
 
 const defaultHeroSlides = [
   {
@@ -42,7 +44,7 @@ export default function HeroSlider() {
   useEffect(() => {
     const fetchImages = async () => {
       try {
-        const res = await fetch("/api/hero-images")
+        const res = await fetchWithAuth("/api/hero-images")
         if (!res.ok) return
         const data = await res.json()
         if (Array.isArray(data) && data.length) {

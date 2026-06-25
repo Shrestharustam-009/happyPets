@@ -1,6 +1,8 @@
 "use client"
+import { fetchWithAuth } from "@/lib/api"
 
 import { useState, useEffect } from "react"
+
 
 export default function AdminTabVaccinations() {
   const [vaccinations, setVaccinations] = useState([])
@@ -38,9 +40,9 @@ export default function AdminTabVaccinations() {
     try {
       setLoading(true)
       const [vaccineRes, patientsRes, usersRes] = await Promise.all([
-        fetch("/api/admin/vaccinations"),
-        fetch("/api/admin/patients"),
-        fetch("/api/users", { headers: { Authorization: `Bearer ${localStorage.getItem("adminToken")}` } })
+        fetchWithAuth("/api/admin/vaccinations"),
+        fetchWithAuth("/api/admin/patients"),
+        fetchWithAuth("/api/users", { headers: { Authorization: `Bearer ${localStorage.getItem("adminToken")}` } })
       ])
       
       if (vaccineRes.ok) {
@@ -134,7 +136,7 @@ export default function AdminTabVaccinations() {
   const handleDelete = async (id) => {
     if (confirm("Are you sure you want to delete this vaccination record?")) {
       try {
-        const res = await fetch(`/api/admin/vaccinations/${id}`, {
+        const res = await fetchWithAuth(`/api/admin/vaccinations/${id}`, {
           method: "DELETE",
           headers: {
             Authorization: `Bearer ${localStorage.getItem("adminToken")}`,

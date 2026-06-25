@@ -1,6 +1,8 @@
 "use client"
+import { fetchWithAuth } from "@/lib/api"
 
 import { useEffect, useState } from "react"
+
 
 export default function AdminTabImages() {
   const [heroImages, setHeroImages] = useState([])
@@ -15,7 +17,7 @@ export default function AdminTabImages() {
   const fetchImages = async () => {
     setLoadingHero(true)
     try {
-      const res = await fetch("/api/hero-images")
+      const res = await fetchWithAuth("/api/hero-images")
       if (res.ok) {
         const data = await res.json()
         setHeroImages(data)
@@ -31,7 +33,7 @@ export default function AdminTabImages() {
   const fetchMissionImages = async () => {
     setLoadingMission(true)
     try {
-      const res = await fetch("/api/mission-image")
+      const res = await fetchWithAuth("/api/mission-image")
       if (res.ok) {
         const data = await res.json()
         setMissionImages(data)
@@ -55,7 +57,7 @@ export default function AdminTabImages() {
     try {
       const formData = new FormData()
       formData.append("file", file)
-      const res = await fetch("/api/upload/hero-image", {
+      const res = await fetchWithAuth("/api/upload/hero-image", {
         method: "POST",
         headers: { Authorization: `Bearer ${localStorage.getItem("adminToken")}` },
         body: formData,
@@ -82,7 +84,7 @@ export default function AdminTabImages() {
     try {
       const formData = new FormData()
       formData.append("file", file)
-      const res = await fetch("/api/mission-image", {
+      const res = await fetchWithAuth("/api/mission-image", {
         method: "POST",
         headers: { Authorization: `Bearer ${localStorage.getItem("adminToken")}` },
         body: formData,
@@ -104,7 +106,7 @@ export default function AdminTabImages() {
   const handleMissionDelete = async (filename) => {
     if (!confirm("Are you sure you want to delete this mission image?")) return
     try {
-      const res = await fetch(`/api/mission-image?filename=${encodeURIComponent(filename)}`, {
+      const res = await fetchWithAuth(`/api/mission-image?filename=${encodeURIComponent(filename)}`, {
         method: "DELETE",
         headers: {
           Authorization: `Bearer ${localStorage.getItem("adminToken")}`,
@@ -124,7 +126,7 @@ export default function AdminTabImages() {
   const handleHeroDelete = async (filename) => {
     if (!confirm("Are you sure you want to delete this hero image?")) return
     try {
-      const res = await fetch(`/api/hero-images?filename=${encodeURIComponent(filename)}`, {
+      const res = await fetchWithAuth(`/api/hero-images?filename=${encodeURIComponent(filename)}`, {
         method: "DELETE",
         headers: {
           Authorization: `Bearer ${localStorage.getItem("adminToken")}`,

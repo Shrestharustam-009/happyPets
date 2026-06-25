@@ -1,6 +1,8 @@
 "use client"
+import { fetchWithAuth } from "@/lib/api"
 
 import { useState, useEffect } from "react"
+
 
 export default function AppointmentBookingForm() {
   const [step, setStep] = useState(1)
@@ -28,7 +30,7 @@ export default function AppointmentBookingForm() {
 
   // Fetch services from API for booking
   useEffect(() => {
-    fetch("/api/services")
+    fetchWithAuth("/api/services")
       .then((res) => res.json())
       .then((data) => {
         setServices(data || [])
@@ -101,7 +103,7 @@ export default function AppointmentBookingForm() {
       if (!authToken) {
         throw new Error("You must be logged in to book")
       }
-      const response = await fetch("/api/appointments/create", {
+      const response = await fetchWithAuth("/api/appointments/create", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
