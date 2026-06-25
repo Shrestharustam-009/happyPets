@@ -63,7 +63,7 @@ export default function AdminTabReviews() {
       const url = editingId ? `/api/reviews/${editingId}` : "/api/reviews"
       const method = editingId ? "PUT" : "POST"
 
-      const response = await fetch(url, {
+      const response = await fetchWithAuth(url, {
         method,
         headers: {
           "Content-Type": "application/json",

@@ -17,7 +17,7 @@ export default function AdminTabOrders() {
     setLoading(true)
     try {
       const url = filter === "all" ? "/api/orders" : `/api/orders?status=${filter}`
-      const response = await fetch(url, {
+      const response = await fetchWithAuth(url, {
         headers: {
           Authorization: `Bearer ${localStorage.getItem("adminToken")}`,
         },

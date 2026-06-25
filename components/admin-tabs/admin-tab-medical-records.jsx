@@ -235,7 +235,7 @@ export default function AdminTabMedicalRecords() {
       const url = isEditMode ? `/api/admin/medical-records/${currentRecord.id}` : "/api/admin/medical-records"
       const method = isEditMode ? "PUT" : "POST"
       
-      const res = await fetch(url, {
+      const res = await fetchWithAuth(url, {
         method,
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(payload),

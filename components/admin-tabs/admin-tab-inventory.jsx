@@ -132,7 +132,7 @@ export default function AdminTabInventory() {
         stock: parseInt(formData.stock, 10)
       }
       
-      const res = await fetch(url, {
+      const res = await fetchWithAuth(url, {
         method,
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(payload),

@@ -102,7 +102,7 @@ export default function AdminTabProducts() {
       const url = editingId ? `/api/products/${editingId}` : "/api/products"
       const method = editingId ? "PUT" : "POST"
 
-      const response = await fetch(url, {
+      const response = await fetchWithAuth(url, {
         method,
         headers: {
           "Content-Type": "application/json",

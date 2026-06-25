@@ -69,7 +69,7 @@ export default function AdminTabTeam() {
         is_active: formData.is_active === undefined ? 1 : (formData.is_active === true || formData.is_active === 1 || formData.is_active === '1' ? 1 : 0),
       };
 
-      const res = await fetch(url, {
+      const res = await fetchWithAuth(url, {
         method,
         headers: {
           "Content-Type": "application/json",

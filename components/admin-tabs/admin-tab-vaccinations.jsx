@@ -114,7 +114,7 @@ export default function AdminTabVaccinations() {
       const url = isEditMode ? `/api/admin/vaccinations/${currentRecord.id}` : "/api/admin/vaccinations"
       const method = isEditMode ? "PUT" : "POST"
       
-      const res = await fetch(url, {
+      const res = await fetchWithAuth(url, {
         method,
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(formData),

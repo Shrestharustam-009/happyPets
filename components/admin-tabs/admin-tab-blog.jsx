@@ -85,7 +85,7 @@ export default function AdminTabBlog() {
 
       const { title, excerpt, content, category, tags, featuredImage, authorName, seo_title, seo_slug, seo_description, focus_keyphrase } = formData
 
-      const response = await fetch(url, {
+      const response = await fetchWithAuth(url, {
         method,
         headers: {
           "Content-Type": "application/json",

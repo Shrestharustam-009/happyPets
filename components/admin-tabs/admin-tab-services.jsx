@@ -49,7 +49,7 @@ export default function AdminTabServices() {
       const url = editingId ? `/api/services/${editingId}` : "/api/services"
       const method = editingId ? "PUT" : "POST"
 
-      const response = await fetch(url, {
+      const response = await fetchWithAuth(url, {
         method,
       headers: {
         "Content-Type": "application/json",
