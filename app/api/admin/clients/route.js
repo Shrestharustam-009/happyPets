@@ -25,14 +25,19 @@ export async function POST(request) {
       return NextResponse.json({ error: "Forbidden" }, { status: 403 })
     }
 
-    const body = await request.json()
-    const { full_name, email, phone_number, address, password } = body
+    let body;
+    try {
+      body = await request.json();
+    } catch (err) {
+      return NextResponse.json({ error: "Invalid request format" }, { status: 400 });
+    }
+    const { full_name, email, phone_number, address, password } = body;
 
     if (!full_name) {
       return NextResponse.json({ error: "Name is required" }, { status: 400 })
     }
 
-    const trimmedEmail = email && email.trim() !== "" ? email.trim() : null
+    const trimmedEmail = email && email.trim() !== "" ? email.trim() : `client_${Date.now()}@happypets.local`
 
     // Check if email already exists (if provided)
     if (trimmedEmail) {
