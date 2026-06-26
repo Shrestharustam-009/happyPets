@@ -16,7 +16,7 @@ export default function AdminTabMedicalRecords() {
 
   // Search & Selected Client State
   const [clientSearchText, setClientSearchText] = useState("")
-  const [selectedClient, setSelectedClient] = useState(null)
+  const [activeClientId, setActiveClientId] = useState(null)
 
   const handleDeleteAllClientRecords = async (clientId) => {
     if (confirm("Are you sure you want to delete ALL medical records (visits) for this client? This action cannot be undone.")) {
