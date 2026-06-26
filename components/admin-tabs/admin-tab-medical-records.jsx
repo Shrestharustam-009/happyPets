@@ -112,10 +112,10 @@ export default function AdminTabMedicalRecords() {
     try {
       setLoading(true)
       const [recordsRes, patientsRes, usersRes, clientsRes] = await Promise.all([
-        fetchWithAuth("/api/admin/medical-records"),
-        fetchWithAuth("/api/admin/patients"),
-        fetchWithAuth("/api/users", { headers: { Authorization: `Bearer ${localStorage.getItem("adminToken")}` } }),
-        fetchWithAuth("/api/admin/clients")
+        fetchWithAuth("/api/admin/medical-records", { cache: "no-store" }),
+        fetchWithAuth("/api/admin/patients", { cache: "no-store" }),
+        fetchWithAuth("/api/users", { headers: { Authorization: `Bearer ${localStorage.getItem("adminToken")}` }, cache: "no-store" }),
+        fetchWithAuth("/api/admin/clients", { cache: "no-store" })
       ])
       
       if (recordsRes.ok) setRecords(await recordsRes.json())
