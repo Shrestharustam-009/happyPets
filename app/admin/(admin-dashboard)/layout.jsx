@@ -168,11 +168,19 @@ export default function AdminDashboardLayout({ children }) {
     { id: "users", label: "Users (Staff)", path: `${prefix}/users`, icon: Shield },
   ]
 
-  const tabs = admin?.role === 'vet'
+  const roleTabs = admin?.role === 'vet'
     ? allTabs.filter(tab => !adminOnlyTabs.includes(tab.id))
     : admin?.role === 'reception'
       ? allTabs.filter(tab => tab.id !== 'users')
       : allTabs
+
+  // Apply per-user allowed_tabs filter (admin role always gets full access)
+  const tabs = (() => {
+    if (admin?.role === 'admin') return roleTabs
+    const allowedTabs = admin?.allowed_tabs
+    if (!allowedTabs || !Array.isArray(allowedTabs) || allowedTabs.length === 0) return roleTabs
+    return roleTabs.filter(tab => tab.id === 'overview' || allowedTabs.includes(tab.id))
+  })()
 
   if (loading) {
     return (

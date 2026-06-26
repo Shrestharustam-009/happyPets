@@ -36,6 +36,14 @@ export async function POST(req) {
       return Response.json({ message: "Invalid admin credentials" }, { status: 401 })
     }
 
+    // Parse allowed_tabs from DB
+    let allowedTabs = null
+    try {
+      allowedTabs = admin.allowed_tabs ? (typeof admin.allowed_tabs === "string" ? JSON.parse(admin.allowed_tabs) : admin.allowed_tabs) : null
+    } catch (e) {
+      allowedTabs = null
+    }
+
     return Response.json({
       message: "Admin login successful",
       admin: {
@@ -43,6 +51,7 @@ export async function POST(req) {
         email: admin.email,
         fullName: admin.full_name,
         role: admin.role,
+        allowed_tabs: allowedTabs,
       },
       token: "admin-token-" + admin.id,
     })

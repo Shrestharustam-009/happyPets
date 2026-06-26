@@ -106,3 +106,31 @@ export async function POST(request) {
     return NextResponse.json({ error: "Failed to create medical record" }, { status: 500 })
   }
 }
+
+export async function DELETE(request) {
+  try {
+    if (!(await validateAdminRequest(request))) {
+      return NextResponse.json({ error: "Forbidden" }, { status: 403 })
+    }
+
+    const { searchParams } = new URL(request.url)
+    const client_id = searchParams.get("client_id")
+
+    if (!client_id) {
+      return NextResponse.json({ error: "Client ID is required" }, { status: 400 })
+    }
+
+    // Delete medical records of pets belonging to this client
+    await query(
+      `DELETE m FROM medical_records m
+       INNER JOIN pets p ON m.pet_id = p.id
+       WHERE p.user_id = ?`,
+      [client_id]
+    )
+
+    return NextResponse.json({ message: "Client's medical records deleted successfully" })
+  } catch (error) {
+    console.error("[v0] Error deleting client medical records:", error)
+    return NextResponse.json({ error: "Failed to delete medical records" }, { status: 500 })
+  }
+}

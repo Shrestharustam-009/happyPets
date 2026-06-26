@@ -14,7 +14,7 @@ export async function PUT(req, { params }) {
     } catch (err) {
       return Response.json({ error: "Invalid JSON" }, { status: 400 });
     }
-    const { is_active, role } = body
+    const { is_active, role, allowed_tabs } = body
 
     const updates = []
     const values = []
@@ -27,6 +27,11 @@ export async function PUT(req, { params }) {
     if (role !== undefined) {
       updates.push("role = ?")
       values.push(role)
+    }
+
+    if (allowed_tabs !== undefined) {
+      updates.push("allowed_tabs = ?")
+      values.push(allowed_tabs === null ? null : JSON.stringify(allowed_tabs))
     }
 
     if (updates.length > 0) {

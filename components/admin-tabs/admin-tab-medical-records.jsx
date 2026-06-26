@@ -13,6 +13,32 @@ export default function AdminTabMedicalRecords() {
   const [isModalOpen, setIsModalOpen] = useState(false)
   const [isEditMode, setIsEditMode] = useState(false)
   const [currentRecord, setCurrentRecord] = useState(null)
+
+  // Search & Selected Client State
+  const [clientSearchText, setClientSearchText] = useState("")
+  const [selectedClient, setSelectedClient] = useState(null)
+
+  const handleDeleteAllClientRecords = async (clientId) => {
+    if (confirm("Are you sure you want to delete ALL medical records (visits) for this client? This action cannot be undone.")) {
+      try {
+        const res = await fetchWithAuth(`/api/admin/medical-records?client_id=${clientId}`, {
+          method: "DELETE",
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("adminToken")}`,
+          },
+        })
+        if (res.ok) {
+          fetchData()
+          alert("All medical records for this client's pets have been deleted.")
+        } else {
+          const errorData = await res.json()
+          alert(errorData.error || "Failed to delete medical records")
+        }
+      } catch (error) {
+        console.error("Failed to delete client medical records:", error)
+      }
+    }
+  }
   
   const [formData, setFormData] = useState({
     pet_id: "", vet_id: "", visit_date: "", chief_complaint: "", temperature: "", pulse: "", respiration: "", weight: "", clinical_findings: "", primary_diagnosis: "", differential_diagnoses: "", treatment_interventions: "", prescribed_medicines: "", attachments_url: "", history: ""
