@@ -448,118 +448,250 @@ export default function AdminTabMedicalRecords() {
         </div>
       </div>
 
-      <div className="bg-background border border-border rounded-lg overflow-hidden shadow-sm">
-        {clients.length === 0 ? (
-          <div className="p-8 text-center text-muted-foreground">No clients found. Click "Register Client & Pet" to start.</div>
-        ) : (
-          <div className="divide-y divide-border">
-            {clients.map(client => {
-              const clientPets = patients.filter(p => Number(p.user_id) === Number(client.id));
-              const isExpanded = expandedClients[client.id];
-              return (
-                <div key={client.id} className="bg-white">
-                  <div 
-                    onClick={() => toggleClient(client.id)}
-                    className="flex items-center justify-between p-4 cursor-pointer hover:bg-slate-50 transition-colors"
-                  >
-                    <div className="flex flex-col">
-                      <span className="font-bold text-lg text-slate-800">{client.full_name}</span>
-                      <span className="text-xs text-slate-500">{client.email || 'No email'} | {client.phone_number || 'No phone'}</span>
-                    </div>
-                    <div className="flex items-center gap-4">
-                      <span className="text-sm font-semibold text-slate-600 bg-slate-100 px-3 py-1 rounded-full">{clientPets.length} Pets</span>
-                      <svg className={`w-5 h-5 text-slate-400 transition-transform ${isExpanded ? 'rotate-180' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" /></svg>
-                    </div>
-                  </div>
+      {/* Client Search Bar */}
+      {!activeClientId ? (
+        <div className="space-y-4">
+          <div className="bg-white p-6 border border-border rounded-xl shadow-sm space-y-4">
+            <div className="relative">
+              <input
+                type="text"
+                placeholder="Search clients by name, email, or phone number..."
+                value={clientSearchText}
+                onChange={(e) => setClientSearchText(e.target.value)}
+                className="w-full pl-10 pr-4 py-3 border border-border rounded-xl focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent bg-slate-50/50 text-foreground text-sm font-medium transition-all"
+              />
+              <svg className="absolute left-3.5 top-3.5 w-4 h-4 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+              </svg>
+            </div>
 
-                  {isExpanded && (
-                    <div className="bg-slate-50 border-t border-border p-4 pl-8 space-y-4">
-                      {clientPets.length === 0 ? (
-                        <div className="text-sm text-slate-500 italic">No pets registered for this client.</div>
-                      ) : (
-                        clientPets.map(pet => {
-                          const petRecords = records.filter(r => Number(r.pet_id) === Number(pet.id));
-                          const isPetExpanded = expandedPets[pet.id];
-                          return (
-                            <div key={pet.id} className="bg-white border border-slate-200 rounded-lg overflow-hidden shadow-sm">
-                              <div 
-                                onClick={() => togglePet(pet.id)}
-                                className="flex items-center justify-between p-3 cursor-pointer hover:bg-slate-50 border-b border-slate-100"
-                              >
-                                <div className="flex items-center gap-3">
-                                  {pet.photo_url ? (
-                                    <img src={pet.photo_url} alt={pet.name} className="w-10 h-10 rounded-full object-cover border border-slate-200" />
-                                  ) : (
-                                    <div className="w-10 h-10 rounded-full bg-blue-100 flex items-center justify-center text-blue-600 font-bold">{pet.name.charAt(0)}</div>
-                                  )}
-                                  <div>
-                                    <span className="font-bold text-slate-800">{pet.name}</span>
-                                    <div className="text-xs text-slate-500">{pet.species} - {pet.breed || 'Unknown'} | {pet.sex || 'Unknown Sex'}</div>
-                                  </div>
-                                </div>
-                                <div className="flex items-center gap-4">
-                                  <span className="text-xs font-semibold text-blue-600 bg-blue-50 px-2.5 py-1 rounded-full border border-blue-100">{petRecords.length} Visits</span>
-                                  <svg className={`w-4 h-4 text-slate-400 transition-transform ${isPetExpanded ? 'rotate-180' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" /></svg>
-                                </div>
-                              </div>
-
-                              {isPetExpanded && (
-                                <div className="bg-slate-50 p-3">
-                                  {petRecords.length === 0 ? (
-                                    <div className="flex items-center justify-between">
-                                      <span className="text-xs text-slate-500 italic">No medical records found for this pet.</span>
-                                      <button onClick={() => { openAddModal(); setPetSearchText(`${pet.name} (${client.full_name})`); setFormData(prev => ({ ...prev, pet_id: pet.id })) }} className="text-xs text-primary font-semibold hover:underline">Log Initial Visit</button>
-                                    </div>
-                                  ) : (
-                                    <table className="w-full text-left text-sm">
-                                      <thead>
-                                        <tr className="text-xs text-slate-500 border-b border-slate-200">
-                                          <th className="pb-2 font-medium">Date & Vet</th>
-                                          <th className="pb-2 font-medium">Diagnosis / CC</th>
-                                          <th className="pb-2 font-medium text-right">Actions</th>
-                                        </tr>
-                                      </thead>
-                                      <tbody className="divide-y divide-slate-100">
-                                        {petRecords.map(record => (
-                                          <tr key={record.id} className="hover:bg-slate-100/50">
-                                            <td className="py-2">
-                                              <div className="font-semibold text-slate-700">{new Date(record.visit_date).toLocaleDateString()}</div>
-                                              <div className="text-[10px] text-slate-500">Dr. {record.vet_name}</div>
-                                            </td>
-                                            <td className="py-2">
-                                              <div className="font-medium text-slate-800">{record.primary_diagnosis || "No formal diagnosis"}</div>
-                                              <div className="text-xs text-slate-500 truncate max-w-[200px]">{record.chief_complaint || "-"}</div>
-                                            </td>
-                                            <td className="py-2 text-right">
-                                              <button onClick={() => openEditModal(record)} className="text-xs font-semibold text-primary hover:text-primary/80 mr-3">View/Edit</button>
-                                              {isAdmin && (
-                                                <button onClick={() => handleDelete(record.id)} className="text-xs font-semibold text-red-500 hover:text-red-700">Delete</button>
-                                              )}
-                                            </td>
-                                          </tr>
-                                        ))}
-                                      </tbody>
-                                    </table>
-                                  )}
-                                  <div className="mt-3 text-right">
-                                    <button onClick={() => { openAddModal(); setPetSearchText(`${pet.name} (${client.full_name})`); setFormData(prev => ({ ...prev, pet_id: pet.id })) }} className="text-xs font-semibold bg-white border border-slate-300 text-slate-700 px-3 py-1.5 rounded hover:bg-slate-100">
-                                      + Log New Visit
-                                    </button>
-                                  </div>
-                                </div>
-                              )}
-                            </div>
-                          )
-                        })
-                      )}
-                    </div>
-                  )}
+            {clientSearchText.trim() === "" ? (
+              <div className="py-12 text-center space-y-3">
+                <div className="inline-flex p-4 bg-slate-50 text-slate-400 rounded-full">
+                  <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                  </svg>
                 </div>
-              )
-            })}
+                <h3 className="text-sm font-bold text-slate-700">Search Client EHR</h3>
+                <p className="text-xs text-slate-500 max-w-sm mx-auto">
+                  Type an owner's name, phone, or email to pull up their complete medical records and pet details.
+                </p>
+              </div>
+            ) : null}
           </div>
-        )}
-      </div>
+
+          {clientSearchText.trim() !== "" && (
+            <div className="bg-white border border-border rounded-xl shadow-sm divide-y divide-border overflow-hidden">
+              {clients.filter(client => 
+                client.full_name?.toLowerCase().includes(clientSearchText.toLowerCase()) ||
+                client.email?.toLowerCase().includes(clientSearchText.toLowerCase()) ||
+                client.phone_number?.includes(clientSearchText)
+              ).length === 0 ? (
+                <div className="p-8 text-center text-sm text-slate-500 italic">No matching clients found.</div>
+              ) : (
+                clients.filter(client => 
+                  client.full_name?.toLowerCase().includes(clientSearchText.toLowerCase()) ||
+                  client.email?.toLowerCase().includes(clientSearchText.toLowerCase()) ||
+                  client.phone_number?.includes(clientSearchText)
+                ).map(client => {
+                  const clientPets = patients.filter(p => Number(p.user_id) === Number(client.id));
+                  return (
+                    <div
+                      key={client.id}
+                      onClick={() => {
+                        setActiveClientId(client.id)
+                        setClientSearchText("")
+                      }}
+                      className="flex items-center justify-between p-4 cursor-pointer hover:bg-slate-50 transition-colors"
+                    >
+                      <div className="flex flex-col">
+                        <span className="font-bold text-base text-slate-800">{client.full_name}</span>
+                        <span className="text-xs text-slate-500">
+                          {client.email || 'No email'} | {client.phone_number || 'No phone'}
+                        </span>
+                      </div>
+                      <span className="text-xs font-semibold text-slate-600 bg-slate-100 px-3 py-1 rounded-full">
+                        {clientPets.length} {clientPets.length === 1 ? 'Pet' : 'Pets'}
+                      </span>
+                    </div>
+                  )
+                })
+              )}
+            </div>
+          )}
+        </div>
+      ) : (
+        /* Selected Client Detail Panel */
+        (() => {
+          const client = clients.find(c => c.id === activeClientId)
+          if (!client) return null
+          const clientPets = patients.filter(p => Number(p.user_id) === Number(client.id));
+          return (
+            <div className="space-y-6">
+              {/* Back Bar */}
+              <div className="flex flex-wrap items-center justify-between gap-4 bg-slate-50 border border-slate-200 p-4 rounded-xl">
+                <button
+                  onClick={() => setActiveClientId(null)}
+                  className="inline-flex items-center gap-2 text-sm font-semibold text-slate-600 hover:text-slate-900 transition-colors cursor-pointer"
+                >
+                  <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+                  </svg>
+                  Back to Search
+                </button>
+
+                {isAdmin && (
+                  <button
+                    onClick={() => handleDeleteAllClientRecords(client.id)}
+                    className="px-3.5 py-1.5 bg-red-50 hover:bg-red-100 text-red-600 border border-red-200 rounded-lg text-xs font-bold transition-colors cursor-pointer"
+                  >
+                    Delete All Client Medical Records
+                  </button>
+                )}
+              </div>
+
+              {/* Client Profile Header */}
+              <div className="bg-white border border-border p-6 rounded-xl shadow-sm flex flex-col md:flex-row justify-between md:items-center gap-4">
+                <div>
+                  <h3 className="text-xl font-bold text-slate-800">{client.full_name}</h3>
+                  <div className="text-sm text-slate-500 mt-1 flex flex-wrap gap-x-4 gap-y-1">
+                    <span><strong>Email:</strong> {client.email || 'No email'}</span>
+                    <span><strong>Phone:</strong> {client.phone_number || 'No phone'}</span>
+                    {client.address && <span><strong>Address:</strong> {client.address}</span>}
+                  </div>
+                </div>
+                <div className="shrink-0 bg-blue-50 text-blue-800 border border-blue-100 rounded-xl px-4 py-2 text-center">
+                  <div className="text-xl font-black">{clientPets.length}</div>
+                  <div className="text-[10px] font-bold uppercase tracking-wider">Registered Pets</div>
+                </div>
+              </div>
+
+              {/* Pets & Visits list */}
+              <div className="space-y-4">
+                {clientPets.length === 0 ? (
+                  <div className="bg-white border border-border p-8 rounded-xl text-center text-slate-500 italic">
+                    No pets registered for this client.
+                  </div>
+                ) : (
+                  clientPets.map(pet => {
+                    const petRecords = records.filter(r => Number(r.pet_id) === Number(pet.id));
+                    // Keep pet expanded by default in search view for convenience
+                    const isPetExpanded = expandedPets[pet.id] !== false;
+                    return (
+                      <div key={pet.id} className="bg-white border border-border rounded-xl overflow-hidden shadow-sm">
+                        <div 
+                          onClick={() => togglePet(pet.id)}
+                          className="flex items-center justify-between p-4 cursor-pointer hover:bg-slate-50 border-b border-border bg-slate-50/20"
+                        >
+                          <div className="flex items-center gap-3">
+                            {pet.photo_url ? (
+                              <img src={pet.photo_url} alt={pet.name} className="w-12 h-12 rounded-full object-cover border border-slate-200 shadow-sm" />
+                            ) : (
+                              <div className="w-12 h-12 rounded-full bg-blue-100 flex items-center justify-center text-blue-600 font-black text-lg">
+                                {pet.name.charAt(0)}
+                              </div>
+                            )}
+                            <div>
+                              <span className="font-bold text-slate-800 text-base">{pet.name}</span>
+                              <div className="text-xs text-slate-500 mt-0.5">
+                                {pet.species} - {pet.breed || 'Unknown'} | {pet.sex || 'Unknown Sex'}
+                              </div>
+                            </div>
+                          </div>
+                          <div className="flex items-center gap-4">
+                            <span className="text-xs font-semibold text-blue-600 bg-blue-50 px-2.5 py-1 rounded-full border border-blue-100">
+                              {petRecords.length} {petRecords.length === 1 ? 'Visit' : 'Visits'}
+                            </span>
+                            <svg className={`w-4 h-4 text-slate-400 transition-transform ${isPetExpanded ? 'rotate-180' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                            </svg>
+                          </div>
+                        </div>
+
+                        {isPetExpanded && (
+                          <div className="p-4 bg-white space-y-4">
+                            {petRecords.length === 0 ? (
+                              <div className="flex items-center justify-between py-2 border-b border-slate-100">
+                                <span className="text-xs text-slate-500 italic">No medical records found for this pet.</span>
+                                <button
+                                  onClick={() => {
+                                    openAddModal()
+                                    setPetSearchText(`${pet.name} (${client.full_name})`)
+                                    setFormData(prev => ({ ...prev, pet_id: pet.id }))
+                                  }}
+                                  className="text-xs text-primary font-semibold hover:underline cursor-pointer"
+                                >
+                                  Log Initial Visit
+                                </button>
+                              </div>
+                            ) : (
+                              <div className="overflow-x-auto">
+                                <table className="w-full text-left text-sm">
+                                  <thead>
+                                    <tr className="text-xs text-slate-500 border-b border-border">
+                                      <th className="pb-3 font-semibold">Date & Vet</th>
+                                      <th className="pb-3 font-semibold">Diagnosis / Chief Complaint</th>
+                                      <th className="pb-3 font-semibold text-right">Actions</th>
+                                    </tr>
+                                  </thead>
+                                  <tbody className="divide-y divide-slate-100">
+                                    {petRecords.map(record => (
+                                      <tr key={record.id} className="hover:bg-slate-50/50">
+                                        <td className="py-3">
+                                          <div className="font-semibold text-slate-700">{new Date(record.visit_date).toLocaleDateString()}</div>
+                                          <div className="text-[10px] text-slate-500 mt-0.5">Dr. {record.vet_name}</div>
+                                        </td>
+                                        <td className="py-3">
+                                          <div className="font-medium text-slate-800">{record.primary_diagnosis || "No formal diagnosis"}</div>
+                                          <div className="text-xs text-slate-500 mt-0.5 truncate max-w-[300px]" title={record.chief_complaint}>
+                                            {record.chief_complaint || "-"}
+                                          </div>
+                                        </td>
+                                        <td className="py-3 text-right">
+                                          <button
+                                            onClick={() => openEditModal(record)}
+                                            className="text-xs font-semibold text-primary hover:text-primary/80 mr-3 cursor-pointer"
+                                          >
+                                            View/Edit
+                                          </button>
+                                          {isAdmin && (
+                                            <button
+                                              onClick={() => handleDelete(record.id)}
+                                              className="text-xs font-semibold text-red-500 hover:text-red-700 cursor-pointer"
+                                            >
+                                              Delete
+                                            </button>
+                                          )}
+                                        </td>
+                                      </tr>
+                                    ))}
+                                  </tbody>
+                                </table>
+                              </div>
+                            )}
+                            <div className="text-right">
+                              <button
+                                onClick={() => {
+                                  openAddModal()
+                                  setPetSearchText(`${pet.name} (${client.full_name})`)
+                                  setFormData(prev => ({ ...prev, pet_id: pet.id }))
+                                }}
+                                className="text-xs font-semibold bg-white border border-slate-300 text-slate-700 px-3 py-1.5 rounded hover:bg-slate-100 transition-colors cursor-pointer"
+                              >
+                                + Log New Visit
+                              </button>
+                            </div>
+                          </div>
+                        )}
+                      </div>
+                    )
+                  })
+                )}
+              </div>
+            </div>
+          )
+        })()
+      )}
 
       {/* Registration Wizard Modal */}
       {isRegistrationModalOpen && (
