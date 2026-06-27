@@ -44,7 +44,7 @@ export default function AdminTabMedicalRecords() {
   }
   
   const [formData, setFormData] = useState({
-    pet_id: "", vet_id: "", visit_date: "", chief_complaint: "", temperature: "", pulse: "", respiration: "", weight: "", clinical_findings: "", primary_diagnosis: "", differential_diagnoses: "", treatment_interventions: "", prescribed_medicines: "", attachments_url: "", history: ""
+    pet_id: "", vet_id: "", visit_date: "", chief_complaint: "", temperature: "", pulse: "", respiration: "", weight: "", clinical_findings: "", primary_diagnosis: "", differential_diagnoses: "", treatment_interventions: "", prescribed_medicines: "", attachments_url: "", history: "", reminder_date: "", reminder_vaccine_name: ""
   })
 
   const [weightUnitMR, setWeightUnitMR] = useState("kg")
@@ -332,7 +332,9 @@ export default function AdminTabMedicalRecords() {
       treatment_interventions: "",
       prescribed_medicines: "",
       attachments_url: "",
-      history: ""
+      history: "",
+      reminder_date: "",
+      reminder_vaccine_name: ""
     })
     setWeightUnitMR("kg")
     setAttachments([])
@@ -359,7 +361,9 @@ export default function AdminTabMedicalRecords() {
       treatment_interventions: record.treatment_interventions || "",
       prescribed_medicines: record.prescribed_medicines || "",
       attachments_url: record.attachments_url || "",
-      history: record.history || ""
+      history: record.history || "",
+      reminder_date: "",
+      reminder_vaccine_name: ""
     })
     setWeightUnitMR("kg")
     // Restore previously uploaded attachments
@@ -419,6 +423,24 @@ export default function AdminTabMedicalRecords() {
       })
       
       if (res.ok) {
+        if (formData.reminder_date) {
+          try {
+            await fetchWithAuth("/api/admin/vaccinations", {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify({
+                pet_id: formData.pet_id,
+                vaccine_name: formData.reminder_vaccine_name || "Next Scheduled Vaccination",
+                given_date: formData.visit_date.slice(0, 10),
+                next_due_date: formData.reminder_date,
+                administered_by: formData.vet_id,
+                notes: "Reminder created from Medical Record"
+              })
+            })
+          } catch (e) {
+            console.error("Failed to create reminder", e)
+          }
+        }
         fetchData()
         closeModal()
       } else {
@@ -1410,6 +1432,37 @@ export default function AdminTabMedicalRecords() {
                       placeholder="e.g. Amoxicillin 250mg BID for 7 days"
                       className="w-full px-3 py-2 border border-border rounded-md focus:outline-none focus:ring-1 focus:ring-primary"
                     ></textarea>
+                  </div>
+
+                  {/* ====== Follow-up / Reminder ====== */}
+                  <div className="md:col-span-2 border border-blue-100 bg-blue-50/40 rounded-lg p-4 mt-2">
+                    <h4 className="font-semibold mb-3 text-sm text-blue-800 flex items-center gap-2">
+                      <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" /></svg>
+                      Next Vaccination / Follow-up Reminder
+                    </h4>
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                      <div>
+                        <label className="block text-xs font-semibold mb-1 text-slate-700">Next Vaccination Due Date</label>
+                        <input
+                          type="date"
+                          name="reminder_date"
+                          value={formData.reminder_date || ""}
+                          onChange={handleInputChange}
+                          className="w-full px-3 py-2 text-sm border border-border rounded-md focus:outline-none focus:ring-1 focus:ring-primary bg-background text-foreground"
+                        />
+                      </div>
+                      <div>
+                        <label className="block text-xs font-semibold mb-1 text-slate-700">Vaccine Name (Optional)</label>
+                        <input
+                          type="text"
+                          name="reminder_vaccine_name"
+                          value={formData.reminder_vaccine_name || ""}
+                          onChange={handleInputChange}
+                          placeholder="e.g. Annual Booster, Rabies..."
+                          className="w-full px-3 py-2 text-sm border border-border rounded-md focus:outline-none focus:ring-1 focus:ring-primary bg-background text-foreground"
+                        />
+                      </div>
+                    </div>
                   </div>
 
                   {/* ====== Unified Attachments Upload ====== */}
