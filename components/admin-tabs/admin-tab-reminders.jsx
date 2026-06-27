@@ -11,8 +11,6 @@ export default function AdminTabReminders() {
   const [sending, setSending] = useState(null) // ID of reminder being sent
   const [isNoteModalOpen, setIsNoteModalOpen] = useState(false)
   const [activeReminderId, setActiveReminderId] = useState(null)
-  const [noteText, setNoteText] = useState("")
-  const [savingNote, setSavingNote] = useState(false)
 
   useEffect(() => {
     fetchReminders()
@@ -98,34 +96,23 @@ export default function AdminTabReminders() {
     }
   }
 
-  const handleAddRemark = (id, currentRemarks) => {
+  const handleAddRemark = (id) => {
     setActiveReminderId(id)
-    setNoteText(currentRemarks || "")
     setIsNoteModalOpen(true)
   }
 
-  const handleSaveNote = async () => {
+  const handleSaveNote = async (text) => {
     if (!activeReminderId) return
-    try {
-      setSavingNote(true)
-      const res = await fetchWithAuth(`/api/admin/reminders/${activeReminderId}`, {
-        method: "PUT",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ reminder_remarks: noteText })
-      });
-      if (res.ok) {
-        setReminders(prev => prev.map(r => r.vaccination_id === activeReminderId ? { ...r, reminder_remarks: noteText } : r));
-        setIsNoteModalOpen(false)
-        setActiveReminderId(null)
-        setNoteText("")
-      } else {
-        alert("Failed to save note.")
-      }
-    } catch (err) {
-      console.error(err);
-      alert("Error saving note.")
-    } finally {
-      setSavingNote(false)
+    const res = await fetchWithAuth(`/api/admin/reminders/${activeReminderId}`, {
+      method: "PUT",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ reminder_remarks: text })
+    });
+    if (res.ok) {
+      setReminders(prev => prev.map(r => r.vaccination_id === activeReminderId ? { ...r, reminder_remarks: text } : r));
+    } else {
+      alert("Failed to save note.")
+      throw new Error("Save failed")
     }
   }
 
@@ -257,7 +244,7 @@ export default function AdminTabReminders() {
                         {r.reminder_remarks || <span className="italic opacity-50">No remarks</span>}
                       </div>
                       <button 
-                        onClick={() => handleAddRemark(r.vaccination_id, r.reminder_remarks)}
+                        onClick={() => handleAddRemark(r.vaccination_id)}
                         className="text-primary hover:underline font-semibold text-xs"
                       >
                         {r.reminder_remarks ? "Edit Note" : "+ Add Note"}
@@ -289,61 +276,94 @@ export default function AdminTabReminders() {
         </div>
       </div>
       {/* Note Modal */}
-      {isNoteModalOpen && (
-        <div className="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 flex items-center justify-center p-4">
-          <div className="bg-background border border-border rounded-xl shadow-2xl max-w-md w-full overflow-hidden animate-in zoom-in-95 duration-200">
-            <div className="p-6 border-b border-border flex items-center justify-between">
-              <h3 className="text-lg font-bold flex items-center gap-2">
-                <FileText className="w-5 h-5 text-primary" />
-                Reminder Note & Remarks
-              </h3>
-              <button 
-                onClick={() => setIsNoteModalOpen(false)}
-                className="text-muted-foreground hover:text-foreground transition-colors p-1 rounded-lg hover:bg-muted"
-              >
-                <X className="w-5 h-5" />
-              </button>
-            </div>
-            <div className="p-6">
-              <label className="block text-xs font-bold uppercase tracking-wider text-muted-foreground mb-2">Remarks / Notes</label>
-              <textarea
-                value={noteText}
-                onChange={(e) => setNoteText(e.target.value)}
-                placeholder="Write down any notes here (e.g. client requested call back next week, phone was busy, etc.)..."
-                className="w-full min-h-[140px] px-3 py-2 text-sm border border-border rounded-lg bg-background text-foreground placeholder:text-muted-foreground/60 focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all resize-none"
-                maxLength={500}
-              />
-              <div className="text-right text-[10px] text-muted-foreground mt-1">
-                {noteText.length}/500 characters
-              </div>
-            </div>
-            <div className="flex justify-end gap-3 px-6 py-4 bg-muted/50 border-t border-border">
-              <button
-                type="button"
-                onClick={() => setIsNoteModalOpen(false)}
-                className="px-4 py-2 border border-border rounded-md text-sm font-semibold hover:bg-muted transition-colors text-foreground"
-              >
-                Cancel
-              </button>
-              <button
-                type="button"
-                onClick={handleSaveNote}
-                disabled={savingNote}
-                className="px-4 py-2 bg-primary hover:bg-primary/95 text-primary-foreground font-semibold rounded-md text-sm shadow-sm transition-colors flex items-center gap-2 disabled:opacity-50"
-              >
-                {savingNote ? (
-                  <>
-                    <div className="w-4 h-4 border-2 border-primary-foreground border-t-transparent rounded-full animate-spin"></div>
-                    Saving...
-                  </>
-                ) : (
-                  "Save Note"
-                )}
-              </button>
-            </div>
+      <NoteModal
+        isOpen={isNoteModalOpen}
+        initialText={reminders.find(r => r.vaccination_id === activeReminderId)?.reminder_remarks || ""}
+        onSave={handleSaveNote}
+        onClose={() => {
+          setIsNoteModalOpen(false)
+          setActiveReminderId(null)
+        }}
+      />
+    </div>
+  )
+}
+
+function NoteModal({ isOpen, initialText, onSave, onClose }) {
+  const [text, setText] = useState(initialText || "")
+  const [saving, setSaving] = useState(false)
+
+  useEffect(() => {
+    setText(initialText || "")
+  }, [initialText, isOpen])
+
+  if (!isOpen) return null
+
+  const handleSave = async () => {
+    try {
+      setSaving(true)
+      await onSave(text)
+      onClose()
+    } catch (err) {
+      console.error(err)
+    } finally {
+      setSaving(false)
+    }
+  }
+
+  return (
+    <div className="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+      <div className="bg-background border border-border rounded-xl shadow-2xl max-w-md w-full overflow-hidden animate-in zoom-in-95 duration-200">
+        <div className="p-6 border-b border-border flex items-center justify-between">
+          <h3 className="text-lg font-bold flex items-center gap-2">
+            <FileText className="w-5 h-5 text-primary" />
+            Reminder Note & Remarks
+          </h3>
+          <button 
+            onClick={onClose}
+            className="text-muted-foreground hover:text-foreground transition-colors p-1 rounded-lg hover:bg-muted"
+          >
+            <X className="w-5 h-5" />
+          </button>
+        </div>
+        <div className="p-6">
+          <label className="block text-xs font-bold uppercase tracking-wider text-muted-foreground mb-2">Remarks / Notes</label>
+          <textarea
+            value={text}
+            onChange={(e) => setText(e.target.value)}
+            placeholder="Write down any notes here (e.g. client requested call back next week, phone was busy, etc.)..."
+            className="w-full min-h-[140px] px-3 py-2 text-sm border border-border rounded-lg bg-background text-foreground placeholder:text-muted-foreground/60 focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all resize-none"
+            maxLength={1000}
+          />
+          <div className="text-right text-[10px] text-muted-foreground mt-1">
+            {text.length}/1000 characters
           </div>
         </div>
-      )}
+        <div className="flex justify-end gap-3 px-6 py-4 bg-muted/50 border-t border-border">
+          <button
+            type="button"
+            onClick={onClose}
+            className="px-4 py-2 border border-border rounded-md text-sm font-semibold hover:bg-muted transition-colors text-foreground"
+          >
+            Cancel
+          </button>
+          <button
+            type="button"
+            onClick={handleSave}
+            disabled={saving}
+            className="px-4 py-2 bg-primary hover:bg-primary/95 text-primary-foreground font-semibold rounded-md text-sm shadow-sm transition-colors flex items-center gap-2 disabled:opacity-50"
+          >
+            {saving ? (
+              <>
+                <div className="w-4 h-4 border-2 border-primary-foreground border-t-transparent rounded-full animate-spin"></div>
+                Saving...
+              </>
+            ) : (
+              "Save Note"
+            )}
+          </button>
+        </div>
+      </div>
     </div>
   )
 }
