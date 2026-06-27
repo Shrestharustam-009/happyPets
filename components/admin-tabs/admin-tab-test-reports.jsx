@@ -213,6 +213,7 @@ export default function AdminTabTestReports() {
   // View / Print states
   const [isViewModalOpen, setIsViewModalOpen] = useState(false)
   const [activeReport, setActiveReport] = useState(null)
+  const [qrModalReport, setQrModalReport] = useState(null)
 
   const [isAdmin, setIsAdmin] = useState(false)
 
@@ -552,24 +553,15 @@ export default function AdminTabTestReports() {
                     Dr. {report.vet_name || "N/A"}
                   </td>
                   <td className="px-6 py-4 text-center">
-                    <div className="inline-flex flex-col items-center gap-1 group relative">
-                      <a
-                        href={`${typeof window !== 'undefined' ? window.location.origin : ''}/test-report/${report.id}`}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        title="Scan or click to open report"
-                        className="block"
-                      >
-                        <QRCodeSVG
-                          value={`${typeof window !== 'undefined' ? window.location.origin : 'http://localhost:3000'}/test-report/${report.id}`}
-                          size={56}
-                          level="M"
-                          bgColor="#ffffff"
-                          fgColor="#1e293b"
-                        />
-                      </a>
-                      <span className="text-[9px] text-slate-400 font-mono">#{report.id}</span>
-                    </div>
+                    <button
+                      onClick={() => setQrModalReport(report)}
+                      className="bg-primary/10 hover:bg-primary/20 text-primary border border-primary/20 px-3 py-1.5 rounded-lg text-xs font-semibold transition-all inline-flex items-center gap-1.5 cursor-pointer shadow-sm"
+                    >
+                      <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v1m6 11h2m-6 0h-2v4m0-11v3m0 0h.01M12 12h.01M16 12h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                      </svg>
+                      Generate QR
+                    </button>
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
                     <button
@@ -1092,6 +1084,62 @@ export default function AdminTabTestReports() {
             </div>
           </div>
 
+        </div>
+      {/* QR Code Modal */}
+      {qrModalReport && (
+        <div className="fixed inset-0 bg-black/60 flex items-center justify-center z-50 p-4">
+          <div className="bg-background rounded-xl shadow-xl w-full max-w-sm overflow-hidden border border-border p-6 text-center space-y-4">
+            <div className="flex justify-between items-center pb-2 border-b border-border">
+              <h3 className="font-bold text-slate-800 text-base">Test Report QR Code</h3>
+              <button 
+                onClick={() => setQrModalReport(null)} 
+                className="text-slate-400 hover:text-slate-600 cursor-pointer"
+              >
+                <X className="w-5 h-5" />
+              </button>
+            </div>
+            
+            <div className="flex flex-col items-center justify-center bg-white p-6 rounded-lg border border-slate-200 shadow-inner">
+              <a
+                href={`${typeof window !== 'undefined' ? window.location.origin : ''}/test-report/${qrModalReport.id}`}
+                target="_blank"
+                rel="noopener noreferrer"
+                title="Scan or click to open report"
+                className="block p-2 bg-white rounded border border-slate-100 shadow-sm hover:opacity-90"
+              >
+                <QRCodeSVG
+                  value={`${typeof window !== 'undefined' ? window.location.origin : 'http://localhost:3000'}/test-report/${qrModalReport.id}`}
+                  size={192}
+                  level="H"
+                  bgColor="#ffffff"
+                  fgColor="#1e293b"
+                />
+              </a>
+              <p className="text-xs text-muted-foreground mt-3 font-semibold">Report #{qrModalReport.id} for {qrModalReport.pet_name}</p>
+            </div>
+
+            <div className="space-y-2">
+              <p className="text-xs text-slate-500 leading-normal">
+                Scan this QR code with a mobile device or click on it to view and download the full test report in a new tab.
+              </p>
+              <div className="pt-2 flex gap-2">
+                <a
+                  href={`${typeof window !== 'undefined' ? window.location.origin : ''}/test-report/${qrModalReport.id}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex-1 bg-primary text-primary-foreground hover:bg-primary/95 py-2 rounded-lg font-semibold text-sm transition-all shadow-sm cursor-pointer block text-center"
+                >
+                  Open in New Tab
+                </a>
+                <button
+                  onClick={() => setQrModalReport(null)}
+                  className="flex-1 border border-border hover:bg-slate-50 py-2 rounded-lg text-slate-700 font-semibold text-sm cursor-pointer transition-all"
+                >
+                  Close
+                </button>
+              </div>
+            </div>
+          </div>
         </div>
       )}
 
