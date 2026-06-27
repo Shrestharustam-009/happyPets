@@ -971,7 +971,7 @@ export default function AdminTabTestReports() {
                     z-index: 99999 !important;
                   }
 
-                  /* Force ALL parent containers to not clip */
+                  /* Force ALL parent containers to not clip and remove explicit heights */
                   #printable-report,
                   #printable-report ~ *,
                   .fixed, [class*="fixed"],
@@ -980,6 +980,7 @@ export default function AdminTabTestReports() {
                   [class*="flex-1"] {
                     overflow: visible !important;
                     height: auto !important;
+                    min-height: auto !important;
                     max-height: none !important;
                     position: static !important;
                   }
