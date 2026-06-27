@@ -148,8 +148,18 @@ export default function PublicTestReportPage() {
     <>
       <style>{`
         @media print {
+          /* Hide toolbar */
           .no-print { display: none !important; }
-          body { margin: 0; }
+
+          /* Reset the page background wrapper */
+          .no-print-bg {
+            background: none !important;
+            padding: 0 !important;
+            margin: 0 !important;
+            min-height: auto !important;
+          }
+
+          /* The report card itself */
           .report-page {
             width: 100% !important;
             max-width: 100% !important;
@@ -158,7 +168,10 @@ export default function PublicTestReportPage() {
             border: none !important;
             box-shadow: none !important;
             border-radius: 0 !important;
+            overflow: visible !important;
           }
+
+          /* Prevent rows from splitting across pages */
           .category-section {
             page-break-inside: avoid;
             break-inside: avoid;

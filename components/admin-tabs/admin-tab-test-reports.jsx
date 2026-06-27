@@ -948,20 +948,51 @@ export default function AdminTabTestReports() {
               {/* Print media style */}
               <style dangerouslySetInnerHTML={{__html: `
                 @media print {
+                  /* Hide everything on the page */
                   body * { visibility: hidden !important; }
+
+                  /* Show the report and all its children */
                   #printable-report, #printable-report * { visibility: visible !important; }
+
+                  /* Break the report out of its fixed/scrollable parents */
                   #printable-report {
-                    position: static !important;
+                    position: fixed !important;
+                    left: 0 !important;
+                    top: 0 !important;
                     width: 100% !important;
                     max-width: 100% !important;
+                    height: auto !important;
                     padding: 16px !important;
                     margin: 0 !important;
                     border: none !important;
                     box-shadow: none !important;
                     border-radius: 0 !important;
                     overflow: visible !important;
+                    z-index: 99999 !important;
                   }
-                  .no-print { display: none !important; }
+
+                  /* Force ALL parent containers to not clip */
+                  #printable-report,
+                  #printable-report ~ *,
+                  .fixed, [class*="fixed"],
+                  [class*="overflow-y-auto"],
+                  [class*="overflow-y-scroll"],
+                  [class*="flex-1"] {
+                    overflow: visible !important;
+                    height: auto !important;
+                    max-height: none !important;
+                    position: static !important;
+                  }
+
+                  /* Re-force #printable-report after the above static rule */
+                  #printable-report {
+                    position: fixed !important;
+                    left: 0 !important;
+                    top: 0 !important;
+                  }
+
+                  .no-print { display: none !important; visibility: hidden !important; }
+
                   .category-section {
                     page-break-inside: avoid;
                     break-inside: avoid;
@@ -1085,6 +1116,8 @@ export default function AdminTabTestReports() {
           </div>
 
         </div>
+      )}
+
       {/* QR Code Modal */}
       {qrModalReport && (
         <div className="fixed inset-0 bg-black/60 flex items-center justify-center z-50 p-4">

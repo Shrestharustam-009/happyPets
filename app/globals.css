@@ -393,29 +393,24 @@ html {
   }
 }
 
-/* ====== Profile Print Styles ====== */
+/* ====== Profile Print Styles (Medical Records Modal) ====== */
 @media print {
-  /* Hide everything */
-  body > * {
-    display: none !important;
-  }
-  /* Show only the profile modal content */
+  /* Only hide/show when the profile modal is on the page */
   #profile-print-area {
     display: block !important;
     position: fixed !important;
     inset: 0 !important;
+    z-index: 99999 !important;
     width: 100% !important;
     max-width: 100% !important;
+    height: auto !important;
     margin: 0 !important;
     border-radius: 0 !important;
     box-shadow: none !important;
     overflow: visible !important;
+    background: white !important;
   }
-  /* Make sure the modal's parent portal is visible */
-  body > div[data-radix-portal],
-  body > div {
-    display: block !important;
-  }
+
   .print\:hidden {
     display: none !important;
   }
