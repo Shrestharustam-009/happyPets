@@ -81,6 +81,7 @@ export async function POST(req) {
     }, {})
     
     const uniqueItems = Object.values(aggregatedItemsMap)
+    let calculatedSubtotal = 0
 
     for (const item of uniqueItems) {
       const quantity = Number(item.quantity) || 1
@@ -101,6 +102,9 @@ export async function POST(req) {
       if (product.stock < quantity) {
         throw new Error(`Insufficient stock for ${product.name}`)
       }
+      
+      // Calculate securely on server side
+      calculatedSubtotal += product.price * quantity
 
       await connection.execute("INSERT INTO order_items (order_id, product_id, quantity, price) VALUES (?, ?, ?, ?)", [
         orderId,
@@ -111,6 +115,10 @@ export async function POST(req) {
 
       await connection.execute("UPDATE products SET stock = stock - ? WHERE id = ?", [quantity, product.id])
     }
+    
+    // Finalize true total and update the order record securely
+    const finalCalculatedTotal = Math.max(0, calculatedSubtotal - normalizedDiscountAmount)
+    await connection.execute("UPDATE orders SET total_amount = ? WHERE id = ?", [finalCalculatedTotal, orderId])
 
     await connection.commit()
 

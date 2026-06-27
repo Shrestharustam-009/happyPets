@@ -78,11 +78,11 @@ export async function POST(request) {
         pet_id, vet_id, visit_date, chief_complaint, temperature, pulse, respiration, weight, 
         clinical_findings, primary_diagnosis, differential_diagnoses, treatment_interventions, 
         prescribed_medicines, attachments_url, history
-       ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+       ) VALUES (?, ?, COALESCE(?, CURRENT_TIMESTAMP), ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
       [
         pet_id,
         vet_id,
-        visit_date || new Date().toISOString().slice(0, 19).replace('T', ' '),
+        visit_date || null,
         chief_complaint || null,
         temperature || null,
         pulse || null,

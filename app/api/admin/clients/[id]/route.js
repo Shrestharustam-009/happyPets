@@ -50,11 +50,11 @@ export async function DELETE(request, { params }) {
     }
     const { id } = await params;
 
-    // Check if client has pets or invoices (if those exist, might restrict deletion or cascade)
-    // For now, we will allow soft delete or just regular delete. Let's do regular delete.
-    await query("DELETE FROM users WHERE id = ?", [id])
+    // Perform a soft delete to preserve historical data (pets, medical records, invoices)
+    // and prevent Foreign Key constraint failures.
+    await query("UPDATE users SET is_active = false WHERE id = ?", [id])
 
-    return NextResponse.json({ message: "Client deleted successfully" })
+    return NextResponse.json({ message: "Client deactivated successfully (soft delete)" })
   } catch (error) {
     console.error("[v0] Error deleting client:", error)
     // If there's a foreign key constraint failure, it will fall here.

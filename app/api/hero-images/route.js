@@ -3,6 +3,8 @@ import path from "path"
 import { checkAdminAuth, verifyAdminToken } from "@/lib/auth-middleware"
 import { deleteHeroImage } from "@/lib/file-upload"
 
+export const dynamic = 'force-dynamic'
+
 const HERO_UPLOAD_DIR = path.join(process.cwd(), "uploads", "hero")
 
 export async function GET() {

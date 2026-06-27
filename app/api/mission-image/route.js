@@ -3,6 +3,8 @@ import path from "path"
 import { checkAdminAuth, verifyAdminToken } from "@/lib/auth-middleware"
 import { saveMissionImage, deleteMissionImage } from "@/lib/file-upload"
 
+export const dynamic = 'force-dynamic'
+
 const MISSION_UPLOAD_DIR = path.join(process.cwd(), "uploads", "mission")
 
 // Make sure upload dir exists

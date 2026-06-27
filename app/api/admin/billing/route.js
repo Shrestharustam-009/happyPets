@@ -108,10 +108,15 @@ export async function POST(request) {
 
         // If it's a Product, decrement stock
         if (item.item_type === 'Product' && item.product_id) {
-          await connection.execute(
+          const [updateResult] = await connection.execute(
             `UPDATE products SET stock = stock - ? WHERE id = ? AND stock >= ?`,
             [item.quantity, item.product_id, item.quantity]
           )
+          
+          // CRITICAL: Prevent phantom inventory sales
+          if (updateResult.affectedRows === 0) {
+            throw new Error(`Insufficient stock for product ID: ${item.product_id}`)
+          }
         }
       }
 
