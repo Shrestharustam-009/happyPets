@@ -1,5 +1,5 @@
 import { query } from "@/lib/db"
-import { getUserIdFromToken, normalizeAuthToken } from "@/lib/token-utils"
+import { getUserIdFromToken, normalizeAuthToken, isAdminToken } from "@/lib/token-utils"
 
 export async function GET(req) {
   try {
@@ -9,16 +9,20 @@ export async function GET(req) {
     const explicitUserId = searchParams.get("user_id")
 
     const token = normalizeAuthToken(req.headers.get("authorization"))
+    const isAdmin = isAdminToken(token)
+    const tokenUserId = getUserIdFromToken(token)
+
+    if (!isAdmin && !tokenUserId) {
+      return Response.json({ message: "Unauthorized" }, { status: 401 })
+    }
+
     const filters = []
     const params = []
 
-    if (scope === "customer") {
-      const userId = getUserIdFromToken(token)
-      if (!userId) {
-        return Response.json({ message: "Unauthorized" }, { status: 401 })
-      }
+    // Regular users can only see their own orders. Admins can see all, or filter by explicitUserId.
+    if (!isAdmin) {
       filters.push("o.user_id = ?")
-      params.push(userId)
+      params.push(tokenUserId)
     } else if (explicitUserId) {
       filters.push("o.user_id = ?")
       params.push(explicitUserId)
