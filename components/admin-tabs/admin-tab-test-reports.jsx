@@ -992,6 +992,34 @@ export default function AdminTabTestReports() {
                     top: 0 !important;
                   }
 
+                  /* Tighten layout to reduce total page count */
+                  #printable-report .mb-6 { margin-bottom: 12px !important; }
+                  #printable-report .pb-6 { padding-bottom: 12px !important; }
+                  #printable-report .p-8 { padding: 16px !important; }
+                  #printable-report .mt-20 { margin-top: 32px !important; }
+                  
+                  #printable-report table td, 
+                  #printable-report table th {
+                    padding-top: 4px !important;
+                    padding-bottom: 4px !important;
+                    font-size: 11px !important;
+                  }
+                  
+                  #printable-report .category-section td {
+                    padding-top: 6px !important;
+                    padding-bottom: 6px !important;
+                  }
+
+                  #printable-report img {
+                    width: 72px !important;
+                    height: 72px !important;
+                    margin-bottom: 8px !important;
+                  }
+                  
+                  #printable-report h1 {
+                    font-size: 22px !important;
+                  }
+
                   .no-print { display: none !important; visibility: hidden !important; }
 
                   .category-section {

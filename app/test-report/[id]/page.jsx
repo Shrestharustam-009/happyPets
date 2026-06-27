@@ -190,6 +190,35 @@ export default function PublicTestReportPage() {
             page-break-after: avoid;
             break-after: avoid;
           }
+          
+          /* Tighten layout to reduce total page count */
+          .report-page .mb-6 { margin-bottom: 12px !important; }
+          .report-page .pb-6 { padding-bottom: 12px !important; }
+          .report-page .p-8 { padding: 16px !important; }
+          .report-page .mt-16 { margin-top: 32px !important; }
+          
+          .report-page table td, 
+          .report-page table th {
+            padding-top: 4px !important;
+            padding-bottom: 4px !important;
+            font-size: 11px !important;
+          }
+          
+          .report-page .category-section td {
+            padding-top: 6px !important;
+            padding-bottom: 6px !important;
+          }
+
+          .report-page img {
+            width: 72px !important;
+            height: 72px !important;
+            margin-bottom: 8px !important;
+          }
+          
+          .report-page h1 {
+            font-size: 22px !important;
+          }
+          
           .signature-line {
             page-break-before: auto;
           }
