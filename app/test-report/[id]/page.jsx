@@ -160,7 +160,13 @@ export default function PublicTestReportPage() {
           }
 
           /* The report card itself */
+          .report-page, .report-page * {
+            visibility: visible !important;
+          }
           .report-page {
+            position: absolute !important;
+            left: 0 !important;
+            top: 0 !important;
             width: 100% !important;
             max-width: 100% !important;
             padding: 16px !important;

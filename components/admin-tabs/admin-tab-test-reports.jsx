@@ -956,7 +956,7 @@ export default function AdminTabTestReports() {
 
                   /* Break the report out of its fixed/scrollable parents */
                   #printable-report {
-                    position: fixed !important;
+                    position: absolute !important;
                     left: 0 !important;
                     top: 0 !important;
                     width: 100% !important;
@@ -986,7 +986,7 @@ export default function AdminTabTestReports() {
 
                   /* Re-force #printable-report after the above static rule */
                   #printable-report {
-                    position: fixed !important;
+                    position: absolute !important;
                     left: 0 !important;
                     top: 0 !important;
                   }
