@@ -209,7 +209,7 @@ export default function AdminDashboardLayout({ children }) {
   return (
     <div className="h-screen bg-slate-50 flex overflow-hidden">
       {/* ===== SIDEBAR (DESKTOP) ===== */}
-      <aside className="hidden lg:flex flex-col w-64 bg-blue-950 text-white shrink-0 border-r border-blue-900 h-full overflow-hidden">
+      <aside className="hidden lg:flex flex-col w-64 bg-blue-950 text-white shrink-0 border-r border-blue-900 h-full overflow-hidden no-print">
         {/* Brand Logo */}
         <div className="h-16 border-b border-blue-900 bg-blue-950">
           <Link href="/" className="flex items-center px-6 h-full gap-3 hover:opacity-85 transition-opacity">
@@ -302,7 +302,7 @@ export default function AdminDashboardLayout({ children }) {
       {/* ===== MAIN CONTENT WRAPPER ===== */}
       <div className="flex-1 flex flex-col min-w-0 h-full overflow-hidden">
         {/* ===== TOP BAR / HEADER ===== */}
-        <header className="h-16 bg-white border-b border-slate-200/80 flex items-center justify-between px-6 sticky top-0 z-40">
+        <header className="h-16 bg-white border-b border-slate-200/80 flex items-center justify-between px-6 sticky top-0 z-40 no-print">
           <div className="flex items-center gap-4">
             {/* Mobile Menu Toggle */}
             <button 
