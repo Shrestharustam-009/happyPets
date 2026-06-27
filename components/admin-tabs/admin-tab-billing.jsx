@@ -109,19 +109,20 @@ export default function AdminTabBilling() {
 
   const handleItemChange = (index, field, value) => {
     const newItems = [...items]
-    const item = newItems[index]
+    const item = { ...newItems[index] } // Fix direct mutation
     
     if (field === 'item_type') {
       item.item_type = value
       item.product_id = ""
       item.description = ""
       item.unit_price = 0
+      item.quantity = 1 // Reset quantity to 1 when changing type
     } else if (field === 'product_id') {
       item.product_id = value
-      const product = products.find(p => p.id === parseInt(value))
+      const product = products.find(p => String(p.id) === String(value))
       if (product) {
         item.description = product.name
-        item.unit_price = product.price
+        item.unit_price = parseFloat(product.price) || 0
       } else {
         item.description = ""
         item.unit_price = 0
@@ -140,11 +141,10 @@ export default function AdminTabBilling() {
       item[field] = value
     }
     
-    // Recalculate subtotal if qty or price changes
-    if (['quantity', 'unit_price', 'product_id', 'service_select', 'description'].includes(field)) {
-      item.subtotal = Number(item.quantity) * Number(item.unit_price)
-    }
+    // Always recalculate subtotal on any field change
+    item.subtotal = Number(item.quantity) * Number(item.unit_price)
     
+    newItems[index] = item
     setItems(newItems)
   }
 
@@ -544,7 +544,7 @@ export default function AdminTabBilling() {
                         <select
                           value={item.item_type}
                           onChange={(e) => handleItemChange(index, 'item_type', e.target.value)}
-                          className="w-full px-2 py-2 text-sm border border-border rounded"
+                          className="w-full px-2 py-2 text-sm border border-border rounded bg-background text-foreground"
                         >
                           <option value="Service">Service</option>
                           <option value="Product">Product</option>
@@ -557,7 +557,7 @@ export default function AdminTabBilling() {
                           <select
                             value={item.product_id}
                             onChange={(e) => handleItemChange(index, 'product_id', e.target.value)}
-                            className="w-full px-2 py-2 text-sm border border-border rounded font-medium"
+                            className="w-full px-2 py-2 text-sm border border-border rounded font-medium bg-background text-foreground"
                             required
                           >
                             <option value="">-- Select Inventory Item --</option>
@@ -606,23 +606,17 @@ export default function AdminTabBilling() {
                         </div>
                       )}
 
-                      {item.item_type === 'Product' ? (
-                        <div className="w-20">
-                          <label className="block text-xs font-bold mb-1">Qty</label>
-                          <input
-                            type="number"
-                            min="1"
-                            value={item.quantity}
-                            onChange={(e) => handleItemChange(index, 'quantity', e.target.value)}
-                            className="w-full px-2 py-2 text-sm border border-border rounded text-center"
-                            required
-                          />
-                        </div>
-                      ) : (
-                        <div className="w-20">
-                          {/* Hidden Qty for Service, always 1 */}
-                        </div>
-                      )}
+                      <div className="w-20">
+                        <label className="block text-xs font-bold mb-1">Qty</label>
+                        <input
+                          type="number"
+                          min="1"
+                          value={item.quantity}
+                          onChange={(e) => handleItemChange(index, 'quantity', e.target.value)}
+                          className="w-full px-2 py-2 text-sm border border-border rounded text-center bg-background text-foreground"
+                          required
+                        />
+                      </div>
 
                       <div className="w-28">
                         <label className="block text-xs font-bold mb-1">
@@ -634,7 +628,7 @@ export default function AdminTabBilling() {
                           min="0"
                           value={item.unit_price}
                           onChange={(e) => handleItemChange(index, 'unit_price', e.target.value)}
-                          className="w-full px-2 py-2 text-sm border border-border rounded text-right"
+                          className="w-full px-2 py-2 text-sm border border-border rounded text-right bg-background text-foreground disabled:opacity-50"
                           disabled={item.item_type === 'Product'}
                           required
                         />
