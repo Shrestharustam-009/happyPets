@@ -498,7 +498,7 @@ export default function AdminTabTestReports() {
 
   return (
     <div>
-      <div className="flex justify-between items-center mb-6">
+      <div className="flex justify-between items-center mb-6 no-print">
         <div>
           <h2 className="text-2xl font-bold tracking-tight">Lab Pathology Test Reports</h2>
           <p className="text-sm text-muted-foreground mt-1">Manage and generate laboratory pathology tests for clinic patients.</p>
@@ -513,7 +513,7 @@ export default function AdminTabTestReports() {
       </div>
 
       {/* Filter and search bar */}
-      <div className="flex items-center gap-3 mb-6 bg-white p-4 rounded-lg border border-border shadow-sm">
+      <div className="flex items-center gap-3 mb-6 bg-white p-4 rounded-lg border border-border shadow-sm no-print">
         <div className="relative flex-1">
           <Search className="absolute left-3 top-2.5 h-4 w-4 text-muted-foreground" />
           <input
@@ -527,7 +527,7 @@ export default function AdminTabTestReports() {
       </div>
 
       {/* Test Reports List */}
-      <div className="bg-background border border-border rounded-lg overflow-hidden shadow-sm">
+      <div className="bg-background border border-border rounded-lg overflow-hidden shadow-sm no-print">
         <div className="overflow-x-auto">
           <table className="w-full">
             <thead className="bg-muted/50 border-b border-border">
