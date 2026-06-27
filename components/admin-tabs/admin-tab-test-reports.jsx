@@ -1,7 +1,8 @@
-﻿"use client"
+"use client"
 
 import React, { useState, useEffect, useRef } from "react"
 import { fetchWithAuth } from "@/lib/api"
+import { QRCodeSVG } from "qrcode.react"
 import { 
   Plus, 
   Search, 
@@ -530,9 +531,10 @@ export default function AdminTabTestReports() {
           <table className="w-full">
             <thead className="bg-muted/50 border-b border-border">
               <tr>
-                <th className="px-6 py-3 text-left text-xs font-semibold text-muted-foreground uppercase tracking-wider">Patient & Owner</th>
+                <th className="px-6 py-3 text-left text-xs font-semibold text-muted-foreground uppercase tracking-wider">Patient &amp; Owner</th>
                 <th className="px-6 py-3 text-left text-xs font-semibold text-muted-foreground uppercase tracking-wider">Report Date</th>
                 <th className="px-6 py-3 text-left text-xs font-semibold text-muted-foreground uppercase tracking-wider">Attending Veterinarian</th>
+                <th className="px-6 py-3 text-center text-xs font-semibold text-muted-foreground uppercase tracking-wider">QR Code</th>
                 <th className="px-6 py-3 text-right text-xs font-semibold text-muted-foreground uppercase tracking-wider">Actions</th>
               </tr>
             </thead>
@@ -548,6 +550,26 @@ export default function AdminTabTestReports() {
                   </td>
                   <td className="px-6 py-4 text-sm text-foreground">
                     Dr. {report.vet_name || "N/A"}
+                  </td>
+                  <td className="px-6 py-4 text-center">
+                    <div className="inline-flex flex-col items-center gap-1 group relative">
+                      <a
+                        href={`${typeof window !== 'undefined' ? window.location.origin : ''}/test-report/${report.id}`}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        title="Scan or click to open report"
+                        className="block"
+                      >
+                        <QRCodeSVG
+                          value={`${typeof window !== 'undefined' ? window.location.origin : 'http://localhost:3000'}/test-report/${report.id}`}
+                          size={56}
+                          level="M"
+                          bgColor="#ffffff"
+                          fgColor="#1e293b"
+                        />
+                      </a>
+                      <span className="text-[9px] text-slate-400 font-mono">#{report.id}</span>
+                    </div>
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
                     <button
@@ -937,15 +959,33 @@ export default function AdminTabTestReports() {
                   body * { visibility: hidden !important; }
                   #printable-report, #printable-report * { visibility: visible !important; }
                   #printable-report {
-                    position: absolute !important;
-                    left: 0 !important; top: 0 !important;
+                    position: static !important;
                     width: 100% !important;
-                    padding: 20px !important;
+                    max-width: 100% !important;
+                    padding: 16px !important;
                     margin: 0 !important;
                     border: none !important;
                     box-shadow: none !important;
+                    border-radius: 0 !important;
+                    overflow: visible !important;
                   }
                   .no-print { display: none !important; }
+                  .category-section {
+                    page-break-inside: avoid;
+                    break-inside: avoid;
+                  }
+                  #printable-report table tr {
+                    page-break-inside: avoid;
+                    break-inside: avoid;
+                  }
+                  #printable-report .report-header {
+                    page-break-after: avoid;
+                    break-after: avoid;
+                  }
+                }
+                @page {
+                  size: A4;
+                  margin: 1.2cm 1cm;
                 }
               `}} />
 
@@ -1022,14 +1062,14 @@ export default function AdminTabTestReports() {
                       if (testsWithResults.length === 0) return null
                       return (
                         <React.Fragment key={cat.category}>
-                          <tr className="bg-slate-50/80 font-black border-y border-slate-300">
+                          <tr className="category-section bg-slate-50/80 font-black border-y border-slate-300" style={{ pageBreakInside: 'avoid', breakInside: 'avoid' }}>
                             <td colSpan="3" className="px-4 py-2 text-[11px] text-slate-900 font-extrabold uppercase tracking-wider">{cat.category}</td>
                           </tr>
                           {testsWithResults.map(test => {
                             const val = activeReport.parsedResults[test.key]
                             const isAbnormal = isOutsideRange(val, test.ref)
                             return (
-                              <tr key={test.key} className="hover:bg-slate-50/50 divide-x divide-slate-200">
+                              <tr key={test.key} className="hover:bg-slate-50/50 divide-x divide-slate-200" style={{ pageBreakInside: 'avoid', breakInside: 'avoid' }}>
                                 <td className="px-4 py-2 text-slate-700 font-semibold">{test.name}</td>
                                 <td className={`px-4 py-2 text-center text-slate-900 ${isAbnormal ? "font-black text-sm text-red-700" : "font-medium"}`}>{val}</td>
                                 <td className="px-4 py-2 text-right text-slate-500 font-mono">{test.ref || "Variable"}</td>
