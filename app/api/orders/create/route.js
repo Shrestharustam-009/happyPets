@@ -66,7 +66,23 @@ export async function POST(req) {
 
     const orderId = orderResult.insertId
 
-    for (const item of items) {
+    // Aggregate duplicate items by ID to prevent row-locking conflicts and stock bypasses
+    const aggregatedItemsMap = items.reduce((acc, item) => {
+      const id = item.id
+      const quantity = Number(item.quantity) || 1
+      if (quantity <= 0) return acc
+      
+      if (!acc[id]) {
+        acc[id] = { ...item, quantity }
+      } else {
+        acc[id].quantity += quantity
+      }
+      return acc
+    }, {})
+    
+    const uniqueItems = Object.values(aggregatedItemsMap)
+
+    for (const item of uniqueItems) {
       const quantity = Number(item.quantity) || 1
       if (quantity <= 0) {
         throw new Error("Invalid quantity detected")
