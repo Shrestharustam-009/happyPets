@@ -597,7 +597,7 @@ export default function AdminTabTestReports() {
               ))}
               {filteredReports.length === 0 && (
                 <tr>
-                  <td colSpan="4" className="px-6 py-12 text-center text-muted-foreground italic">
+                  <td colSpan="5" className="px-6 py-12 text-center text-muted-foreground italic">
                     No pathology test reports found. Click "Generate New Test Report" to create one.
                   </td>
                 </tr>
