@@ -126,15 +126,27 @@ export default async function SharedReportPage({ params }) {
                       <span className="text-sm font-bold text-slate-800">{formatDate(m.visit_date)}</span>
                       <span className="text-xs font-semibold text-blue-700 bg-blue-50 px-2 py-0.5 rounded">Dr. {m.vet_name}</span>
                     </div>
-                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-sm">
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-sm mt-1">
                       <div>
                         <span className="text-slate-400 font-semibold text-xs uppercase">Chief Complaint</span>
-                        <p className="mt-0.5">{m.chief_complaint || "N/A"}</p>
+                        <p className="mt-0.5 whitespace-pre-wrap">{m.chief_complaint || "N/A"}</p>
                       </div>
                       <div>
                         <span className="text-slate-400 font-semibold text-xs uppercase">Diagnosis</span>
-                        <p className="mt-0.5 font-medium text-red-700">{m.primary_diagnosis || "N/A"}</p>
+                        <p className="mt-0.5 font-medium text-red-700 whitespace-pre-wrap">{m.primary_diagnosis || "N/A"}</p>
                       </div>
+                      {(m.treatment_interventions || m.prescribed_medicines) && (
+                        <>
+                          <div className="pt-2 sm:col-span-1">
+                            <span className="text-slate-400 font-semibold text-xs uppercase">Treatment / Interventions</span>
+                            <p className="mt-0.5 whitespace-pre-wrap text-slate-700">{m.treatment_interventions || "N/A"}</p>
+                          </div>
+                          <div className="pt-2 sm:col-span-1">
+                            <span className="text-slate-400 font-semibold text-xs uppercase">Prescription</span>
+                            <p className="mt-0.5 whitespace-pre-wrap text-slate-700 font-medium">{m.prescribed_medicines || "N/A"}</p>
+                          </div>
+                        </>
+                      )}
                     </div>
                     {(m.temperature || m.weight) && (
                       <div className="mt-3 flex flex-wrap gap-3 text-xs text-slate-500">
