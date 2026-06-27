@@ -392,3 +392,37 @@ html {
     padding: 24px !important;
   }
 }
+
+/* ====== Profile Print Styles ====== */
+@media print {
+  /* Hide everything */
+  body > * {
+    display: none !important;
+  }
+  /* Show only the profile modal content */
+  #profile-print-area {
+    display: block !important;
+    position: fixed !important;
+    inset: 0 !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    margin: 0 !important;
+    border-radius: 0 !important;
+    box-shadow: none !important;
+    overflow: visible !important;
+  }
+  /* Make sure the modal's parent portal is visible */
+  body > div[data-radix-portal],
+  body > div {
+    display: block !important;
+  }
+  .print\:hidden {
+    display: none !important;
+  }
+  .print\:block {
+    display: block !important;
+  }
+  .print\:flex {
+    display: flex !important;
+  }
+}

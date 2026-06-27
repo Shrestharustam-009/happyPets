@@ -18,6 +18,9 @@ export default function AdminTabMedicalRecords() {
   const [clientSearchText, setClientSearchText] = useState("")
   const [activeClientId, setActiveClientId] = useState(null)
 
+  // Profile view modal state
+  const [profileModal, setProfileModal] = useState(null) // null | { client, pet, petRecords }
+
   const handleDeleteAllClientRecords = async (clientId) => {
     if (confirm("Are you sure you want to delete ALL medical records (visits) for this client? This action cannot be undone.")) {
       try {
@@ -73,15 +76,10 @@ export default function AdminTabMedicalRecords() {
   const [isPetDropdownOpen, setIsPetDropdownOpen] = useState(false)
   const petSearchRef = useRef(null)
 
-  // Consent form & image uploads
-  const [consentFile, setConsentFile] = useState(null)
-  const [uploadingConsent, setUploadingConsent] = useState(false)
-  const consentInputRef = useRef(null)
-
-  const IMAGE_SLOTS = 5
-  const [imageFiles, setImageFiles] = useState(Array(IMAGE_SLOTS).fill(null))
-  const [uploadingImage, setUploadingImage] = useState(Array(IMAGE_SLOTS).fill(false))
-  const imageInputRefs = useRef([])
+  // Unified attachments
+  const [attachments, setAttachments] = useState([]) // [{name, url, type}]
+  const [uploadingAttachment, setUploadingAttachment] = useState(false)
+  const attachmentInputRef = useRef(null)
 
   const [isAdmin, setIsAdmin] = useState(false)
 
@@ -147,42 +145,28 @@ export default function AdminTabMedicalRecords() {
     return data.url
   }
 
-  const handleConsentUpload = async (e) => {
-    const file = e.target.files?.[0]
-    if (!file) return
-    setUploadingConsent(true)
+  const handleAttachmentUpload = async (e) => {
+    const files = Array.from(e.target.files || [])
+    if (!files.length) return
+    setUploadingAttachment(true)
     try {
-      const url = await uploadFile(file)
-      setConsentFile({ name: file.name, url })
+      const uploaded = await Promise.all(
+        files.map(async (file) => {
+          const url = await uploadFile(file)
+          return { name: file.name, url, type: file.type }
+        })
+      )
+      setAttachments(prev => [...prev, ...uploaded])
     } catch {
-      alert("Failed to upload consent form")
+      alert("Failed to upload one or more files")
     } finally {
-      setUploadingConsent(false)
+      setUploadingAttachment(false)
+      if (attachmentInputRef.current) attachmentInputRef.current.value = ""
     }
   }
 
-  const handleImageUpload = async (index, e) => {
-    const file = e.target.files?.[0]
-    if (!file) return
-    setUploadingImage(prev => { const n = [...prev]; n[index] = true; return n })
-    try {
-      const url = await uploadFile(file)
-      setImageFiles(prev => { const n = [...prev]; n[index] = { name: file.name, url }; return n })
-    } catch {
-      alert("Failed to upload image")
-    } finally {
-      setUploadingImage(prev => { const n = [...prev]; n[index] = false; return n })
-    }
-  }
-
-  const removeConsentFile = () => {
-    setConsentFile(null)
-    if (consentInputRef.current) consentInputRef.current.value = ""
-  }
-
-  const removeImage = (index) => {
-    setImageFiles(prev => { const n = [...prev]; n[index] = null; return n })
-    if (imageInputRefs.current[index]) imageInputRefs.current[index].value = ""
+  const removeAttachment = (index) => {
+    setAttachments(prev => prev.filter((_, i) => i !== index))
   }
 
   const openRegistrationWizard = () => {
@@ -299,8 +283,7 @@ export default function AdminTabMedicalRecords() {
       history: ""
     })
     setWeightUnitMR("kg")
-    setConsentFile(null)
-    setImageFiles(Array(IMAGE_SLOTS).fill(null))
+    setAttachments([])
     setCurrentRecord(null)
     setPetSearchText("")
     setIsPetDropdownOpen(false)
@@ -327,20 +310,19 @@ export default function AdminTabMedicalRecords() {
       history: record.history || ""
     })
     setWeightUnitMR("kg")
-    // Restore previously uploaded files from attachments_url JSON
-    let parsed = null
-    try { parsed = record.attachments_url ? JSON.parse(record.attachments_url) : null } catch {}
-    if (parsed) {
-      setConsentFile(parsed.consent || null)
-      const imgs = Array(IMAGE_SLOTS).fill(null)
-      if (parsed.images) {
-        parsed.images.forEach((img, i) => { if (i < IMAGE_SLOTS) imgs[i] = img })
+    // Restore previously uploaded attachments
+    let parsedAttachments = []
+    try {
+      const raw = record.attachments_url ? JSON.parse(record.attachments_url) : null
+      if (Array.isArray(raw)) {
+        parsedAttachments = raw
+      } else if (raw) {
+        // Legacy format migration: consent + images
+        if (raw.consent) parsedAttachments.push({ ...raw.consent, type: 'application/pdf' })
+        if (raw.images) parsedAttachments.push(...raw.images.map(img => ({ ...img, type: 'image/*' })))
       }
-      setImageFiles(imgs)
-    } else {
-      setConsentFile(null)
-      setImageFiles(Array(IMAGE_SLOTS).fill(null))
-    }
+    } catch {}
+    setAttachments(parsedAttachments)
     const petObj = patients.find(p => Number(p.id) === Number(record.pet_id));
     setPetSearchText(petObj ? `${petObj.name} (${petObj.owner_name || ""})` : "");
     setIsPetDropdownOpen(false);
@@ -360,12 +342,6 @@ export default function AdminTabMedicalRecords() {
       return
     }
 
-    // Build the attachments JSON
-    const attachmentsData = {
-      consent: consentFile || null,
-      images: imageFiles.filter(Boolean)
-    }
-
     let normalizedWeight = formData.weight;
     if (normalizedWeight && weightUnitMR === "gram") {
       normalizedWeight = (parseFloat(normalizedWeight) / 1000).toFixed(4);
@@ -374,7 +350,7 @@ export default function AdminTabMedicalRecords() {
     const payload = { 
       ...formData,
       weight: normalizedWeight ? parseFloat(normalizedWeight) : null,
-      attachments_url: JSON.stringify(attachmentsData)
+      attachments_url: JSON.stringify(attachments)
     }
     if (payload.visit_date) {
       payload.visit_date = payload.visit_date.replace('T', ' ') + ':00'
@@ -560,9 +536,18 @@ export default function AdminTabMedicalRecords() {
                     {client.address && <span><strong>Address:</strong> {client.address}</span>}
                   </div>
                 </div>
-                <div className="shrink-0 bg-blue-50 text-blue-800 border border-blue-100 rounded-xl px-4 py-2 text-center">
-                  <div className="text-xl font-black">{clientPets.length}</div>
-                  <div className="text-[10px] font-bold uppercase tracking-wider">Registered Pets</div>
+                <div className="flex items-center gap-3 shrink-0">
+                  <button
+                    onClick={() => setProfileModal({ client, pet: null, petRecords: [] })}
+                    className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-slate-700 hover:bg-slate-800 text-white rounded-lg text-xs font-semibold transition-colors"
+                  >
+                    <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" /></svg>
+                    View Owner Profile
+                  </button>
+                  <div className="bg-blue-50 text-blue-800 border border-blue-100 rounded-xl px-4 py-2 text-center">
+                    <div className="text-xl font-black">{clientPets.length}</div>
+                    <div className="text-[10px] font-bold uppercase tracking-wider">Registered Pets</div>
+                  </div>
                 </div>
               </div>
 
@@ -598,7 +583,14 @@ export default function AdminTabMedicalRecords() {
                               </div>
                             </div>
                           </div>
-                          <div className="flex items-center gap-4">
+                          <div className="flex items-center gap-3">
+                            <button
+                              onClick={(e) => { e.stopPropagation(); setProfileModal({ client, pet, petRecords }) }}
+                              className="inline-flex items-center gap-1 px-2.5 py-1 bg-emerald-600 hover:bg-emerald-700 text-white rounded-md text-[11px] font-semibold transition-colors"
+                            >
+                              <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" /></svg>
+                              View Profile
+                            </button>
                             <span className="text-xs font-semibold text-blue-600 bg-blue-50 px-2.5 py-1 rounded-full border border-blue-100">
                               {petRecords.length} {petRecords.length === 1 ? 'Visit' : 'Visits'}
                             </span>
@@ -692,6 +684,186 @@ export default function AdminTabMedicalRecords() {
           )
         })()
       )}
+
+      {/* ====== Profile View & Print Modal ====== */}
+      {profileModal && (() => {
+        const { client: pc, pet: pp, petRecords: ppr } = profileModal
+        const isOwnerOnly = !pp
+        const allClientPets = patients.filter(p => Number(p.user_id) === Number(pc?.id))
+        return (
+          <div className="fixed inset-0 bg-black/60 flex items-start justify-center z-50 p-4 overflow-y-auto">
+            <div id="profile-print-area" className="bg-white rounded-2xl shadow-2xl w-full max-w-3xl my-8 overflow-hidden">
+
+              {/* Modal Header (hidden on print) */}
+              <div className="flex justify-between items-center p-5 border-b border-slate-200 bg-slate-50 print:hidden">
+                <div className="flex items-center gap-2">
+                  <svg className="w-5 h-5 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" /></svg>
+                  <h3 className="font-bold text-slate-800 text-base">
+                    {isOwnerOnly ? `Owner Profile — ${pc?.full_name}` : `Patient Profile — ${pp?.name}`}
+                  </h3>
+                </div>
+                <div className="flex items-center gap-2">
+                  <button
+                    onClick={() => window.print()}
+                    className="inline-flex items-center gap-2 px-4 py-2 bg-primary text-primary-foreground rounded-lg text-sm font-semibold hover:bg-primary/90 transition-colors"
+                  >
+                    <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z" /></svg>
+                    Print / Save as PDF
+                  </button>
+                  <button onClick={() => setProfileModal(null)} className="text-slate-400 hover:text-slate-700 text-xl font-bold leading-none">&times;</button>
+                </div>
+              </div>
+
+              {/* Print-only header */}
+              <div className="hidden print:flex items-center justify-between p-6 border-b-2 border-slate-300">
+                <div>
+                  <h1 className="text-xl font-black text-slate-900">HappyPets Animal Clinic</h1>
+                  <p className="text-xs text-slate-500">Medical Profile Report</p>
+                </div>
+                <p className="text-xs text-slate-500">Printed: {new Date().toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}</p>
+              </div>
+
+              <div className="p-6 space-y-6">
+
+                {/* Owner/Client Section */}
+                <section>
+                  <h4 className="text-xs font-bold uppercase tracking-widest text-slate-400 mb-3">Owner / Client</h4>
+                  <div className="grid grid-cols-2 sm:grid-cols-3 gap-4 bg-slate-50 rounded-xl p-4 border border-slate-200">
+                    <div>
+                      <p className="text-[10px] text-slate-400 font-semibold uppercase">Full Name</p>
+                      <p className="text-sm font-bold text-slate-800 mt-0.5">{pc?.full_name || '—'}</p>
+                    </div>
+                    <div>
+                      <p className="text-[10px] text-slate-400 font-semibold uppercase">Phone</p>
+                      <p className="text-sm font-semibold text-slate-700 mt-0.5">{pc?.phone_number || '—'}</p>
+                    </div>
+                    <div>
+                      <p className="text-[10px] text-slate-400 font-semibold uppercase">Email</p>
+                      <p className="text-sm font-semibold text-slate-700 mt-0.5">{pc?.email || '—'}</p>
+                    </div>
+                    <div className="col-span-2 sm:col-span-3">
+                      <p className="text-[10px] text-slate-400 font-semibold uppercase">Address</p>
+                      <p className="text-sm text-slate-700 mt-0.5">{pc?.address || '—'}</p>
+                    </div>
+                    <div>
+                      <p className="text-[10px] text-slate-400 font-semibold uppercase">Registered Pets</p>
+                      <p className="text-sm font-bold text-blue-700 mt-0.5">{allClientPets.length}</p>
+                    </div>
+                  </div>
+                </section>
+
+                {/* If owner-only: list all pets as cards */}
+                {isOwnerOnly && (
+                  <section>
+                    <h4 className="text-xs font-bold uppercase tracking-widest text-slate-400 mb-3">Registered Pets</h4>
+                    {allClientPets.length === 0 ? (
+                      <p className="text-sm text-slate-500 italic">No pets registered.</p>
+                    ) : (
+                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                        {allClientPets.map(p => (
+                          <div key={p.id} className="flex items-center gap-3 border border-slate-200 rounded-xl p-3 bg-white">
+                            {p.photo_url ? (
+                              <img src={p.photo_url} alt={p.name} className="w-14 h-14 rounded-full object-cover border border-slate-200" />
+                            ) : (
+                              <div className="w-14 h-14 rounded-full bg-emerald-100 flex items-center justify-center text-emerald-600 font-black text-xl">{p.name?.charAt(0)}</div>
+                            )}
+                            <div>
+                              <p className="font-bold text-slate-800">{p.name}</p>
+                              <p className="text-xs text-slate-500">{p.species} · {p.breed || 'Unknown'}</p>
+                              <p className="text-xs text-slate-500">{p.sex || 'Unknown sex'}{p.weight ? ` · ${p.weight} kg` : ''}</p>
+                            </div>
+                          </div>
+                        ))}
+                      </div>
+                    )}
+                  </section>
+                )}
+
+                {/* If pet profile: full pet detail */}
+                {!isOwnerOnly && pp && (
+                  <section>
+                    <h4 className="text-xs font-bold uppercase tracking-widest text-slate-400 mb-3">Patient / Pet Details</h4>
+                    <div className="border border-slate-200 rounded-xl overflow-hidden">
+                      <div className="flex items-center gap-4 p-4 bg-emerald-50/40">
+                        {pp.photo_url ? (
+                          <img src={pp.photo_url} alt={pp.name} className="w-20 h-20 rounded-full object-cover border-2 border-white shadow-md" />
+                        ) : (
+                          <div className="w-20 h-20 rounded-full bg-emerald-200 flex items-center justify-center text-emerald-700 font-black text-3xl">{pp.name?.charAt(0)}</div>
+                        )}
+                        <div>
+                          <h3 className="text-lg font-black text-slate-900">{pp.name}</h3>
+                          <p className="text-sm text-slate-500">{pp.species} · {pp.breed || 'Unknown breed'}</p>
+                        </div>
+                      </div>
+                      <div className="grid grid-cols-2 sm:grid-cols-3 gap-4 p-4 border-t border-slate-200">
+                        {[['Sex', pp.sex], ['Date of Birth', pp.dob ? new Date(pp.dob).toLocaleDateString() : null], ['Weight', pp.weight ? `${pp.weight} kg` : null], ['Color', pp.color], ['Species', pp.species], ['Breed', pp.breed]].map(([label, val]) => (
+                          <div key={label}>
+                            <p className="text-[10px] text-slate-400 font-semibold uppercase">{label}</p>
+                            <p className="text-sm font-semibold text-slate-700 mt-0.5">{val || '—'}</p>
+                          </div>
+                        ))}
+                        {pp.identifying_marks && (
+                          <div className="col-span-2 sm:col-span-3">
+                            <p className="text-[10px] text-slate-400 font-semibold uppercase">Identifying Marks</p>
+                            <p className="text-sm text-slate-700 mt-0.5">{pp.identifying_marks}</p>
+                          </div>
+                        )}
+                        {pp.medical_history && (
+                          <div className="col-span-2 sm:col-span-3">
+                            <p className="text-[10px] text-slate-400 font-semibold uppercase">Background Medical History</p>
+                            <p className="text-sm text-slate-700 mt-0.5 whitespace-pre-wrap">{pp.medical_history}</p>
+                          </div>
+                        )}
+                      </div>
+                    </div>
+                  </section>
+                )}
+
+                {/* Visit History (only when viewing pet profile) */}
+                {!isOwnerOnly && (
+                  <section>
+                    <h4 className="text-xs font-bold uppercase tracking-widest text-slate-400 mb-3">Visit History ({ppr.length} Visits)</h4>
+                    {ppr.length === 0 ? (
+                      <p className="text-sm text-slate-500 italic">No visits recorded yet.</p>
+                    ) : (
+                      <div className="space-y-4">
+                        {ppr.map((r, idx) => (
+                          <div key={r.id} className="border border-slate-200 rounded-xl overflow-hidden">
+                            <div className="flex items-center justify-between px-4 py-2 bg-slate-50 border-b border-slate-200">
+                              <span className="text-xs font-bold text-slate-700">Visit #{ppr.length - idx} — {new Date(r.visit_date).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}</span>
+                              <span className="text-xs text-slate-500">Dr. {r.vet_name || '—'}</span>
+                            </div>
+                            <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 p-4">
+                              {[['Chief Complaint', r.chief_complaint, 'col-span-2 sm:col-span-4'], ['Temp (°C)', r.temperature], ['Pulse (bpm)', r.pulse], ['Resp (br/m)', r.respiration], ['Weight', r.weight ? `${r.weight} kg` : null]].map(([label, val, span]) => val ? (
+                                <div key={label} className={span || ''}>
+                                  <p className="text-[10px] text-slate-400 font-semibold uppercase">{label}</p>
+                                  <p className="text-sm font-semibold text-slate-700 mt-0.5">{val}</p>
+                                </div>
+                              ) : null)}
+                              {r.clinical_findings && <div className="col-span-2 sm:col-span-4"><p className="text-[10px] text-slate-400 font-semibold uppercase">Clinical Findings</p><p className="text-sm text-slate-700 mt-0.5 whitespace-pre-wrap">{r.clinical_findings}</p></div>}
+                              {r.primary_diagnosis && <div className="col-span-2 sm:col-span-4"><p className="text-[10px] text-slate-400 font-semibold uppercase">Primary Diagnosis</p><p className="text-sm font-bold text-red-600 mt-0.5">{r.primary_diagnosis}</p></div>}
+                              {r.differential_diagnoses && <div className="col-span-2 sm:col-span-4"><p className="text-[10px] text-slate-400 font-semibold uppercase">Differential Diagnoses</p><p className="text-sm text-orange-600 mt-0.5">{r.differential_diagnoses}</p></div>}
+                              {r.treatment_interventions && <div className="col-span-2 sm:col-span-4"><p className="text-[10px] text-slate-400 font-semibold uppercase">Treatment / Procedures</p><p className="text-sm text-slate-700 mt-0.5 whitespace-pre-wrap">{r.treatment_interventions}</p></div>}
+                              {r.prescribed_medicines && <div className="col-span-2 sm:col-span-4"><p className="text-[10px] text-slate-400 font-semibold uppercase">Prescribed Medicines</p><p className="text-sm text-slate-700 mt-0.5 whitespace-pre-wrap">{r.prescribed_medicines}</p></div>}
+                            </div>
+                          </div>
+                        ))}
+                      </div>
+                    )}
+                  </section>
+                )}
+
+                {/* Print footer */}
+                <div className="hidden print:block border-t border-slate-200 pt-4 text-center">
+                  <p className="text-xs text-slate-400">This document is confidential and intended for authorized personnel only.</p>
+                  <p className="text-xs text-slate-400">HappyPets Animal Clinic — Medical Records System</p>
+                </div>
+
+              </div>
+            </div>
+          </div>
+        )
+      })()}
 
       {/* Registration Wizard Modal */}
       {isRegistrationModalOpen && (
@@ -1094,77 +1266,65 @@ export default function AdminTabMedicalRecords() {
                     ></textarea>
                   </div>
 
-                  {/* ====== Consent Form Upload ====== */}
-                  <div className="md:col-span-2 border border-border rounded-lg p-4 bg-amber-50/30">
-                    <h4 className="font-semibold mb-3 text-sm text-amber-700">Consent Form</h4>
-                    {consentFile ? (
-                      <div className="flex items-center gap-3 bg-white border border-border rounded-md px-4 py-2">
-                        <svg className="w-5 h-5 text-amber-600 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" /></svg>
-                        <a href={consentFile.url} target="_blank" rel="noopener noreferrer" className="text-sm text-primary underline truncate flex-1">{consentFile.name}</a>
-                        <button type="button" onClick={removeConsentFile} className="text-red-500 hover:text-red-700 text-xs font-bold">Remove</button>
-                      </div>
-                    ) : (
-                      <div>
-                        <input type="file" accept=".pdf,.doc,.docx,.jpg,.jpeg,.png" ref={consentInputRef} onChange={handleConsentUpload} className="hidden" />
-                        <button
-                          type="button"
-                          onClick={() => consentInputRef.current?.click()}
-                          disabled={uploadingConsent}
-                          className="px-4 py-2 text-sm bg-amber-100 text-amber-800 border border-amber-300 rounded-md hover:bg-amber-200 transition-colors disabled:opacity-50"
-                        >
-                          {uploadingConsent ? "Uploading..." : "Upload Consent Form"}
-                        </button>
-                        <p className="text-xs text-muted-foreground mt-1">Accepted formats: PDF, DOC, DOCX, JPG, PNG</p>
-                      </div>
-                    )}
-                  </div>
+                  {/* ====== Unified Attachments Upload ====== */}
+                  <div className="md:col-span-2 border border-border rounded-lg p-4">
+                    <h4 className="font-semibold mb-3 text-sm text-slate-700 flex items-center gap-2">
+                      <svg className="w-4 h-4 text-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15.172 7l-6.586 6.586a2 2 0 102.828 2.828l6.414-6.586a4 4 0 00-5.656-5.656l-6.415 6.585a6 6 0 108.486 8.486L20.5 13" /></svg>
+                      Attachments
+                    </h4>
 
-                  {/* ====== Clinical Images Upload (5 Slots) ====== */}
-                  <div className="md:col-span-2 border border-border rounded-lg p-4 bg-sky-50/30">
-                    <h4 className="font-semibold mb-3 text-sm text-sky-700">Clinical Images / X-Rays / Lab Reports</h4>
-                    <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-3">
-                      {Array.from({ length: IMAGE_SLOTS }).map((_, idx) => (
-                        <div key={idx} className="relative">
-                          {imageFiles[idx] ? (
-                            <div className="relative group border border-border rounded-lg overflow-hidden bg-white">
-                              <img src={imageFiles[idx].url} alt={`Clinical image ${idx + 1}`} className="w-full h-28 object-cover" />
+                    {/* Uploaded files list */}
+                    {attachments.length > 0 && (
+                      <div className="flex flex-wrap gap-2 mb-3">
+                        {attachments.map((file, idx) => {
+                          const isImage = file.type?.startsWith('image') || /\.(png|jpe?g|gif|webp|bmp)$/i.test(file.name)
+                          return (
+                            <div key={idx} className="group relative flex flex-col items-center border border-border rounded-lg overflow-hidden bg-muted/20 w-28">
+                              {isImage ? (
+                                <img src={file.url} alt={file.name} className="w-full h-20 object-cover" />
+                              ) : (
+                                <a href={file.url} target="_blank" rel="noopener noreferrer" className="w-full h-20 flex flex-col items-center justify-center gap-1 hover:bg-muted/40 transition-colors">
+                                  <svg className="w-8 h-8 text-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" /></svg>
+                                  <span className="text-[9px] text-primary font-semibold uppercase">{file.name.split('.').pop()}</span>
+                                </a>
+                              )}
+                              <p className="text-[10px] text-muted-foreground px-1 py-0.5 truncate w-full text-center">{file.name}</p>
                               <button
                                 type="button"
-                                onClick={() => removeImage(idx)}
+                                onClick={() => removeAttachment(idx)}
                                 className="absolute top-1 right-1 bg-red-500 text-white rounded-full w-5 h-5 flex items-center justify-center text-xs opacity-0 group-hover:opacity-100 transition-opacity"
                               >&times;</button>
-                              <p className="text-[10px] text-muted-foreground p-1 truncate">{imageFiles[idx].name}</p>
                             </div>
-                          ) : (
-                            <div>
-                              <input
-                                type="file"
-                                accept="image/*"
-                                ref={el => imageInputRefs.current[idx] = el}
-                                onChange={(e) => handleImageUpload(idx, e)}
-                                className="hidden"
-                              />
-                              <button
-                                type="button"
-                                onClick={() => imageInputRefs.current[idx]?.click()}
-                                disabled={uploadingImage[idx]}
-                                className="w-full h-28 border-2 border-dashed border-sky-300 rounded-lg flex flex-col items-center justify-center text-sky-400 hover:bg-sky-50 hover:border-sky-400 transition-colors disabled:opacity-50"
-                              >
-                                {uploadingImage[idx] ? (
-                                  <div className="w-5 h-5 border-2 border-sky-400 border-t-transparent rounded-full animate-spin"></div>
-                                ) : (
-                                  <>
-                                    <svg className="w-6 h-6 mb-1" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" /></svg>
-                                    <span className="text-[10px] font-semibold">Image {idx + 1}</span>
-                                  </>
-                                )}
-                              </button>
-                            </div>
-                          )}
-                        </div>
-                      ))}
+                          )
+                        })}
+                      </div>
+                    )}
+
+                    {/* Upload drop zone */}
+                    <div>
+                      <input
+                        type="file"
+                        accept="image/*,.pdf,.doc,.docx,.xls,.xlsx,.txt"
+                        multiple
+                        ref={attachmentInputRef}
+                        onChange={handleAttachmentUpload}
+                        className="hidden"
+                      />
+                      <button
+                        type="button"
+                        onClick={() => attachmentInputRef.current?.click()}
+                        disabled={uploadingAttachment}
+                        className="w-full border-2 border-dashed border-border rounded-lg py-5 flex flex-col items-center gap-2 text-muted-foreground hover:border-primary hover:bg-primary/5 hover:text-primary transition-colors disabled:opacity-50"
+                      >
+                        {uploadingAttachment ? (
+                          <div className="w-6 h-6 border-2 border-primary border-t-transparent rounded-full animate-spin" />
+                        ) : (
+                          <svg className="w-8 h-8" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12" /></svg>
+                        )}
+                        <span className="text-sm font-medium">{uploadingAttachment ? "Uploading..." : "Click to upload files"}</span>
+                        <span className="text-xs">Images, PDF, DOC, XLS, TXT — multiple files supported</span>
+                      </button>
                     </div>
-                    <p className="text-xs text-muted-foreground mt-2">Upload up to 5 clinical images, X-rays, or lab report photos.</p>
                   </div>
 
                 </div>
