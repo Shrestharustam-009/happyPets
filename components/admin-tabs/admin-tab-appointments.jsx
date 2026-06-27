@@ -10,28 +10,41 @@ export default function AdminTabAppointments() {
   const [filter, setFilter] = useState("all")
 
   useEffect(() => {
-    fetchAppointments()
-  }, [filter])
+    let isMounted = true
+    const controller = new AbortController()
 
-  const fetchAppointments = async () => {
-    setLoading(true)
-    try {
-      const url = filter === "all" ? "/api/appointments" : `/api/appointments?status=${filter}`
-      const response = await fetchWithAuth(url, {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem("adminToken")}`,
-        },
-      })
-      if (response.ok) {
-        const data = await response.json()
-        setAppointments(data)
+    const fetchAppointments = async () => {
+      setLoading(true)
+      try {
+        const url = filter === "all" ? "/api/appointments" : `/api/appointments?status=${filter}`
+        const response = await fetchWithAuth(url, {
+          signal: controller.signal,
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("adminToken")}`,
+          },
+        })
+        if (response.ok) {
+          const data = await response.json()
+          if (isMounted) setAppointments(data)
+        }
+      } catch (error) {
+        if (error.name === 'AbortError') {
+          console.log("Fetch aborted due to unmount");
+        } else {
+          console.error("[v0] Error fetching appointments:", error)
+        }
+      } finally {
+        if (isMounted) setLoading(false)
       }
-    } catch (error) {
-      console.error("[v0] Error fetching appointments:", error)
-    } finally {
-      setLoading(false)
     }
-  }
+
+    fetchAppointments()
+
+    return () => {
+      isMounted = false
+      controller.abort()
+    }
+  }, [filter])
 
   const updateAppointmentStatus = async (appointmentId, newStatus) => {
     try {
@@ -44,7 +57,10 @@ export default function AdminTabAppointments() {
         body: JSON.stringify({ status: newStatus }),
       })
       if (response.ok) {
-        fetchAppointments()
+        // Optimistically update the UI to avoid needing to re-fetch
+        setAppointments(prev => prev.map(appt => 
+          appt.id === appointmentId ? { ...appt, status: newStatus } : appt
+        ))
       }
     } catch (error) {
       console.error("[v0] Error updating appointment:", error)
