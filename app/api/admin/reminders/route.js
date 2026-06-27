@@ -23,12 +23,15 @@ export async function GET(request) {
         u.full_name as client_name,
         u.email as client_email,
         u.phone_number as client_phone,
+        v.reminder_status,
+        v.reminder_remarks,
         (SELECT MAX(sent_date) FROM reminders_log WHERE vaccination_id = v.id AND status = 'Sent') as last_sent_date
       FROM vaccinations v
       JOIN pets p ON v.pet_id = p.id
       JOIN users u ON p.user_id = u.id
       WHERE v.next_due_date IS NOT NULL 
       AND v.next_due_date <= CURRENT_DATE + INTERVAL 30 DAY
+      AND (v.reminder_status != 'Complete' OR v.reminder_status IS NULL)
       ORDER BY v.next_due_date ASC
     `)
 

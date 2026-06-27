@@ -73,6 +73,45 @@ export default function AdminTabReminders() {
     }
   }
 
+  const updateReminderStatus = async (id, status) => {
+    try {
+      const res = await fetchWithAuth(`/api/admin/reminders/${id}`, {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ reminder_status: status })
+      });
+      if (res.ok) {
+        if (status === 'Complete') {
+          // Remove it from view
+          setReminders(prev => prev.filter(r => r.vaccination_id !== id));
+        } else {
+          // Update in place
+          setReminders(prev => prev.map(r => r.vaccination_id === id ? { ...r, reminder_status: status } : r));
+        }
+      }
+    } catch (err) {
+      console.error(err);
+    }
+  }
+
+  const handleAddRemark = async (id, currentRemarks) => {
+    const note = prompt("Enter remarks for this reminder:", currentRemarks || "");
+    if (note !== null) {
+      try {
+        const res = await fetchWithAuth(`/api/admin/reminders/${id}`, {
+          method: "PUT",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ reminder_remarks: note })
+        });
+        if (res.ok) {
+          setReminders(prev => prev.map(r => r.vaccination_id === id ? { ...r, reminder_remarks: note } : r));
+        }
+      } catch (err) {
+        console.error(err);
+      }
+    }
+  }
+
   const getStatusBadge = (lastSentDate, nextDueDate) => {
     const now = new Date()
     const dueDate = new Date(nextDueDate)
@@ -142,22 +181,23 @@ export default function AdminTabReminders() {
 
       <div className="bg-background rounded-lg border border-border shadow-sm overflow-hidden">
         <div className="overflow-x-auto">
-          <table className="w-full text-sm">
+          <table className="w-full min-w-[1000px] text-sm">
             <thead className="bg-muted/50 border-b border-border">
               <tr>
                 <th className="px-6 py-4 text-left font-bold text-muted-foreground uppercase tracking-wider">Patient & Client</th>
                 <th className="px-6 py-4 text-left font-bold text-muted-foreground uppercase tracking-wider">Contact</th>
                 <th className="px-6 py-4 text-left font-bold text-muted-foreground uppercase tracking-wider">Due Service</th>
                 <th className="px-6 py-4 text-center font-bold text-muted-foreground uppercase tracking-wider">Status</th>
+                <th className="px-6 py-4 text-left font-bold text-muted-foreground uppercase tracking-wider">Remarks</th>
                 <th className="px-6 py-4 text-center font-bold text-muted-foreground uppercase tracking-wider">Action</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-border">
               {loading ? (
-                <tr><td colSpan="5" className="px-6 py-12 text-center text-muted-foreground">Loading reminders queue...</td></tr>
+                <tr><td colSpan="6" className="px-6 py-12 text-center text-muted-foreground">Loading reminders queue...</td></tr>
               ) : reminders.length === 0 ? (
                 <tr>
-                  <td colSpan="5" className="px-6 py-12 text-center text-muted-foreground">
+                  <td colSpan="6" className="px-6 py-12 text-center text-muted-foreground">
                     <CheckCircle2 className="w-8 h-8 text-green-500 mx-auto mb-2 opacity-50" />
                     No upcoming reminders for the next 30 days!
                   </td>
@@ -180,10 +220,31 @@ export default function AdminTabReminders() {
                       </div>
                     </td>
                     <td className="px-6 py-4 text-center whitespace-nowrap">
-                      {getStatusBadge(r.last_sent_date, r.next_due_date)}
+                      <div className="flex flex-col items-center gap-2">
+                        {getStatusBadge(r.last_sent_date, r.next_due_date)}
+                        <select 
+                          value={r.reminder_status || 'Pending'}
+                          onChange={(e) => updateReminderStatus(r.vaccination_id, e.target.value)}
+                          className="text-xs border border-border rounded px-2 py-1 bg-background w-24"
+                        >
+                          <option value="Pending">Pending</option>
+                          <option value="Complete">Complete</option>
+                        </select>
+                      </div>
                       {r.last_sent_date && (
-                        <div className="text-[10px] text-muted-foreground mt-1">Last sent: {new Date(r.last_sent_date).toLocaleDateString()}</div>
+                        <div className="text-[10px] text-muted-foreground mt-2">Last sent: {new Date(r.last_sent_date).toLocaleDateString()}</div>
                       )}
+                    </td>
+                    <td className="px-6 py-4 text-sm whitespace-normal max-w-[200px]">
+                      <div className="text-muted-foreground text-xs line-clamp-2 mb-1" title={r.reminder_remarks}>
+                        {r.reminder_remarks || <span className="italic opacity-50">No remarks</span>}
+                      </div>
+                      <button 
+                        onClick={() => handleAddRemark(r.vaccination_id, r.reminder_remarks)}
+                        className="text-primary hover:underline font-semibold text-xs"
+                      >
+                        {r.reminder_remarks ? "Edit Note" : "+ Add Note"}
+                      </button>
                     </td>
                     <td className="px-6 py-4 text-center whitespace-nowrap">
                       <button
