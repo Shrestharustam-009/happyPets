@@ -54,12 +54,22 @@ export async function POST(req) {
 
     const normalizedAge = petAge ? Number(petAge) : null
 
-    const [petResult] = await connection.execute(
-      "INSERT INTO pets (user_id, species, name, age, medical_history) VALUES (?, ?, ?, ?, ?)",
-      [userId, petSpecies || "Unknown", petName, normalizedAge, problemDescription || null],
+    // Check if pet already exists for this user to avoid duplicates
+    const [existingPets] = await connection.execute(
+      "SELECT id FROM pets WHERE user_id = ? AND LOWER(name) = LOWER(?) LIMIT 1",
+      [userId, petName]
     )
 
-    const petId = petResult.insertId
+    let petId;
+    if (existingPets.length > 0) {
+      petId = existingPets[0].id
+    } else {
+      const [petResult] = await connection.execute(
+        "INSERT INTO pets (user_id, species, name, age, medical_history) VALUES (?, ?, ?, ?, ?)",
+        [userId, petSpecies || "Unknown", petName, normalizedAge, problemDescription || null],
+      )
+      petId = petResult.insertId
+    }
 
     const [appointmentResult] = await connection.execute(
       `INSERT INTO appointments (user_id, pet_id, service_id, appointment_date, status, problem_description, notes)

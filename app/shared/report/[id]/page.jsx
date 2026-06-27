@@ -92,12 +92,12 @@ export default async function SharedReportPage({ params }) {
             </div>
             <div>
               <span className="text-slate-500 font-semibold uppercase text-xs tracking-wider">Gender</span>
-              <p className="mt-0.5">{patient.gender || "N/A"}</p>
+              <p className="mt-0.5">{patient.sex || "N/A"}</p>
             </div>
-            {patient.date_of_birth && (
+            {patient.dob && (
               <div>
                 <span className="text-slate-500 font-semibold uppercase text-xs tracking-wider">Date of Birth</span>
-                <p className="mt-0.5">{formatDate(patient.date_of_birth)}</p>
+                <p className="mt-0.5">{formatDate(patient.dob)}</p>
               </div>
             )}
             {patient.phone_number && (
