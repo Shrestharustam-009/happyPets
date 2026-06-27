@@ -54,6 +54,13 @@ export default function AdminTabMedicalRecords() {
   const [regStep, setRegStep] = useState(1) // 1: Client, 2: Pet
   const [regMode, setRegMode] = useState("create") // "create" or "select" client
   const [selectedClientId, setSelectedClientId] = useState("")
+  const [regClientSearchText, setRegClientSearchText] = useState("")
+  const [isRegClientDropdownOpen, setIsRegClientDropdownOpen] = useState(false)
+  const regClientSearchRef = useRef(null)
+
+  const [petAgeType, setPetAgeType] = useState("dob") // "dob" | "age"
+  const [petAgeYears, setPetAgeYears] = useState("")
+  const [petAgeMonths, setPetAgeMonths] = useState("")
   const [newClientData, setNewClientData] = useState({
     full_name: "", email: "", phone_number: "", address: ""
   })
@@ -98,6 +105,9 @@ export default function AdminTabMedicalRecords() {
     function handleClickOutside(event) {
       if (petSearchRef.current && !petSearchRef.current.contains(event.target)) {
         setIsPetDropdownOpen(false)
+      }
+      if (regClientSearchRef.current && !regClientSearchRef.current.contains(event.target)) {
+        setIsRegClientDropdownOpen(false)
       }
     }
     document.addEventListener("mousedown", handleClickOutside)
@@ -174,9 +184,51 @@ export default function AdminTabMedicalRecords() {
     setRegStep(1)
     setRegMode("create")
     setSelectedClientId("")
+    setRegClientSearchText("")
+    setIsRegClientDropdownOpen(false)
+    setPetAgeType("dob")
+    setPetAgeYears("")
+    setPetAgeMonths("")
     setNewClientData({ full_name: "", email: "", phone_number: "", address: "" })
     setNewPetData({ name: "", species: "", breed: "", dob: "", sex: "", color: "", weight: "", identifying_marks: "", medical_history: "", photo_url: "" })
     setRegWeightUnit("kg")
+  }
+
+  const calculateAgeFromDob = (dobStr) => {
+    if (!dobStr) return { years: "", months: "" }
+    const dob = new Date(dobStr)
+    if (isNaN(dob.getTime())) return { years: "", months: "" }
+    const now = new Date()
+    let years = now.getFullYear() - dob.getFullYear()
+    let months = now.getMonth() - dob.getMonth()
+    if (months < 0) {
+      years--
+      months += 12
+    }
+    return { years: String(years >= 0 ? years : 0), months: String(months >= 0 ? months : 0) }
+  }
+
+  const handleAgeChange = (years, months) => {
+    setPetAgeYears(years)
+    setPetAgeMonths(months)
+    
+    const y = parseInt(years) || 0
+    const m = parseInt(months) || 0
+    
+    if (y === 0 && m === 0) {
+      setNewPetData(prev => ({ ...prev, dob: "" }))
+      return
+    }
+    
+    const targetDate = new Date()
+    targetDate.setFullYear(targetDate.getFullYear() - y)
+    targetDate.setMonth(targetDate.getMonth() - m)
+    
+    const yyyy = targetDate.getFullYear()
+    const mm = String(targetDate.getMonth() + 1).padStart(2, '0')
+    const dd = String(targetDate.getDate()).padStart(2, '0')
+    
+    setNewPetData(prev => ({ ...prev, dob: `${yyyy}-${mm}-${dd}` }))
   }
 
   const handleRegClientSubmit = async (e) => {
@@ -926,14 +978,51 @@ export default function AdminTabMedicalRecords() {
                       </div>
                     </div>
                   ) : (
-                    <div>
+                    <div className="relative" ref={regClientSearchRef}>
                       <label className="block text-xs font-semibold mb-1 text-slate-600">Select Existing Client *</label>
-                      <select value={selectedClientId} onChange={e => setSelectedClientId(e.target.value)} required className="w-full px-3 py-2 border border-slate-300 rounded focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none bg-background">
-                        <option value="">-- Choose a Client --</option>
-                        {clients.map(c => (
-                          <option key={c.id} value={c.id}>{c.full_name} {c.email ? `(${c.email})` : ''}</option>
-                        ))}
-                      </select>
+                      <input
+                        type="text"
+                        value={regClientSearchText}
+                        onFocus={() => setIsRegClientDropdownOpen(true)}
+                        onChange={(e) => {
+                          setRegClientSearchText(e.target.value)
+                          setIsRegClientDropdownOpen(true)
+                          const matched = clients.find(c => c.full_name?.toLowerCase() === e.target.value.toLowerCase())
+                          if (matched) {
+                            setSelectedClientId(matched.id)
+                          } else {
+                            setSelectedClientId("")
+                          }
+                        }}
+                        placeholder="Search existing client..."
+                        required={!selectedClientId}
+                        className="w-full px-3 py-2 border border-slate-300 rounded focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none bg-background text-foreground"
+                      />
+                      {isRegClientDropdownOpen && (
+                        <div className="absolute z-50 w-full mt-1 bg-background border border-border rounded-md shadow-lg max-h-60 overflow-y-auto">
+                          {clients.filter(c => c.full_name?.toLowerCase().includes(regClientSearchText.toLowerCase())).length > 0 ? (
+                            clients
+                              .filter(c => c.full_name?.toLowerCase().includes(regClientSearchText.toLowerCase()))
+                              .map(c => (
+                                <button
+                                  key={c.id}
+                                  type="button"
+                                  onClick={() => {
+                                    setRegClientSearchText(`${c.full_name} (${c.email || c.phone_number || "N/A"})`)
+                                    setSelectedClientId(c.id)
+                                    setIsRegClientDropdownOpen(false)
+                                  }}
+                                  className="w-full px-3 py-2 text-left text-sm hover:bg-muted/80 focus:bg-muted/80 focus:outline-none text-foreground font-normal border-b border-border last:border-b-0"
+                                >
+                                  <div className="font-semibold">{c.full_name}</div>
+                                  <div className="text-xs text-muted-foreground">{c.email ? c.email : ""} {c.phone_number ? `• ${c.phone_number}` : ""}</div>
+                                </button>
+                              ))
+                          ) : (
+                            <div className="px-3 py-2 text-xs text-muted-foreground">No clients found matching "{regClientSearchText}"</div>
+                          )}
+                        </div>
+                      )}
                     </div>
                   )}
 
@@ -996,8 +1085,65 @@ export default function AdminTabMedicalRecords() {
                       <input type="text" value={newPetData.breed} onChange={e => setNewPetData(prev => ({...prev, breed: e.target.value}))} className="w-full px-3 py-2 border border-slate-300 rounded focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none bg-background" />
                     </div>
                     <div>
-                      <label className="block text-xs font-semibold mb-1 text-slate-600">Date of Birth</label>
-                      <input type="date" value={newPetData.dob} onChange={e => setNewPetData(prev => ({...prev, dob: e.target.value}))} className="w-full px-3 py-2 border border-slate-300 rounded focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none bg-background" />
+                      <div className="flex items-center justify-between mb-1">
+                        <label className="block text-xs font-semibold text-slate-600">Date of Birth / Age *</label>
+                        <div className="flex gap-1 bg-slate-100 p-0.5 rounded text-[10px]">
+                          <button
+                            type="button"
+                            onClick={() => setPetAgeType("dob")}
+                            className={`px-2 py-0.5 rounded font-bold transition-all ${petAgeType === "dob" ? "bg-white text-slate-800 shadow-sm" : "text-slate-500 hover:text-slate-800"}`}
+                          >
+                            DOB
+                          </button>
+                          <button
+                            type="button"
+                            onClick={() => {
+                              setPetAgeType("age")
+                              const { years, months } = calculateAgeFromDob(newPetData.dob)
+                              setPetAgeYears(years)
+                              setPetAgeMonths(months)
+                            }}
+                            className={`px-2 py-0.5 rounded font-bold transition-all ${petAgeType === "age" ? "bg-white text-slate-800 shadow-sm" : "text-slate-500 hover:text-slate-800"}`}
+                          >
+                            Age
+                          </button>
+                        </div>
+                      </div>
+
+                      {petAgeType === "dob" ? (
+                        <input
+                          type="date"
+                          value={newPetData.dob}
+                          onChange={e => setNewPetData(prev => ({...prev, dob: e.target.value}))}
+                          className="w-full px-3 py-2 border border-slate-300 rounded focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none bg-background text-foreground"
+                        />
+                      ) : (
+                        <div className="grid grid-cols-2 gap-2">
+                          <div className="relative">
+                            <input
+                              type="number"
+                              min="0"
+                              placeholder="Years"
+                              value={petAgeYears}
+                              onChange={e => handleAgeChange(e.target.value, petAgeMonths)}
+                              className="w-full px-3 py-2 pr-8 border border-slate-300 rounded focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none bg-background text-foreground text-sm"
+                            />
+                            <span className="absolute right-2.5 top-2 text-[10px] text-muted-foreground font-medium pointer-events-none">Yrs</span>
+                          </div>
+                          <div className="relative">
+                            <input
+                              type="number"
+                              min="0"
+                              max="11"
+                              placeholder="Months"
+                              value={petAgeMonths}
+                              onChange={e => handleAgeChange(petAgeYears, e.target.value)}
+                              className="w-full px-3 py-2 pr-8 border border-slate-300 rounded focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none bg-background text-foreground text-sm"
+                            />
+                            <span className="absolute right-2.5 top-2 text-[10px] text-muted-foreground font-medium pointer-events-none">Mos</span>
+                          </div>
+                        </div>
+                      )}
                     </div>
                     <div>
                       <label className="block text-xs font-semibold mb-1 text-slate-600">Sex</label>
