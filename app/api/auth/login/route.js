@@ -1,5 +1,8 @@
 import { query } from "@/lib/db"
 import bcrypt from "bcryptjs"
+import jwt from "jsonwebtoken"
+
+const JWT_SECRET = process.env.JWT_SECRET || "fallback_happypets_secret_key_2026"
 
 export async function POST(req) {
   try {
@@ -25,6 +28,12 @@ export async function POST(req) {
       return Response.json({ message: "Invalid email or password" }, { status: 401 })
     }
 
+    const token = jwt.sign(
+      { id: user.id, role: user.role },
+      JWT_SECRET,
+      { expiresIn: '7d' }
+    )
+
     return Response.json({
       message: "Login successful",
       user: {
@@ -33,7 +42,7 @@ export async function POST(req) {
         fullName: user.full_name,
         role: user.role,
       },
-      token: "token-" + user.id,
+      token: token,
     })
   } catch (error) {
     console.error("[v0] Error logging in:", error)

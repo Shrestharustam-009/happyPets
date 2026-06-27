@@ -2,6 +2,7 @@ import { NextResponse } from "next/server"
 import { query } from "@/lib/db"
 import bcrypt from "bcryptjs"
 import { validateAdminRequest } from "@/lib/auth-middleware"
+import crypto from "crypto"
 
 export async function GET(request) {
   try {
@@ -47,8 +48,8 @@ export async function POST(request) {
       }
     }
 
-    // Hash password if provided, otherwise create a random one
-    const plainPassword = password || Math.random().toString(36).slice(-8)
+    // Hash password if provided, otherwise create a secure random one
+    const plainPassword = password || crypto.randomBytes(9).toString('base64').replace(/\+/g, '-').replace(/\//g, '_')
     const hashedPassword = await bcrypt.hash(plainPassword, 10)
 
     const result = await query(

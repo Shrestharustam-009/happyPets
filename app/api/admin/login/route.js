@@ -1,5 +1,8 @@
 import { query } from "@/lib/db"
 import bcrypt from "bcryptjs"
+import jwt from "jsonwebtoken"
+
+const JWT_SECRET = process.env.JWT_SECRET || "fallback_happypets_secret_key_2026"
 
 export async function POST(req) {
   try {
@@ -21,7 +24,10 @@ export async function POST(req) {
     }
 
     // Fetch admin/vet/reception user from database
-    const admins = await query("SELECT * FROM users WHERE email = ? AND role IN ('admin', 'vet', 'reception') AND is_active = TRUE", [email])
+    const admins = await query(
+      "SELECT * FROM users WHERE email = ? AND role IN ('admin', 'vet', 'reception', 'veterinarian', 'vet_assistant') AND is_active = TRUE", 
+      [email]
+    )
 
     if (!admins.length) {
       return Response.json({ message: "Invalid admin credentials" }, { status: 401 })
@@ -44,6 +50,12 @@ export async function POST(req) {
       allowedTabs = null
     }
 
+    const token = jwt.sign(
+      { id: admin.id, role: admin.role, isAdmin: true },
+      JWT_SECRET,
+      { expiresIn: '7d' }
+    )
+
     return Response.json({
       message: "Admin login successful",
       admin: {
@@ -53,7 +65,7 @@ export async function POST(req) {
         role: admin.role,
         allowed_tabs: allowedTabs,
       },
-      token: "admin-token-" + admin.id,
+      token: token,
     })
   } catch (error) {
     console.error("[v0] Error admin login:", error)
