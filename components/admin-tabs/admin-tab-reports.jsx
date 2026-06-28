@@ -586,7 +586,7 @@ export default function AdminTabReports() {
             {qrPet && (
               <div className="bg-white p-4 rounded-xl border border-border shadow-sm">
                 <QRCodeSVG
-                  value={`${typeof window !== 'undefined' ? window.location.origin : ''}/shared/report/${qrPet.id}`}
+                  value={`${typeof window !== 'undefined' ? window.location.origin : ''}/shared/patient-report/${qrPet.share_token}`}
                   size={200}
                   level="H"
                   includeMargin={true}

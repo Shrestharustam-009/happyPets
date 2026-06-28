@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server"
 import { query } from "@/lib/db"
 import { validateAdminRequest } from "@/lib/auth-middleware"
+import crypto from "crypto"
 
 export async function GET(request) {
   try {
@@ -9,7 +10,7 @@ export async function GET(request) {
     }
 
     const patients = await query(`
-      SELECT p.id, p.user_id, p.species, p.breed, p.name, p.dob, p.age, p.sex, p.color, p.weight, p.identifying_marks, p.medical_history, p.photo_url, p.created_at,
+      SELECT p.id, p.share_token, p.user_id, p.species, p.breed, p.name, p.dob, p.age, p.sex, p.color, p.weight, p.identifying_marks, p.medical_history, p.photo_url, p.created_at,
              u.full_name as owner_name, u.email as owner_email
       FROM pets p
       LEFT JOIN users u ON p.user_id = u.id
@@ -40,9 +41,10 @@ export async function POST(request) {
       return NextResponse.json({ error: "Owner, Name, and Species are required" }, { status: 400 })
     }
     
+    const shareToken = crypto.randomUUID()
     const result = await query(
-      `INSERT INTO pets (user_id, name, species, breed, dob, sex, color, weight, identifying_marks, medical_history, photo_url) 
-       VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+      `INSERT INTO pets (user_id, name, species, breed, dob, sex, color, weight, identifying_marks, medical_history, photo_url, share_token) 
+       VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
       [
         user_id,
         name,
@@ -54,7 +56,8 @@ export async function POST(request) {
         weight || null,
         identifying_marks || null,
         medical_history || null,
-        photo_url || null
+        photo_url || null,
+        shareToken
       ]
     )
 

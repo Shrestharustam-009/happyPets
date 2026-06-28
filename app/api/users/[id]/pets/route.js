@@ -1,5 +1,6 @@
 import { query } from "@/lib/db"
 import { normalizeAuthToken, getUserIdFromToken, isAdminToken } from "@/lib/token-utils"
+import crypto from "crypto"
 
 export async function GET(req, { params }) {
   try {
@@ -41,10 +42,11 @@ export async function POST(req, { params }) {
 
     const finalSpecies = species || type || "other"
     const finalDescription = description || ""
+    const shareToken = crypto.randomUUID()
 
     const result = await query(
-      "INSERT INTO pets (user_id, name, species, breed, age, color, weight, medical_history) VALUES (?, ?, ?, ?, ?, ?, ?, ?)",
-      [id, name, finalSpecies, breed || null, age || null, color || null, weight || null, finalDescription],
+      "INSERT INTO pets (user_id, name, species, breed, age, color, weight, medical_history, share_token) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)",
+      [id, name, finalSpecies, breed || null, age || null, color || null, weight || null, finalDescription, shareToken],
     )
 
     // Fetch the newly created pet and return it with full schema fields
