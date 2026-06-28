@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server"
 import { query } from "@/lib/db"
+import { normalizeAuthToken, getUserIdFromToken, isAdminToken } from "@/lib/token-utils"
 
 export const dynamic = 'force-dynamic'
 
@@ -7,8 +8,17 @@ export async function GET(request, { params }) {
   try {
     const { id } = await params
 
+    const token = normalizeAuthToken(request.headers.get("authorization"))
+    const isAdmin = isAdminToken(token)
+    const tokenUserId = getUserIdFromToken(token)
+
+    if (!isAdmin && !tokenUserId) {
+      return NextResponse.json({ error: "Unauthorized" }, { status: 401 })
+    }
+
     const records = await query(
       `SELECT tr.*, 
+              p.user_id as owner_id,
               p.name as pet_name, p.dob as pet_dob, p.species as pet_species, p.sex as pet_sex, 
               p.breed as pet_breed, p.color as pet_color, p.identifying_marks as pet_identifying_marks, 
               p.photo_url as pet_photo_url, p.weight as pet_weight,
@@ -27,7 +37,13 @@ export async function GET(request, { params }) {
       return NextResponse.json({ error: "Test report not found" }, { status: 404 })
     }
 
-    return NextResponse.json(records[0])
+    const report = records[0]
+
+    if (!isAdmin && tokenUserId !== report.owner_id) {
+      return NextResponse.json({ error: "Forbidden" }, { status: 403 })
+    }
+
+    return NextResponse.json(report)
   } catch (error) {
     console.error("[public] Error fetching test report:", error)
     return NextResponse.json({ error: "Failed to fetch test report" }, { status: 500 })

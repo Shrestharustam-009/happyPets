@@ -1,8 +1,17 @@
 import { query } from "@/lib/db"
+import { normalizeAuthToken, getUserIdFromToken, isAdminToken } from "@/lib/token-utils"
 
 export async function GET(req, { params }) {
   try {
     const { id } = await params
+    
+    const token = normalizeAuthToken(req.headers.get("authorization"))
+    const isAdmin = isAdminToken(token)
+    const tokenUserId = getUserIdFromToken(token)
+
+    if (!isAdmin && tokenUserId !== Number(id)) {
+      return Response.json({ message: "Forbidden" }, { status: 403 })
+    }
 
     const pets = await query(
       "SELECT id, user_id, name, species, species as type, breed, age, color, weight, medical_history as description FROM pets WHERE user_id = ?",
@@ -18,6 +27,15 @@ export async function GET(req, { params }) {
 export async function POST(req, { params }) {
   try {
     const { id } = await params
+    
+    const token = normalizeAuthToken(req.headers.get("authorization"))
+    const isAdmin = isAdminToken(token)
+    const tokenUserId = getUserIdFromToken(token)
+
+    if (!isAdmin && tokenUserId !== Number(id)) {
+      return Response.json({ message: "Forbidden" }, { status: 403 })
+    }
+    
     const body = await req.json()
     const { name, type, species, breed, age, color, weight, description } = body
 
