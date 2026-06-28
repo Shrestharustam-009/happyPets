@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server"
 import { query } from "@/lib/db"
 import { validateAdminRequest } from "@/lib/auth-middleware"
+import crypto from "crypto"
 
 export async function GET(request) {
   try {
@@ -65,10 +66,11 @@ export async function POST(request) {
       : "{}"
 
     const reportDateVal = report_date ? new Date(report_date) : new Date()
+    const shareToken = crypto.randomUUID()
 
     const result = await query(
-      `INSERT INTO test_reports (pet_id, vet_id, report_date, results) VALUES (?, ?, ?, ?)`,
-      [pet_id, vet_id, reportDateVal, resultsString]
+      `INSERT INTO test_reports (pet_id, vet_id, report_date, results, share_token) VALUES (?, ?, ?, ?, ?)`,
+      [pet_id, vet_id, reportDateVal, resultsString, shareToken]
     )
 
     return NextResponse.json(

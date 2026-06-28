@@ -1163,14 +1163,14 @@ export default function AdminTabTestReports() {
             
             <div className="flex flex-col items-center justify-center bg-white p-6 rounded-lg border border-slate-200 shadow-inner">
               <a
-                href={`${typeof window !== 'undefined' ? window.location.origin : ''}/test-report/${qrModalReport.id}`}
+                href={`${typeof window !== 'undefined' ? window.location.origin : ''}/shared/report/${qrModalReport.share_token}`}
                 target="_blank"
                 rel="noopener noreferrer"
                 title="Scan or click to open report"
                 className="block p-2 bg-white rounded border border-slate-100 shadow-sm hover:opacity-90"
               >
                 <QRCodeSVG
-                  value={`${typeof window !== 'undefined' ? window.location.origin : 'http://localhost:3000'}/test-report/${qrModalReport.id}`}
+                  value={`${typeof window !== 'undefined' ? window.location.origin : 'http://localhost:3000'}/shared/report/${qrModalReport.share_token}`}
                   size={192}
                   level="H"
                   bgColor="#ffffff"
@@ -1186,7 +1186,7 @@ export default function AdminTabTestReports() {
               </p>
               <div className="pt-2 flex gap-2">
                 <a
-                  href={`${typeof window !== 'undefined' ? window.location.origin : ''}/test-report/${qrModalReport.id}`}
+                  href={`${typeof window !== 'undefined' ? window.location.origin : ''}/shared/report/${qrModalReport.share_token}`}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="flex-1 bg-primary text-primary-foreground hover:bg-primary/95 py-2 rounded-lg font-semibold text-sm transition-all shadow-sm cursor-pointer block text-center"
