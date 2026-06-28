@@ -25,7 +25,7 @@ const pool = mysql.createPool({
   host: envVars.DB_HOST || process.env.DB_HOST || "localhost",
   port: parseInt(envVars.DB_PORT || process.env.DB_PORT || "3306"),
   user: envVars.DB_USER || process.env.DB_USER || "root",
-  password: "tensorflow69!",
+  password: envVars.DB_PASSWORD || process.env.DB_PASSWORD || "",
   database: envVars.DB_NAME || process.env.DB_NAME || "happypets",
   waitForConnections: true,
   connectionLimit: 1,
