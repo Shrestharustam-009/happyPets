@@ -27,7 +27,7 @@ export async function GET(request, { params }) {
     const medical = await query(`
       SELECT m.*, u.full_name as vet_name
       FROM medical_records m
-      JOIN users u ON m.vet_id = u.id
+      LEFT JOIN users u ON m.vet_id = u.id
       WHERE m.pet_id = ?
       ORDER BY m.visit_date DESC
     `, [id])

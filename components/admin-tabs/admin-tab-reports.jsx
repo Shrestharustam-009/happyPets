@@ -53,7 +53,7 @@ export default function AdminTabReports() {
   const fetchPatients = async () => {
     try {
       setLoading(true)
-      const res = await fetchWithAuth("/api/admin/patients")
+      const res = await fetchWithAuth("/api/admin/patients", { cache: "no-store" })
       if (res.ok) {
         const data = await res.json()
         setPatients(data)
@@ -407,6 +407,21 @@ export default function AdminTabReports() {
                                 <div><span className="font-semibold text-muted-foreground text-xs uppercase">Complaint:</span> <br />{m.chief_complaint}</div>
                                 <div><span className="font-semibold text-muted-foreground text-xs uppercase">Diagnosis:</span> <br /><span className="text-red-600 font-medium">{m.primary_diagnosis || 'N/A'}</span></div>
                               </div>
+                              {m.attachments_url && (
+                                <div className="mt-3 pt-3 border-t border-border/50">
+                                  <a 
+                                    href={m.attachments_url} 
+                                    target="_blank" 
+                                    rel="noopener noreferrer"
+                                    className="inline-flex items-center text-xs font-semibold text-blue-600 hover:text-blue-800 bg-blue-50/50 hover:bg-blue-100 px-3 py-1.5 rounded-md border border-blue-200 transition-colors"
+                                  >
+                                    <svg className="w-4 h-4 mr-1.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15.172 7l-6.586 6.586a2 2 0 102.828 2.828l6.414-6.586a4 4 0 00-5.656-5.656l-6.415 6.585a6 6 0 108.486 8.486L20.5 13" />
+                                    </svg>
+                                    View Attached File
+                                  </a>
+                                </div>
+                              )}
                             </div>
                           ))}
                         </div>
@@ -544,6 +559,63 @@ export default function AdminTabReports() {
                           </tbody>
                         </table>
                       )}
+                    </div>
+                  )}
+
+                  {/* Media & Attachments Section */}
+                  {reportType === 'full' && (
+                    <div className="bg-background p-5 rounded-lg border border-border shadow-sm">
+                      <div className="flex justify-between items-center mb-4 border-b border-border pb-2">
+                        <h4 className="font-bold text-lg text-amber-600">Media & Attachments</h4>
+                      </div>
+                      
+                      {(() => {
+                        const media = [];
+                        if (reportData.patient?.photo_url) {
+                          media.push({ type: 'Patient Photo', url: reportData.patient.photo_url });
+                        }
+                        reportData.medical?.forEach(m => {
+                          if (m.attachments_url) media.push({ type: `Medical Record (${new Date(m.visit_date).toLocaleDateString()})`, url: m.attachments_url });
+                        });
+                        reportData.consentForms?.forEach(cf => {
+                          if (cf.attachment_url) media.push({ type: `${cf.form_type} Signed`, url: cf.attachment_url });
+                        });
+                        
+                        if (media.length === 0) {
+                          return <p className="text-sm text-muted-foreground italic">No media or attachments found.</p>
+                        }
+                        
+                        return (
+                          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
+                            {media.map((item, idx) => {
+                              const isImage = item.url.match(/\.(jpeg|jpg|gif|png|webp|svg)$/i) || item.url.startsWith('data:image/');
+                              return (
+                                <div key={idx} className="border border-border rounded-lg overflow-hidden flex flex-col group shadow-sm hover:shadow-md transition-shadow">
+                                  <div className="h-32 bg-slate-100 relative flex items-center justify-center overflow-hidden">
+                                    {isImage ? (
+                                      /* eslint-disable-next-line @next/next/no-img-element */
+                                      <img src={item.url} alt={item.type} className="object-cover w-full h-full group-hover:scale-105 transition-transform duration-300" />
+                                    ) : (
+                                      <div className="flex flex-col items-center justify-center text-slate-400">
+                                        <svg className="w-8 h-8 mb-2 opacity-60" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+                                        </svg>
+                                        <span className="text-xs font-medium">Document File</span>
+                                      </div>
+                                    )}
+                                  </div>
+                                  <div className="p-3 bg-white border-t border-border flex flex-col items-start gap-3 h-full justify-between">
+                                    <span className="text-xs font-semibold truncate w-full text-slate-700 capitalize" title={item.type}>{item.type}</span>
+                                    <a href={item.url} target="_blank" rel="noopener noreferrer" className="text-[11px] w-full text-center bg-amber-50 text-amber-700 border border-amber-200 rounded px-2 py-1.5 hover:bg-amber-100 transition-colors font-bold">
+                                      Open / Download
+                                    </a>
+                                  </div>
+                                </div>
+                              )
+                            })}
+                          </div>
+                        )
+                      })()}
                     </div>
                   )}
 

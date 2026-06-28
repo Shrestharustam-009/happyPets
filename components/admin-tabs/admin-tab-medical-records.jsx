@@ -14,6 +14,11 @@ export default function AdminTabMedicalRecords() {
   const [isEditMode, setIsEditMode] = useState(false)
   const [currentRecord, setCurrentRecord] = useState(null)
 
+  // Inline Client & Pet Edit State
+  const [editClientData, setEditClientData] = useState(null)
+  const [editPetData, setEditPetData] = useState(null)
+  const [isClientPetExpanded, setIsClientPetExpanded] = useState(false)
+
   // Search & Selected Client State
   const [clientSearchText, setClientSearchText] = useState("")
   const [activeClientId, setActiveClientId] = useState(null)
@@ -144,6 +149,16 @@ export default function AdminTabMedicalRecords() {
   const handleInputChange = (e) => {
     const { name, value } = e.target
     setFormData((prev) => ({ ...prev, [name]: value }))
+  }
+
+  const handleEditClientChange = (e) => {
+    const { name, value } = e.target
+    setEditClientData((prev) => ({ ...prev, [name]: value }))
+  }
+
+  const handleEditPetChange = (e) => {
+    const { name, value } = e.target
+    setEditPetData((prev) => ({ ...prev, [name]: value }))
   }
 
   const uploadFile = async (file) => {
@@ -341,6 +356,9 @@ export default function AdminTabMedicalRecords() {
     setCurrentRecord(null)
     setPetSearchText("")
     setIsPetDropdownOpen(false)
+    setEditClientData(null)
+    setEditPetData(null)
+    setIsClientPetExpanded(false)
     setIsModalOpen(true)
   }
 
@@ -382,6 +400,13 @@ export default function AdminTabMedicalRecords() {
     const petObj = patients.find(p => Number(p.id) === Number(record.pet_id));
     setPetSearchText(petObj ? `${petObj.name} (${petObj.owner_name || ""})` : "");
     setIsPetDropdownOpen(false);
+    
+    // Populate client & pet edit states
+    setEditPetData(petObj ? { ...petObj } : null);
+    const clientObj = petObj ? clients.find(c => Number(c.id) === Number(petObj.user_id)) : null;
+    setEditClientData(clientObj ? { ...clientObj } : null);
+    setIsClientPetExpanded(false);
+
     setCurrentRecord(record)
     setIsModalOpen(true)
   }
@@ -423,6 +448,36 @@ export default function AdminTabMedicalRecords() {
       })
       
       if (res.ok) {
+        // Save Client and Pet if in edit mode
+        if (isEditMode) {
+          const promises = []
+          if (editClientData && editClientData.id) {
+            promises.push(
+              fetchWithAuth(`/api/admin/clients/${editClientData.id}`, {
+                method: "PUT",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(editClientData)
+              })
+            )
+          }
+          if (editPetData && editPetData.id) {
+            const petPayload = { ...editPetData }
+            if (petPayload.dob && petPayload.dob.includes('T')) {
+                petPayload.dob = petPayload.dob.split('T')[0]
+            }
+            promises.push(
+              fetchWithAuth(`/api/admin/patients/${editPetData.id}`, {
+                method: "PUT",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(petPayload)
+              })
+            )
+          }
+          if (promises.length > 0) {
+            try { await Promise.all(promises) } catch (err) { console.error("Error saving client/pet details:", err) }
+          }
+        }
+
         if (formData.reminder_date) {
           try {
             await fetchWithAuth("/api/admin/vaccinations", {
@@ -1219,6 +1274,98 @@ export default function AdminTabMedicalRecords() {
             <div className="max-h-[75vh] overflow-y-auto p-6">
               <form id="medical-form" onSubmit={handleSubmit}>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+
+                  {/* Inline Client & Patient Editor */}
+                  {isEditMode && editClientData && editPetData && (
+                    <div className="md:col-span-2 bg-slate-50 border border-slate-200 rounded-lg overflow-hidden">
+                      <button
+                        type="button"
+                        onClick={() => setIsClientPetExpanded(!isClientPetExpanded)}
+                        className="w-full flex items-center justify-between p-4 bg-slate-100/50 hover:bg-slate-100 transition-colors cursor-pointer"
+                      >
+                        <div className="flex items-center gap-2 text-slate-700 font-semibold">
+                          <svg className="w-4 h-4 text-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
+                          </svg>
+                          Edit Owner & Patient Details
+                        </div>
+                        <svg className={`w-4 h-4 text-slate-500 transition-transform ${isClientPetExpanded ? 'rotate-180' : ''}`} fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                        </svg>
+                      </button>
+                      
+                      {isClientPetExpanded && (
+                        <div className="p-5 border-t border-slate-200 space-y-6">
+                          {/* Client Edit Section */}
+                          <div>
+                            <h4 className="text-xs font-bold text-slate-500 uppercase tracking-wider mb-3">Owner Details</h4>
+                            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                              <div>
+                                <label className="block text-xs font-medium mb-1">Full Name *</label>
+                                <input type="text" name="full_name" value={editClientData.full_name || ""} onChange={handleEditClientChange} required className="w-full px-3 py-2 text-sm border border-border rounded-md bg-white focus:ring-1 focus:ring-primary outline-none" />
+                              </div>
+                              <div>
+                                <label className="block text-xs font-medium mb-1">Email</label>
+                                <input type="email" name="email" value={editClientData.email || ""} onChange={handleEditClientChange} className="w-full px-3 py-2 text-sm border border-border rounded-md bg-white focus:ring-1 focus:ring-primary outline-none" />
+                              </div>
+                              <div>
+                                <label className="block text-xs font-medium mb-1">Phone Number</label>
+                                <input type="text" name="phone_number" value={editClientData.phone_number || ""} onChange={handleEditClientChange} className="w-full px-3 py-2 text-sm border border-border rounded-md bg-white focus:ring-1 focus:ring-primary outline-none" />
+                              </div>
+                              <div>
+                                <label className="block text-xs font-medium mb-1">Address</label>
+                                <input type="text" name="address" value={editClientData.address || ""} onChange={handleEditClientChange} className="w-full px-3 py-2 text-sm border border-border rounded-md bg-white focus:ring-1 focus:ring-primary outline-none" />
+                              </div>
+                            </div>
+                          </div>
+                          
+                          {/* Pet Edit Section */}
+                          <div className="pt-4 border-t border-slate-100">
+                            <h4 className="text-xs font-bold text-slate-500 uppercase tracking-wider mb-3">Patient Details</h4>
+                            <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
+                              <div>
+                                <label className="block text-xs font-medium mb-1">Name *</label>
+                                <input type="text" name="name" value={editPetData.name || ""} onChange={handleEditPetChange} required className="w-full px-3 py-2 text-sm border border-border rounded-md bg-white focus:ring-1 focus:ring-primary outline-none" />
+                              </div>
+                              <div>
+                                <label className="block text-xs font-medium mb-1">Species *</label>
+                                <select name="species" value={editPetData.species || ""} onChange={handleEditPetChange} required className="w-full px-3 py-2 text-sm border border-border rounded-md bg-white focus:ring-1 focus:ring-primary outline-none">
+                                  <option value="Dog">Dog</option>
+                                  <option value="Cat">Cat</option>
+                                  <option value="Rabbit">Rabbit</option>
+                                  <option value="Bird">Bird</option>
+                                  <option value="Other">Other</option>
+                                </select>
+                              </div>
+                              <div>
+                                <label className="block text-xs font-medium mb-1">Breed</label>
+                                <input type="text" name="breed" value={editPetData.breed || ""} onChange={handleEditPetChange} className="w-full px-3 py-2 text-sm border border-border rounded-md bg-white focus:ring-1 focus:ring-primary outline-none" />
+                              </div>
+                              <div>
+                                <label className="block text-xs font-medium mb-1">Sex</label>
+                                <select name="sex" value={editPetData.sex || ""} onChange={handleEditPetChange} className="w-full px-3 py-2 text-sm border border-border rounded-md bg-white focus:ring-1 focus:ring-primary outline-none">
+                                  <option value="">Select...</option>
+                                  <option value="Male (Intact)">Male (Intact)</option>
+                                  <option value="Male (Neutered)">Male (Neutered)</option>
+                                  <option value="Female (Intact)">Female (Intact)</option>
+                                  <option value="Female (Spayed)">Female (Spayed)</option>
+                                  <option value="Unknown">Unknown</option>
+                                </select>
+                              </div>
+                              <div>
+                                <label className="block text-xs font-medium mb-1">Date of Birth</label>
+                                <input type="date" name="dob" value={(editPetData.dob && editPetData.dob.includes('T')) ? editPetData.dob.split('T')[0] : (editPetData.dob || "")} onChange={handleEditPetChange} className="w-full px-3 py-2 text-sm border border-border rounded-md bg-white focus:ring-1 focus:ring-primary outline-none" />
+                              </div>
+                              <div>
+                                <label className="block text-xs font-medium mb-1">Base Weight (kg)</label>
+                                <input type="number" step="0.01" name="weight" value={editPetData.weight || ""} onChange={handleEditPetChange} className="w-full px-3 py-2 text-sm border border-border rounded-md bg-white focus:ring-1 focus:ring-primary outline-none" />
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      )}
+                    </div>
+                  )}
                   
                   {/* General Info Section */}
                   <div className="md:col-span-2 bg-muted/30 p-4 rounded-lg border border-border">
