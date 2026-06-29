@@ -491,11 +491,11 @@ export default function AdminTabMedicalRecords() {
               headers: { "Content-Type": "application/json" },
               body: JSON.stringify({
                 pet_id: formData.pet_id,
-                vaccine_name: formData.reminder_vaccine_name || "Next Scheduled Vaccination",
+                vaccine_name: "Medical Follow-up",
                 given_date: formData.visit_date.slice(0, 10),
                 next_due_date: formData.reminder_date,
                 administered_by: formData.vet_id,
-                notes: "Reminder created from Medical Record"
+                notes: "Follow-up Reminder created from Medical Record"
               })
             })
           } catch (e) {
