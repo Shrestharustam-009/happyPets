@@ -45,7 +45,7 @@ export default function LocationMap() {
                 <div>
                   <h4 className="text-sm font-bold text-foreground">Clinic Hours</h4>
                   <p className="text-sm text-muted-foreground mt-1">
-                    Sunday - Friday: 8:00 AM - 8:00 PM
+                    Sunday - Saturday: 8:00 AM - 8:00 PM
                   </p>
                 </div>
               </div>
