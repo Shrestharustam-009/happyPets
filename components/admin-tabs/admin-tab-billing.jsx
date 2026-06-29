@@ -43,10 +43,8 @@ export default function AdminTabBilling() {
             setClientSearch(`${activeClient.full_name} (${activeClient.email})`)
             setClientPhone(activeClient.phone_number || "")
           }
-        } else {
-          setClientSearch("")
-          setClientPhone("")
         }
+        // Removed the else branch that cleared clientSearch and clientPhone for walk-in clients
       }
       if (event.target && !event.target.closest?.('.product-dropdown-container')) {
         setOpenProductDropdown(null)
