@@ -65,7 +65,7 @@ export default function AdminTabBilling() {
         fetchWithAuth("/api/admin/billing"),
         fetchWithAuth("/api/admin/clients"),
         fetchWithAuth("/api/admin/patients"),
-        fetchWithAuth("/api/products"),
+        fetchWithAuth("/api/admin/inventory"),
         fetchWithAuth("/api/services")
       ])
       
