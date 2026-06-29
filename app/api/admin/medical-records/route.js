@@ -68,7 +68,8 @@ export async function POST(request) {
       treatment_interventions, 
       prescribed_medicines, 
       attachments_url,
-      history
+      history,
+      advice
     } = body
 
     if (!pet_id || !vet_id) {
@@ -79,8 +80,8 @@ export async function POST(request) {
       `INSERT INTO medical_records (
         pet_id, vet_id, visit_date, chief_complaint, temperature, heart_rate, blood_pressure, pulse, respiration, weight, 
         clinical_findings, primary_diagnosis, differential_diagnoses, treatment_interventions, 
-        prescribed_medicines, attachments_url, history
-       ) VALUES (?, ?, COALESCE(?, CURRENT_TIMESTAMP), ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+        prescribed_medicines, attachments_url, history, advice
+       ) VALUES (?, ?, COALESCE(?, CURRENT_TIMESTAMP), ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
       [
         pet_id,
         vet_id,
@@ -98,7 +99,8 @@ export async function POST(request) {
         treatment_interventions || null,
         prescribed_medicines || null,
         attachments_url || null,
-        history || null
+        history || null,
+        advice || null
       ]
     )
 

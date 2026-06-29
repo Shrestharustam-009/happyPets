@@ -32,7 +32,8 @@ export async function PUT(request, { params }) {
       treatment_interventions, 
       prescribed_medicines, 
       attachments_url,
-      history
+      history,
+      advice
     } = body
 
     if (!pet_id || !vet_id) {
@@ -43,7 +44,7 @@ export async function PUT(request, { params }) {
       `UPDATE medical_records 
        SET pet_id = ?, vet_id = ?, visit_date = ?, chief_complaint = ?, temperature = ?, heart_rate = ?, blood_pressure = ?, pulse = ?, respiration = ?, weight = ?, 
            clinical_findings = ?, primary_diagnosis = ?, differential_diagnoses = ?, treatment_interventions = ?, 
-           prescribed_medicines = ?, attachments_url = ?, history = ?
+           prescribed_medicines = ?, attachments_url = ?, history = ?, advice = ?
        WHERE id = ?`,
       [
         pet_id,
@@ -63,6 +64,7 @@ export async function PUT(request, { params }) {
         prescribed_medicines || null,
         attachments_url || null,
         history || null,
+        advice || null,
         id
       ]
     )

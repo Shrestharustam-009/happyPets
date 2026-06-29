@@ -49,7 +49,7 @@ export default function AdminTabMedicalRecords() {
   }
   
   const [formData, setFormData] = useState({
-    pet_id: "", vet_id: "", visit_date: "", chief_complaint: "", temperature: "", heart_rate: "", blood_pressure: "", pulse: "", respiration: "", weight: "", clinical_findings: "", primary_diagnosis: "", differential_diagnoses: "", treatment_interventions: "", prescribed_medicines: "", attachments_url: "", history: "", reminder_date: "", reminder_vaccine_name: ""
+    pet_id: "", vet_id: "", visit_date: "", chief_complaint: "", temperature: "", heart_rate: "", blood_pressure: "", pulse: "", respiration: "", weight: "", clinical_findings: "", primary_diagnosis: "", differential_diagnoses: "", treatment_interventions: "", prescribed_medicines: "", attachments_url: "", history: "", advice: "", reminder_date: "", reminder_vaccine_name: ""
   })
 
   const [weightUnitMR, setWeightUnitMR] = useState("kg")
