@@ -2,7 +2,7 @@
 import { fetchWithAuth } from "@/lib/api"
 
 import { useState, useEffect } from "react"
-import { Bell, Mail, Phone, Clock, CheckCircle2, AlertCircle, X, FileText } from "lucide-react"
+import { Bell, Mail, Phone, Clock, CheckCircle2, AlertCircle, X, FileText, Search } from "lucide-react"
 
 
 export default function AdminTabReminders() {
@@ -11,6 +11,7 @@ export default function AdminTabReminders() {
   const [sending, setSending] = useState(null) // ID of reminder being sent
   const [isNoteModalOpen, setIsNoteModalOpen] = useState(false)
   const [activeReminderId, setActiveReminderId] = useState(null)
+  const [searchQuery, setSearchQuery] = useState("")
 
   useEffect(() => {
     fetchReminders()
@@ -155,6 +156,17 @@ export default function AdminTabReminders() {
     return dueDate <= twoDaysFromNow
   }).length
 
+  const filteredReminders = reminders.filter(r => {
+    if (!searchQuery) return true;
+    const q = searchQuery.toLowerCase();
+    return (
+      (r.pet_name && r.pet_name.toLowerCase().includes(q)) ||
+      (r.client_name && r.client_name.toLowerCase().includes(q)) ||
+      (r.client_phone && r.client_phone.toLowerCase().includes(q)) ||
+      (r.vaccine_name && r.vaccine_name.toLowerCase().includes(q))
+    );
+  });
+
   return (
     <div className="space-y-6">
       {dueSoonCount > 0 && (
@@ -182,51 +194,63 @@ export default function AdminTabReminders() {
 
           </p>
         </div>
-        <button
-          onClick={sendAllDue}
-          className="bg-primary text-primary-foreground hover:bg-primary/90 font-bold py-2 px-6 rounded-md shadow-sm transition-colors flex items-center gap-2"
-        >
-          <Mail className="w-4 h-4" />
-          Send All
-        </button>
+        <div className="flex items-center gap-3 w-full md:w-auto">
+          <div className="relative flex-1 md:w-64">
+            <Search className="w-4 h-4 absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground" />
+            <input
+              type="text"
+              placeholder="Search patients, clients..."
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              className="w-full pl-9 pr-3 py-2 text-sm border border-border rounded-md bg-background focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all"
+            />
+          </div>
+          <button
+            onClick={sendAllDue}
+            className="bg-primary text-primary-foreground hover:bg-primary/90 font-bold py-2 px-6 rounded-md shadow-sm transition-colors flex items-center gap-2 shrink-0"
+          >
+            <Mail className="w-4 h-4" />
+            Send All
+          </button>
+        </div>
       </div>
 
       <div className="bg-background rounded-lg border border-border shadow-sm overflow-hidden">
         <div className="overflow-x-auto">
-          <table className="w-full min-w-[1100px] text-sm">
+          <table className="w-full min-w-max text-sm">
             <thead className="bg-muted/50 border-b border-border">
               <tr>
-                <th className="px-6 py-4 text-left font-bold text-muted-foreground uppercase tracking-wider">Patient & Client</th>
-                <th className="px-6 py-4 text-left font-bold text-muted-foreground uppercase tracking-wider">Contact</th>
-                <th className="px-6 py-4 text-left font-bold text-muted-foreground uppercase tracking-wider">Due Service</th>
-                <th className="px-6 py-4 text-center font-bold text-muted-foreground uppercase tracking-wider">Status</th>
-                <th className="px-6 py-4 text-left font-bold text-muted-foreground uppercase tracking-wider">Remarks</th>
-                <th className="px-6 py-4 text-center font-bold text-muted-foreground uppercase tracking-wider">Action</th>
-                <th className="px-6 py-4 text-center font-bold text-muted-foreground uppercase tracking-wider">Remove</th>
+                <th className="px-3 py-3 text-left font-bold text-muted-foreground uppercase tracking-wider">Patient & Client</th>
+                <th className="px-3 py-3 text-left font-bold text-muted-foreground uppercase tracking-wider">Contact</th>
+                <th className="px-3 py-3 text-left font-bold text-muted-foreground uppercase tracking-wider">Due Service</th>
+                <th className="px-3 py-3 text-center font-bold text-muted-foreground uppercase tracking-wider">Status</th>
+                <th className="px-3 py-3 text-left font-bold text-muted-foreground uppercase tracking-wider">Remarks</th>
+                <th className="px-3 py-3 text-center font-bold text-muted-foreground uppercase tracking-wider">Action</th>
+                <th className="px-3 py-3 text-center font-bold text-muted-foreground uppercase tracking-wider">Remove</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-border">
               {loading ? (
-                <tr><td colSpan="7" className="px-6 py-12 text-center text-muted-foreground">Loading reminders queue...</td></tr>
-              ) : reminders.length === 0 ? (
+                <tr><td colSpan="7" className="px-3 py-12 text-center text-muted-foreground">Loading reminders queue...</td></tr>
+              ) : filteredReminders.length === 0 ? (
                 <tr>
-                  <td colSpan="7" className="px-6 py-12 text-center text-muted-foreground">
+                  <td colSpan="7" className="px-3 py-12 text-center text-muted-foreground">
                     <CheckCircle2 className="w-8 h-8 text-green-500 mx-auto mb-2 opacity-50" />
-                    No upcoming reminders for the next 30 days!
+                    {searchQuery ? "No reminders match your search." : "No upcoming reminders for the next 30 days!"}
                   </td>
                 </tr>
               ) : (
-                reminders.map((r) => (
+                filteredReminders.map((r) => (
                   <tr key={r.vaccination_id} className="hover:bg-muted/30 transition-colors">
-                    <td className="px-6 py-4 whitespace-nowrap">
-                      <div className="font-bold text-foreground text-base">{r.pet_name}</div>
+                    <td className="px-3 py-3 whitespace-nowrap">
+                      <div className="font-bold text-foreground text-sm">{r.pet_name}</div>
                       <div className="text-xs text-muted-foreground">Owner: {r.client_name}</div>
                     </td>
-                    <td className="px-6 py-4 whitespace-nowrap">
+                    <td className="px-3 py-3 whitespace-nowrap">
                       <div className="flex items-center gap-1 text-xs text-foreground mb-1"><Mail className="w-3 h-3 text-muted-foreground" /> {r.client_email}</div>
                       <div className="flex items-center gap-1 text-xs text-muted-foreground"><Phone className="w-3 h-3" /> {r.client_phone || 'N/A'}</div>
                     </td>
-                    <td className="px-6 py-4 whitespace-nowrap">
+                    <td className="px-3 py-3 whitespace-nowrap">
                       <div className="font-medium text-foreground">
                         {r.vaccine_name} <span className="text-muted-foreground text-[10px] font-bold tracking-wider uppercase ml-1">({(r.vaccine_name === 'Medical Follow-up' || r.vaccine_name === 'Next Scheduled Vaccination') ? 'Follow-up' : 'Vaccination'})</span>
                       </div>
@@ -234,7 +258,7 @@ export default function AdminTabReminders() {
                         Due: {new Date(r.next_due_date).toLocaleDateString()}
                       </div>
                     </td>
-                    <td className="px-6 py-4 text-center whitespace-nowrap">
+                    <td className="px-3 py-3 text-center whitespace-nowrap">
                       <div className="flex flex-col items-center gap-2">
                         {getStatusBadge(r.last_sent_date, r.next_due_date)}
                         <select 
@@ -250,7 +274,7 @@ export default function AdminTabReminders() {
                         <div className="text-[10px] text-muted-foreground mt-2">Last sent: {new Date(r.last_sent_date).toLocaleDateString()}</div>
                       )}
                     </td>
-                    <td className="px-6 py-4 text-sm whitespace-normal max-w-[200px]">
+                    <td className="px-3 py-3 text-sm whitespace-normal max-w-[150px]">
                       <div className="text-muted-foreground text-xs line-clamp-2 mb-1" title={r.reminder_remarks}>
                         {r.reminder_remarks || <span className="italic opacity-50">No remarks</span>}
                       </div>
@@ -261,11 +285,11 @@ export default function AdminTabReminders() {
                         {r.reminder_remarks ? "Edit Note" : "+ Add Note"}
                       </button>
                     </td>
-                    <td className="px-6 py-4 text-center whitespace-nowrap">
+                    <td className="px-3 py-3 text-center whitespace-nowrap">
                       <button
                         onClick={() => sendReminder(r.vaccination_id, r.pet_id, r.client_id)}
                         disabled={isRecentlySent(r.last_sent_date) || sending === r.vaccination_id}
-                        className={`px-4 py-2 font-semibold rounded-md border transition-colors text-xs flex items-center justify-center w-full gap-2
+                        className={`px-3 py-1.5 font-semibold rounded-md border transition-colors text-xs flex items-center justify-center w-full gap-2
                           ${isRecentlySent(r.last_sent_date)
                             ? 'bg-muted text-muted-foreground border-transparent cursor-not-allowed opacity-50'
                             : 'bg-primary/10 text-primary hover:bg-primary hover:text-primary-foreground border-primary/20'}`}
@@ -279,7 +303,7 @@ export default function AdminTabReminders() {
                         )}
                       </button>
                     </td>
-                    <td className="px-6 py-4 text-center whitespace-nowrap">
+                    <td className="px-3 py-3 text-center whitespace-nowrap">
                       <button
                         onClick={() => deleteReminder(r.vaccination_id)}
                         className="p-1.5 text-red-500 hover:bg-red-50 hover:text-red-700 rounded transition-colors inline-flex items-center justify-center"
