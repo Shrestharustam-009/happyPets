@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server"
 import { query, getConnection } from "@/lib/db"
 import { validateAdminRequest } from "@/lib/auth-middleware"
+import bcrypt from "bcryptjs"
 
 export async function GET(request) {
   try {
@@ -72,9 +73,10 @@ export async function POST(request) {
       
       if (!finalClientId && walk_in_name) {
         // Create walk-in user on the fly
+        const dummyPassword = await bcrypt.hash(Math.random().toString(36).slice(-8), 10);
         const [userResult] = await connection.execute(
-          `INSERT INTO users (full_name, phone_number, role) VALUES (?, ?, 'walk_in')`,
-          [walk_in_name, phone_number || null]
+          `INSERT INTO users (full_name, phone_number, role, password) VALUES (?, ?, 'walk_in', ?)`,
+          [walk_in_name, phone_number || null, dummyPassword]
         );
         finalClientId = userResult.insertId;
       } else if (phone_number !== undefined) {
