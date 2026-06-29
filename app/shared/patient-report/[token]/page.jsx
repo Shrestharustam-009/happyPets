@@ -45,8 +45,8 @@ export default function SharedPatientReportPage() {
   }
 
   return (
-    <div className="min-h-screen bg-slate-50 text-slate-900 print:min-h-0 print:h-auto print:bg-white print:text-black">
-      <header className="bg-blue-950 text-white py-6 print:bg-white print:text-black print:border-b-2 print:border-blue-950">
+    <div className="min-h-screen bg-slate-50 text-slate-900 print:block !print:overflow-visible !print:h-auto !print:w-full !print:min-h-0 print:bg-white print:text-black">
+      <header className="bg-blue-950 text-white py-6 print:block print:bg-white print:text-black print:border-b-2 print:border-blue-950">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 flex items-center justify-between">
           <div className="flex items-center gap-3">
             <img src="/happy_pets_logo.jpg" alt="HappyPets Logo" className="w-10 h-10 object-contain bg-white rounded-lg p-0.5" />
@@ -61,8 +61,8 @@ export default function SharedPatientReportPage() {
         </div>
       </header>
 
-      <main className="max-w-4xl mx-auto px-4 sm:px-6 py-8 space-y-8 print:py-0 print:space-y-4">
-        <section className="bg-white rounded-xl border border-slate-200 shadow-sm overflow-hidden print:overflow-visible print:shadow-none print:border-none print:mb-8">
+      <main className="max-w-4xl mx-auto px-4 sm:px-6 py-8 space-y-8 print:block print:py-0 print:space-y-4">
+        <section className="bg-white rounded-xl border border-slate-200 shadow-sm overflow-hidden print:block print:overflow-visible print:shadow-none print:border-none print:mb-8 break-inside-avoid">
           <div className="bg-blue-50 border-b border-blue-100 px-6 py-4 flex justify-between items-center">
             <h2 className="text-lg font-bold text-blue-900">Patient Summary</h2>
             <button onClick={() => window.print()} className="print:hidden text-xs bg-white text-blue-700 border border-blue-200 px-3 py-1.5 rounded-lg shadow-sm font-bold hover:bg-blue-100">Print Report</button>
@@ -99,7 +99,7 @@ export default function SharedPatientReportPage() {
           </div>
         </section>
 
-        <section className="bg-white rounded-xl border border-slate-200 shadow-sm overflow-hidden print:overflow-visible print:shadow-none print:border-none print:mb-8">
+        <section className="bg-white rounded-xl border border-slate-200 shadow-sm overflow-hidden print:block print:overflow-visible print:shadow-none print:border-none print:mb-8 break-inside-avoid">
           <div className="bg-blue-50 border-b border-blue-100 px-6 py-4 flex justify-between items-center">
             <h2 className="text-lg font-bold text-blue-900">Medical History</h2>
             <span className="text-xs font-bold text-blue-600 bg-blue-100 px-2.5 py-1 rounded-full">{medical.length} record{medical.length !== 1 ? "s" : ""}</span>
@@ -110,7 +110,7 @@ export default function SharedPatientReportPage() {
             ) : (
               <div className="space-y-4">
                 {medical.map((m) => (
-                  <div key={m.id} className="border border-slate-100 rounded-lg p-4 bg-slate-50/50">
+                  <div key={m.id} className="border border-slate-100 rounded-lg p-4 bg-slate-50/50 break-inside-avoid">
                     <div className="flex flex-wrap justify-between items-center gap-2 mb-3">
                       <span className="text-sm font-bold text-slate-800">{formatDate(m.visit_date)}</span>
                       <span className="text-xs font-semibold text-blue-700 bg-blue-50 px-2 py-0.5 rounded">Dr. {m.vet_name}</span>
@@ -152,7 +152,7 @@ export default function SharedPatientReportPage() {
           </div>
         </section>
 
-        <section className="bg-white rounded-xl border border-slate-200 shadow-sm overflow-hidden print:overflow-visible print:shadow-none print:border-none print:mb-8">
+        <section className="bg-white rounded-xl border border-slate-200 shadow-sm overflow-hidden print:block print:overflow-visible print:shadow-none print:border-none print:mb-8 break-inside-avoid">
           <div className="bg-emerald-50 border-b border-emerald-100 px-6 py-4 flex justify-between items-center">
             <h2 className="text-lg font-bold text-emerald-900">Vaccination Record</h2>
             <span className="text-xs font-bold text-emerald-600 bg-emerald-100 px-2.5 py-1 rounded-full">{vaccinations.length} record{vaccinations.length !== 1 ? "s" : ""}</span>
