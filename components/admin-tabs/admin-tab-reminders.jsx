@@ -156,7 +156,7 @@ export default function AdminTabReminders() {
             <div>
               <p className="text-red-800 font-bold text-sm">Critical Reminders Pending</p>
               <p className="text-red-700 text-xs mt-0.5">
-                You have {dueSoonCount} {dueSoonCount === 1 ? "vaccination" : "vaccinations"} due in the next 2 days (or overdue) that require a reminder.
+                You have {dueSoonCount} {dueSoonCount === 1 ? "reminder" : "reminders"} due in the next 2 days (or overdue) that require a follow-up.
               </p>
             </div>
           </div>
@@ -170,7 +170,7 @@ export default function AdminTabReminders() {
             Automated Reminders
           </h2>
           <p className="text-muted-foreground text-sm mt-1">
-            Track upcoming vaccinations and send email/SMS reminders to clients.
+            Track upcoming vaccinations and medical follow-ups, and send email/SMS reminders to clients.
 
           </p>
         </div>
