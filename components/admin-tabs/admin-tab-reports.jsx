@@ -102,6 +102,22 @@ export default function AdminTabReports() {
     return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`
   }
 
+  // Helper to parse attachment URL safely
+  const getAttachmentUrl = (rawString) => {
+    if (!rawString) return null;
+    try {
+      const parsed = JSON.parse(rawString);
+      if (parsed && parsed.images && parsed.images.length > 0 && parsed.images[0].url) {
+        return parsed.images[0].url;
+      }
+    } catch (e) {
+      if (rawString.startsWith('http') || rawString.startsWith('/')) {
+        return rawString;
+      }
+    }
+    return null;
+  };
+
   const generatePDFHeader = (doc, title) => {
     doc.setFontSize(20)
     doc.setTextColor(41, 128, 185)
@@ -409,10 +425,10 @@ export default function AdminTabReports() {
                                 {m.differential_diagnoses && <div><span className="font-semibold text-muted-foreground text-xs uppercase">Diagnosis:</span> <br /><span className="text-orange-600 font-medium">{m.differential_diagnoses}</span></div>}
                                 {m.advice && <div className="col-span-1 sm:col-span-2"><span className="font-semibold text-muted-foreground text-xs uppercase">Advice:</span> <br />{m.advice}</div>}
                               </div>
-                              {m.attachments_url && (
+                              {m.attachments_url && getAttachmentUrl(m.attachments_url) && (
                                 <div className="mt-3 pt-3 border-t border-border/50">
                                   <a 
-                                    href={m.attachments_url} 
+                                    href={getAttachmentUrl(m.attachments_url)} 
                                     target="_blank" 
                                     rel="noopener noreferrer"
                                     className="inline-flex items-center text-xs font-semibold text-blue-600 hover:text-blue-800 bg-blue-50/50 hover:bg-blue-100 px-3 py-1.5 rounded-md border border-blue-200 transition-colors"
@@ -577,7 +593,8 @@ export default function AdminTabReports() {
                           media.push({ type: 'Patient Photo', url: reportData.patient.photo_url });
                         }
                         reportData.medical?.forEach(m => {
-                          if (m.attachments_url) media.push({ type: `Medical Record (${new Date(m.visit_date).toLocaleDateString()})`, url: m.attachments_url });
+                          const fileUrl = getAttachmentUrl(m.attachments_url);
+                          if (fileUrl) media.push({ type: `Medical Record (${new Date(m.visit_date).toLocaleDateString()})`, url: fileUrl });
                         });
                         reportData.consentForms?.forEach(cf => {
                           if (cf.attachment_url) media.push({ type: `${cf.form_type} Signed`, url: cf.attachment_url });
