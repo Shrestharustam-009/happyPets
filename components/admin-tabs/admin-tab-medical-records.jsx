@@ -94,6 +94,7 @@ export default function AdminTabMedicalRecords() {
   const attachmentInputRef = useRef(null)
 
   const [isAdmin, setIsAdmin] = useState(false)
+  const [currentAdminId, setCurrentAdminId] = useState(null)
 
   useEffect(() => {
     fetchData()
@@ -102,6 +103,7 @@ export default function AdminTabMedicalRecords() {
       try {
         const parsed = JSON.parse(adminData)
         setIsAdmin(parsed.role === "admin")
+        setCurrentAdminId(parsed.id)
       } catch (e) {}
     }
   }, [])
@@ -334,7 +336,7 @@ export default function AdminTabMedicalRecords() {
     setIsEditMode(false)
     setFormData({
       pet_id: "",
-      vet_id: "",
+      vet_id: currentAdminId || "",
       visit_date: new Date().toISOString().slice(0, 16),
       chief_complaint: "",
       temperature: "",
