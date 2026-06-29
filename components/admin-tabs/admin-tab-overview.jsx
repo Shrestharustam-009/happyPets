@@ -383,8 +383,8 @@ export default function AdminTabOverview() {
               <div className="flex items-center gap-3">
                 <div className="p-2 rounded-lg bg-red-100 text-red-600"><Syringe className="w-4 h-4" /></div>
                 <div>
-                  <h2 className="text-base font-bold">Upcoming Reminders</h2>
-                  <p className="text-[11px] text-muted-foreground">Vaccinations & follow-ups</p>
+                  <h2 className="text-base font-bold">Vaccination Reminders</h2>
+                  <p className="text-[11px] text-muted-foreground">Overdue & upcoming vaccinations</p>
                 </div>
               </div>
               <Link href={`${prefix}/reminders`} className="text-xs font-bold text-primary hover:underline">View All</Link>
@@ -440,7 +440,7 @@ export default function AdminTabOverview() {
               {(stats.alerts.overdueVaccinesList || []).length === 0 && (stats.alerts.upcomingVaccinesList || []).length === 0 && (
                 <div className="p-8 text-center">
                   <Shield className="w-8 h-8 mx-auto mb-2 text-green-500 opacity-60" />
-                  <div className="text-sm font-semibold text-green-600">All reminders are up to date</div>
+                  <div className="text-sm font-semibold text-green-600">All vaccinations are up to date</div>
                   <div className="text-xs text-muted-foreground mt-1">No pending reminders</div>
                 </div>
               )}
