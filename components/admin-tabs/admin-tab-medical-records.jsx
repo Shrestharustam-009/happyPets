@@ -350,6 +350,7 @@ export default function AdminTabMedicalRecords() {
       prescribed_medicines: "",
       attachments_url: "",
       history: "",
+      advice: "",
       reminder_date: "",
       reminder_vaccine_name: ""
     })
