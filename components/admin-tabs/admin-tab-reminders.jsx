@@ -83,16 +83,24 @@ export default function AdminTabReminders() {
         body: JSON.stringify({ reminder_status: status })
       });
       if (res.ok) {
-        if (status === 'Complete') {
-          // Remove it from view
-          setReminders(prev => prev.filter(r => r.vaccination_id !== id));
-        } else {
-          // Update in place
-          setReminders(prev => prev.map(r => r.vaccination_id === id ? { ...r, reminder_status: status } : r));
-        }
+        setReminders(prev => prev.map(r => r.vaccination_id === id ? { ...r, reminder_status: status } : r));
       }
     } catch (err) {
       console.error(err);
+    }
+  }
+
+  const deleteReminder = async (id) => {
+    if (!confirm("Are you sure you want to permanently delete this reminder?")) return;
+    try {
+      const res = await fetchWithAuth(`/api/admin/reminders/${id}`, { method: "DELETE" });
+      if (res.ok) {
+        setReminders(prev => prev.filter(r => r.vaccination_id !== id));
+      } else {
+        alert("Failed to delete reminder");
+      }
+    } catch (err) {
+      console.error("Failed to delete reminder:", err);
     }
   }
 
@@ -194,6 +202,7 @@ export default function AdminTabReminders() {
                 <th className="px-6 py-4 text-center font-bold text-muted-foreground uppercase tracking-wider">Status</th>
                 <th className="px-6 py-4 text-left font-bold text-muted-foreground uppercase tracking-wider">Remarks</th>
                 <th className="px-6 py-4 text-center font-bold text-muted-foreground uppercase tracking-wider">Action</th>
+                <th className="px-6 py-4 text-center font-bold text-muted-foreground uppercase tracking-wider">Remove</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-border">
@@ -201,7 +210,7 @@ export default function AdminTabReminders() {
                 <tr><td colSpan="6" className="px-6 py-12 text-center text-muted-foreground">Loading reminders queue...</td></tr>
               ) : reminders.length === 0 ? (
                 <tr>
-                  <td colSpan="6" className="px-6 py-12 text-center text-muted-foreground">
+                  <td colSpan="7" className="px-6 py-12 text-center text-muted-foreground">
                     <CheckCircle2 className="w-8 h-8 text-green-500 mx-auto mb-2 opacity-50" />
                     No upcoming reminders for the next 30 days!
                   </td>
@@ -268,6 +277,15 @@ export default function AdminTabReminders() {
                         ) : (
                           <><Mail className="w-3 h-3" /> Send Email</>
                         )}
+                      </button>
+                    </td>
+                    <td className="px-6 py-4 text-center whitespace-nowrap">
+                      <button
+                        onClick={() => deleteReminder(r.vaccination_id)}
+                        className="p-1.5 text-red-500 hover:bg-red-50 hover:text-red-700 rounded transition-colors inline-flex items-center justify-center"
+                        title="Remove Reminder"
+                      >
+                        <X className="w-5 h-5" />
                       </button>
                     </td>
                   </tr>
