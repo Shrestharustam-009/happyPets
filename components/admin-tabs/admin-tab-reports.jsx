@@ -148,13 +148,12 @@ export default function AdminTabReports() {
       pdf.text("Medical History", 14, startY - 5)
     }
 
-    const headers = [["Visit Date", "Attending Vet", "Complaint & Advice", "Diagnosis", "Vitals (T/HR/P/R/BP/W)"]]
+    const headers = [["Visit Date / Vitals", "Complaint & Advice", "Diagnosis", "Treatment / Medicines"]]
     const rows = reportData.medical.map(m => [
-      formatDate(m.visit_date),
-      `Dr. ${m.vet_name}`,
-      [m.chief_complaint ? `Complaint: ${m.chief_complaint}` : '', m.advice ? `Advice: ${m.advice}` : ''].filter(Boolean).join('\n') || 'N/A',
-      [m.primary_diagnosis ? `Tentative: ${m.primary_diagnosis}` : '', m.differential_diagnoses ? `Diagnosis: ${m.differential_diagnoses}` : ''].filter(Boolean).join('\n') || '-',
-      `${m.temperature||'-'} / ${m.heart_rate||'-'} / ${m.pulse||'-'} / ${m.respiration||'-'} / ${m.blood_pressure||'-'} / ${m.weight||'-'}`
+      `${formatDate(m.visit_date)}\nDr. ${m.vet_name}\n\nTemp: ${m.temperature||'-'}\nWeight: ${m.weight||'-'}\nHR: ${m.heart_rate||'-'}\nBP: ${m.blood_pressure||'-'}`,
+      [m.chief_complaint ? `Complaint:\n${m.chief_complaint}` : '', m.advice ? `Advice:\n${m.advice}` : ''].filter(Boolean).join('\n\n') || '-',
+      [m.primary_diagnosis ? `Tentative:\n${m.primary_diagnosis}` : '', m.differential_diagnoses ? `Diagnosis:\n${m.differential_diagnoses}` : ''].filter(Boolean).join('\n\n') || '-',
+      [m.treatment_interventions ? `Treatment:\n${m.treatment_interventions}` : '', m.prescribed_medicines ? `Prescription:\n${m.prescribed_medicines}` : ''].filter(Boolean).join('\n\n') || '-'
     ])
 
     autoTable(pdf, {
@@ -162,7 +161,14 @@ export default function AdminTabReports() {
       head: headers,
       body: rows,
       theme: 'grid',
-      headStyles: { fillColor: [41, 128, 185] }
+      headStyles: { fillColor: [41, 128, 185] },
+      styles: { cellPadding: 3, fontSize: 9, overflow: 'linebreak' },
+      columnStyles: {
+        0: { cellWidth: 35 },
+        1: { cellWidth: 50 },
+        2: { cellWidth: 40 },
+        3: { cellWidth: 55 }
+      }
     })
 
     if (save) pdf.save(`${reportData.patient.name}_Medical_Report.pdf`)
@@ -234,6 +240,37 @@ export default function AdminTabReports() {
     if (save) pdf.save(`${reportData.patient.name}_Billing_Report.pdf`)
   }
 
+  const exportConsentPDF = (doc = null) => {
+    if (!reportData || !reportData.consentForms || reportData.consentForms.length === 0) return
+    const isMainDoc = !doc
+    const pdf = doc || new jsPDF()
+    
+    const startY = isMainDoc ? generatePDFHeader(pdf, "Consent & Waiver Forms") : pdf.lastAutoTable.finalY + 15
+    
+    if (!isMainDoc) {
+      pdf.setFontSize(14)
+      pdf.setTextColor(41, 128, 185)
+      pdf.text("Consent & Waiver Forms", 14, startY - 5)
+    }
+
+    const headers = [["Form Type", "Date Signed", "Status", "Attachment Link"]]
+    const rows = reportData.consentForms.map(cf => [
+      cf.form_type || 'N/A',
+      formatDate(cf.created_at),
+      cf.status || 'Signed',
+      cf.attachment_url || 'No attachment'
+    ])
+
+    autoTable(pdf, {
+      startY: startY,
+      head: headers,
+      body: rows,
+      theme: 'grid',
+      headStyles: { fillColor: [39, 174, 96] },
+      styles: { cellPadding: 3, fontSize: 9, overflow: 'linebreak' }
+    })
+  }
+
   const exportFullPDF = () => {
     if (!reportData) return
     const doc = new jsPDF()
@@ -245,6 +282,7 @@ export default function AdminTabReports() {
     if (reportData.medical?.length > 0) exportMedicalPDF(doc, false)
     if (reportData.vaccinations?.length > 0) exportVaccinationPDF(doc, false)
     if (reportData.billing?.length > 0) exportBillingPDF(doc, false)
+    if (reportData.consentForms?.length > 0) exportConsentPDF(doc, false)
     
     doc.save(`${reportData.patient.name}_Complete_Profile.pdf`)
   }
@@ -423,7 +461,18 @@ export default function AdminTabReports() {
                                 {m.chief_complaint && <div><span className="font-semibold text-muted-foreground text-xs uppercase">Complaint:</span> <br />{m.chief_complaint}</div>}
                                 {m.primary_diagnosis && <div><span className="font-semibold text-muted-foreground text-xs uppercase">Tentative Diagnosis:</span> <br /><span className="text-red-600 font-medium">{m.primary_diagnosis}</span></div>}
                                 {m.differential_diagnoses && <div><span className="font-semibold text-muted-foreground text-xs uppercase">Diagnosis:</span> <br /><span className="text-orange-600 font-medium">{m.differential_diagnoses}</span></div>}
-                                {m.advice && <div className="col-span-1 sm:col-span-2"><span className="font-semibold text-muted-foreground text-xs uppercase">Advice:</span> <br />{m.advice}</div>}
+                                
+                                {m.treatment_interventions && <div className="col-span-1 sm:col-span-2 mt-1"><span className="font-semibold text-muted-foreground text-xs uppercase">Treatment / Interventions:</span> <br />{m.treatment_interventions}</div>}
+                                {m.prescribed_medicines && <div className="col-span-1 sm:col-span-2 mt-1"><span className="font-semibold text-muted-foreground text-xs uppercase">Prescribed Medicines:</span> <br />{m.prescribed_medicines}</div>}
+                                {m.advice && <div className="col-span-1 sm:col-span-2 mt-1"><span className="font-semibold text-muted-foreground text-xs uppercase">Advice:</span> <br />{m.advice}</div>}
+                              </div>
+                              <div className="mt-3 flex flex-wrap gap-4 text-xs text-muted-foreground bg-white/50 p-2 rounded border border-border/50">
+                                {m.temperature && <span>Temp: <strong className="text-foreground">{m.temperature}</strong></span>}
+                                {m.weight && <span>Weight: <strong className="text-foreground">{m.weight} kg</strong></span>}
+                                {m.heart_rate && <span>HR: <strong className="text-foreground">{m.heart_rate}</strong></span>}
+                                {m.blood_pressure && <span>BP: <strong className="text-foreground">{m.blood_pressure}</strong></span>}
+                                {m.pulse && <span>Pulse: <strong className="text-foreground">{m.pulse}</strong></span>}
+                                {m.respiration && <span>Resp: <strong className="text-foreground">{m.respiration}</strong></span>}
                               </div>
                               {m.attachments_url && getAttachmentUrl(m.attachments_url) && (
                                 <div className="mt-3 pt-3 border-t border-border/50">
