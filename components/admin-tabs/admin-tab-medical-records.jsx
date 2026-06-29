@@ -1620,27 +1620,16 @@ export default function AdminTabMedicalRecords() {
                   <div className="md:col-span-2 border border-blue-100 bg-blue-50/40 rounded-lg p-4 mt-2">
                     <h4 className="font-semibold mb-3 text-sm text-blue-800 flex items-center gap-2">
                       <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" /></svg>
-                      Next Vaccination / Follow-up Reminder
+                      Follow-up Reminder
                     </h4>
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                       <div>
-                        <label className="block text-xs font-semibold mb-1 text-slate-700">Next Vaccination Due Date</label>
+                        <label className="block text-xs font-semibold mb-1 text-slate-700">Follow-up Date</label>
                         <input
                           type="date"
                           name="reminder_date"
                           value={formData.reminder_date || ""}
                           onChange={handleInputChange}
-                          className="w-full px-3 py-2 text-sm border border-border rounded-md focus:outline-none focus:ring-1 focus:ring-primary bg-background text-foreground"
-                        />
-                      </div>
-                      <div>
-                        <label className="block text-xs font-semibold mb-1 text-slate-700">Vaccine Name (Optional)</label>
-                        <input
-                          type="text"
-                          name="reminder_vaccine_name"
-                          value={formData.reminder_vaccine_name || ""}
-                          onChange={handleInputChange}
-                          placeholder="e.g. Annual Booster, Rabies..."
                           className="w-full px-3 py-2 text-sm border border-border rounded-md focus:outline-none focus:ring-1 focus:ring-primary bg-background text-foreground"
                         />
                       </div>
