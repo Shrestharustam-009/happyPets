@@ -193,7 +193,7 @@ export default function AdminTabReminders() {
 
       <div className="bg-background rounded-lg border border-border shadow-sm overflow-hidden">
         <div className="overflow-x-auto">
-          <table className="w-full min-w-[1000px] text-sm">
+          <table className="w-full min-w-[1100px] text-sm">
             <thead className="bg-muted/50 border-b border-border">
               <tr>
                 <th className="px-6 py-4 text-left font-bold text-muted-foreground uppercase tracking-wider">Patient & Client</th>
@@ -207,7 +207,7 @@ export default function AdminTabReminders() {
             </thead>
             <tbody className="divide-y divide-border">
               {loading ? (
-                <tr><td colSpan="6" className="px-6 py-12 text-center text-muted-foreground">Loading reminders queue...</td></tr>
+                <tr><td colSpan="7" className="px-6 py-12 text-center text-muted-foreground">Loading reminders queue...</td></tr>
               ) : reminders.length === 0 ? (
                 <tr>
                   <td colSpan="7" className="px-6 py-12 text-center text-muted-foreground">
