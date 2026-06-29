@@ -385,6 +385,7 @@ export default function AdminTabMedicalRecords() {
       prescribed_medicines: record.prescribed_medicines || "",
       attachments_url: record.attachments_url || "",
       history: record.history || "",
+      advice: record.advice || "",
       reminder_date: "",
       reminder_vaccine_name: ""
     })
@@ -975,10 +976,11 @@ export default function AdminTabMedicalRecords() {
                                 </div>
                               ) : null)}
                               {r.clinical_findings && <div className="col-span-2 sm:col-span-4"><p className="text-[10px] text-slate-400 font-semibold uppercase">Clinical Findings</p><p className="text-sm text-slate-700 mt-0.5 whitespace-pre-wrap">{r.clinical_findings}</p></div>}
-                              {r.primary_diagnosis && <div className="col-span-2 sm:col-span-4"><p className="text-[10px] text-slate-400 font-semibold uppercase">Primary Diagnosis</p><p className="text-sm font-bold text-red-600 mt-0.5">{r.primary_diagnosis}</p></div>}
-                              {r.differential_diagnoses && <div className="col-span-2 sm:col-span-4"><p className="text-[10px] text-slate-400 font-semibold uppercase">Differential Diagnoses</p><p className="text-sm text-orange-600 mt-0.5">{r.differential_diagnoses}</p></div>}
+                              {r.primary_diagnosis && <div className="col-span-2 sm:col-span-4"><p className="text-[10px] text-slate-400 font-semibold uppercase">Tentative Diagnosis</p><p className="text-sm font-bold text-red-600 mt-0.5">{r.primary_diagnosis}</p></div>}
+                              {r.differential_diagnoses && <div className="col-span-2 sm:col-span-4"><p className="text-[10px] text-slate-400 font-semibold uppercase">Diagnosis</p><p className="text-sm text-orange-600 mt-0.5">{r.differential_diagnoses}</p></div>}
                               {r.treatment_interventions && <div className="col-span-2 sm:col-span-4"><p className="text-[10px] text-slate-400 font-semibold uppercase">Treatment / Procedures</p><p className="text-sm text-slate-700 mt-0.5 whitespace-pre-wrap">{r.treatment_interventions}</p></div>}
                               {r.prescribed_medicines && <div className="col-span-2 sm:col-span-4"><p className="text-[10px] text-slate-400 font-semibold uppercase">Prescribed Medicines</p><p className="text-sm text-slate-700 mt-0.5 whitespace-pre-wrap">{r.prescribed_medicines}</p></div>}
+                              {r.advice && <div className="col-span-2 sm:col-span-4"><p className="text-[10px] text-slate-400 font-semibold uppercase">Advice</p><p className="text-sm text-slate-700 mt-0.5 whitespace-pre-wrap">{r.advice}</p></div>}
                             </div>
                           </div>
                         ))}
@@ -1539,7 +1541,19 @@ export default function AdminTabMedicalRecords() {
                   </div>
 
                   <div className="md:col-span-2">
-                    <label className="block text-sm font-medium mb-1">Clinical Findings (Exam Notes)</label>
+                    <label className="block text-sm font-medium mb-1">Advice</label>
+                    <textarea
+                      name="advice"
+                      value={formData.advice || ""}
+                      onChange={handleInputChange}
+                      rows="2"
+                      placeholder="e.g. Home care instructions, dietary changes..."
+                      className="w-full px-3 py-2 border border-border rounded-md focus:outline-none focus:ring-1 focus:ring-primary bg-background text-foreground"
+                    ></textarea>
+                  </div>
+
+                  <div className="md:col-span-2">
+                    <label className="block text-sm font-medium mb-1">Clinical Findings</label>
                     <textarea
                       name="clinical_findings"
                       value={formData.clinical_findings}
@@ -1550,7 +1564,7 @@ export default function AdminTabMedicalRecords() {
                   </div>
 
                   <div className="md:col-span-1">
-                    <label className="block text-sm font-medium mb-1 text-red-500">Primary Diagnosis</label>
+                    <label className="block text-sm font-medium mb-1 text-red-500">Tentative Diagnosis</label>
                     <input
                       type="text"
                       name="primary_diagnosis"
@@ -1561,7 +1575,7 @@ export default function AdminTabMedicalRecords() {
                   </div>
 
                   <div className="md:col-span-1">
-                    <label className="block text-sm font-medium mb-1 text-orange-500">Differential Diagnoses</label>
+                    <label className="block text-sm font-medium mb-1 text-orange-500">Diagnosis</label>
                     <input
                       type="text"
                       name="differential_diagnoses"

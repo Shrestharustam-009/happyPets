@@ -132,12 +132,12 @@ export default function AdminTabReports() {
       pdf.text("Medical History", 14, startY - 5)
     }
 
-    const headers = [["Visit Date", "Attending Vet", "Chief Complaint", "Diagnosis", "Vitals (T/HR/P/R/BP/W)"]]
+    const headers = [["Visit Date", "Attending Vet", "Complaint & Advice", "Diagnosis", "Vitals (T/HR/P/R/BP/W)"]]
     const rows = reportData.medical.map(m => [
       formatDate(m.visit_date),
       `Dr. ${m.vet_name}`,
-      m.chief_complaint || 'N/A',
-      m.primary_diagnosis || 'N/A',
+      [m.chief_complaint ? `Complaint: ${m.chief_complaint}` : '', m.advice ? `Advice: ${m.advice}` : ''].filter(Boolean).join('\n') || 'N/A',
+      [m.primary_diagnosis ? `Tentative: ${m.primary_diagnosis}` : '', m.differential_diagnoses ? `Diagnosis: ${m.differential_diagnoses}` : ''].filter(Boolean).join('\n') || '-',
       `${m.temperature||'-'} / ${m.heart_rate||'-'} / ${m.pulse||'-'} / ${m.respiration||'-'} / ${m.blood_pressure||'-'} / ${m.weight||'-'}`
     ])
 
@@ -403,9 +403,11 @@ export default function AdminTabReports() {
                                 <span>{new Date(m.visit_date).toLocaleDateString()}</span>
                                 <span className="text-primary">Dr. {m.vet_name}</span>
                               </div>
-                              <div className="grid grid-cols-2 gap-4 mb-2">
-                                <div><span className="font-semibold text-muted-foreground text-xs uppercase">Complaint:</span> <br />{m.chief_complaint}</div>
-                                <div><span className="font-semibold text-muted-foreground text-xs uppercase">Diagnosis:</span> <br /><span className="text-red-600 font-medium">{m.primary_diagnosis || 'N/A'}</span></div>
+                              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-2">
+                                {m.chief_complaint && <div><span className="font-semibold text-muted-foreground text-xs uppercase">Complaint:</span> <br />{m.chief_complaint}</div>}
+                                {m.primary_diagnosis && <div><span className="font-semibold text-muted-foreground text-xs uppercase">Tentative Diagnosis:</span> <br /><span className="text-red-600 font-medium">{m.primary_diagnosis}</span></div>}
+                                {m.differential_diagnoses && <div><span className="font-semibold text-muted-foreground text-xs uppercase">Diagnosis:</span> <br /><span className="text-orange-600 font-medium">{m.differential_diagnoses}</span></div>}
+                                {m.advice && <div className="col-span-1 sm:col-span-2"><span className="font-semibold text-muted-foreground text-xs uppercase">Advice:</span> <br />{m.advice}</div>}
                               </div>
                               {m.attachments_url && (
                                 <div className="mt-3 pt-3 border-t border-border/50">
