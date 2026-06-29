@@ -176,6 +176,7 @@ export default function AdminTabBilling() {
     
     const payload = {
       client_id: selectedClient,
+      walk_in_name: !selectedClient ? clientSearch : undefined,
       phone_number: clientPhone,
       pet_id: selectedPet || null,
       total_amount: totalAmount,
@@ -419,7 +420,7 @@ export default function AdminTabBilling() {
                 
                 <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8 bg-muted/30 p-4 rounded-lg border border-border">
                   <div className="relative" ref={clientDropdownRef}>
-                    <label className="block text-sm font-bold mb-1 text-primary">Select Client *</label>
+                    <label className="block text-sm font-bold mb-1 text-primary">Client Name or Search *</label>
                     <div className="relative">
                       <input
                         type="text"
@@ -494,7 +495,6 @@ export default function AdminTabBilling() {
                       value={clientPhone}
                       onChange={(e) => setClientPhone(e.target.value)}
                       className="w-full px-3 py-2 text-sm border border-border rounded-md focus:ring-1 focus:ring-primary bg-background text-foreground"
-                      disabled={!selectedClient}
                     />
                   </div>
                   <div>
@@ -744,7 +744,7 @@ export default function AdminTabBilling() {
                 type="submit"
                 form="invoice-form"
                 className="px-6 py-2 bg-primary text-primary-foreground font-bold rounded-md hover:bg-primary/90 shadow-sm transition-colors"
-                disabled={!selectedClient || totalAmount === 0}
+                disabled={(!selectedClient && !clientSearch) || totalAmount === 0}
               >
                 Generate Invoice & Reduce Stock
               </button>

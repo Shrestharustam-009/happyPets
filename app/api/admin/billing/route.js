@@ -56,9 +56,9 @@ export async function POST(request) {
     } catch (err) {
       return (typeof NextResponse !== 'undefined' ? NextResponse : Response).json({ error: "Invalid JSON payload" }, { status: 400 });
     }
-    const { client_id, phone_number, pet_id, total_amount, status, due_date, notes, items } = body
+    const { client_id, walk_in_name, phone_number, pet_id, total_amount, status, due_date, notes, items } = body
 
-    if (!client_id || !items || !items.length) {
+    if ((!client_id && !walk_in_name) || !items || !items.length) {
       return NextResponse.json({ error: "Client and at least one item are required" }, { status: 400 })
     }
 
@@ -68,11 +68,20 @@ export async function POST(request) {
       await connection.beginTransaction()
       transactionStarted = true
 
-      // 0. Update client phone number if provided
-      if (phone_number !== undefined) {
+      let finalClientId = client_id;
+      
+      if (!finalClientId && walk_in_name) {
+        // Create walk-in user on the fly
+        const [userResult] = await connection.execute(
+          `INSERT INTO users (full_name, phone_number, role) VALUES (?, ?, 'walk_in')`,
+          [walk_in_name, phone_number || null]
+        );
+        finalClientId = userResult.insertId;
+      } else if (phone_number !== undefined) {
+        // Update client phone number if provided and client exists
         await connection.execute(
           `UPDATE users SET phone_number = ? WHERE id = ?`,
-          [phone_number || null, client_id]
+          [phone_number || null, finalClientId]
         )
       }
       
@@ -80,7 +89,7 @@ export async function POST(request) {
       const [invoiceResult] = await connection.execute(
         `INSERT INTO invoices (client_id, pet_id, total_amount, status, due_date, notes) VALUES (?, ?, ?, ?, ?, ?)`,
         [
-          client_id, 
+          finalClientId, 
           pet_id || null, 
           total_amount || 0, 
           status || 'Pending', 
