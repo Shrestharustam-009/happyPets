@@ -218,7 +218,9 @@ export default function AdminTabReminders() {
                       <div className="flex items-center gap-1 text-xs text-muted-foreground"><Phone className="w-3 h-3" /> {r.client_phone || 'N/A'}</div>
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap">
-                      <div className="font-medium text-foreground">{r.vaccine_name}</div>
+                      <div className="font-medium text-foreground">
+                        {r.vaccine_name} <span className="text-muted-foreground text-[10px] font-bold tracking-wider uppercase ml-1">({(r.vaccine_name === 'Medical Follow-up' || r.vaccine_name === 'Next Scheduled Vaccination') ? 'Follow-up' : 'Vaccination'})</span>
+                      </div>
                       <div className={`text-xs font-semibold ${new Date(r.next_due_date) < new Date() ? 'text-red-500' : 'text-orange-500'}`}>
                         Due: {new Date(r.next_due_date).toLocaleDateString()}
                       </div>

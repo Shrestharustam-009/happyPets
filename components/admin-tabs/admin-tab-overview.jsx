@@ -309,7 +309,6 @@ export default function AdminTabOverview() {
               <h2 className="text-base font-bold">Recent Patients</h2>
               <p className="text-[11px] text-muted-foreground">Newly registered</p>
             </div>
-            <Link href={`${prefix}/patients`} className="text-xs font-bold text-primary hover:underline">View All</Link>
           </div>
           <div className="divide-y divide-border max-h-[380px] overflow-y-auto">
             {(stats.recentPatients || []).length === 0 ? (
