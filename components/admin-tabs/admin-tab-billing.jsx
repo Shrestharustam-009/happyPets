@@ -25,8 +25,9 @@ export default function AdminTabBilling() {
   const [dueDate, setDueDate] = useState("")
   const [notes, setNotes] = useState("")
   const [items, setItems] = useState([
-    { item_type: "Service", product_id: "", description: "", quantity: 1, unit_price: 0, subtotal: 0 }
+    { item_type: "Service", product_id: "", description: "", quantity: 1, unit_price: 0, subtotal: 0, product_search: "" }
   ])
+  const [openProductDropdown, setOpenProductDropdown] = useState(null)
 
   useEffect(() => {
     fetchData()
@@ -46,6 +47,9 @@ export default function AdminTabBilling() {
           setClientSearch("")
           setClientPhone("")
         }
+      }
+      if (event.target && !event.target.closest?.('.product-dropdown-container')) {
+        setOpenProductDropdown(null)
       }
     }
     document.addEventListener("mousedown", handleClickOutside)
@@ -97,7 +101,7 @@ export default function AdminTabBilling() {
 
   // Handlers for Items
   const addItem = () => {
-    setItems([...items, { item_type: "Service", product_id: "", description: "", quantity: 1, unit_price: 0, subtotal: 0 }])
+    setItems([...items, { item_type: "Service", product_id: "", description: "", quantity: 1, unit_price: 0, subtotal: 0, product_search: "" }])
   }
 
   const removeItem = (index) => {
@@ -127,6 +131,8 @@ export default function AdminTabBilling() {
         item.description = ""
         item.unit_price = 0
       }
+    } else if (field === 'product_search') {
+      item.product_search = value
     } else if (field === 'service_select') {
       const selectedService = services.find(s => s.name === value)
       if (selectedService) {
@@ -156,7 +162,7 @@ export default function AdminTabBilling() {
     setSelectedPet("")
     setDueDate(new Date().toISOString().split('T')[0]) // Today
     setNotes("")
-    setItems([{ item_type: "Service", product_id: "", description: "", quantity: 1, unit_price: 0, subtotal: 0 }])
+    setItems([{ item_type: "Service", product_id: "", description: "", quantity: 1, unit_price: 0, subtotal: 0, product_search: "" }])
     setIsModalOpen(true)
   }
 
@@ -552,21 +558,84 @@ export default function AdminTabBilling() {
                       </div>
 
                       {item.item_type === 'Product' ? (
-                        <div className="w-full md:w-[35%]">
+                        <div className="w-full md:w-[35%] relative product-dropdown-container">
                           <label className="block text-xs font-bold mb-1 text-primary">Select Product (Will deduct stock)</label>
-                          <select
-                            value={item.product_id}
-                            onChange={(e) => handleItemChange(index, 'product_id', e.target.value)}
-                            className="w-full px-2 py-2 text-sm border border-border rounded font-medium bg-background text-foreground"
-                            required
-                          >
-                            <option value="">-- Select Inventory Item --</option>
-                            {products.map(p => (
-                              <option key={p.id} value={p.id} disabled={p.stock <= 0}>
-                                {p.name} (NPR {p.price}) - Stock: {p.stock}
-                              </option>
-                            ))}
-                          </select>
+                          <div className="relative">
+                            <input
+                              type="text"
+                              placeholder="-- Search Inventory Item --"
+                              value={item.product_search ?? ""}
+                              onChange={(e) => {
+                                handleItemChange(index, 'product_search', e.target.value)
+                                setOpenProductDropdown(index)
+                                if (item.product_id) {
+                                  handleItemChange(index, 'product_id', "")
+                                }
+                              }}
+                              onFocus={() => setOpenProductDropdown(index)}
+                              className="w-full px-2 py-2 text-sm border border-border rounded font-medium bg-background text-foreground"
+                              required={!item.product_id}
+                            />
+                            {item.product_id && (
+                              <button
+                                type="button"
+                                onClick={() => {
+                                  handleItemChange(index, 'product_id', "")
+                                  handleItemChange(index, 'product_search', "")
+                                  setOpenProductDropdown(null)
+                                }}
+                                className="absolute right-2 top-1 text-muted-foreground hover:text-foreground text-xs bg-muted hover:bg-muted/80 rounded px-1.5 py-1"
+                              >
+                                Clear
+                              </button>
+                            )}
+                          </div>
+                          
+                          {openProductDropdown === index && (
+                            <div className="absolute z-50 w-full mt-1 bg-background border border-border rounded-md shadow-lg max-h-60 overflow-y-auto">
+                              {(() => {
+                                const q = (item.product_search || "").toLowerCase()
+                                let displayProducts = []
+                                if (!q) {
+                                  displayProducts = products
+                                } else {
+                                  const matching = products.filter(p => p.name.toLowerCase().includes(q))
+                                  const nonMatching = products.filter(p => !p.name.toLowerCase().includes(q))
+                                  displayProducts = [...matching, ...nonMatching]
+                                }
+                                
+                                return displayProducts.length > 0 ? (
+                                  displayProducts.map((p) => (
+                                    <button
+                                      key={p.id}
+                                      type="button"
+                                      disabled={p.stock <= 0}
+                                      onClick={() => {
+                                        handleItemChange(index, 'product_id', String(p.id))
+                                        handleItemChange(index, 'product_search', `${p.name} (NPR ${p.price})`)
+                                        setOpenProductDropdown(null)
+                                      }}
+                                      className={`w-full text-left px-3 py-2 text-sm border-b border-border last:border-0 transition-colors flex flex-col ${
+                                        p.stock <= 0 ? 'opacity-50 cursor-not-allowed bg-muted/50' : 'hover:bg-muted/80'
+                                      } ${q && p.name.toLowerCase().includes(q) ? 'bg-primary/5 font-semibold' : ''}`}
+                                    >
+                                      <div className="flex justify-between items-center w-full">
+                                        <span className={p.stock <= 0 ? 'text-muted-foreground' : 'text-foreground'}>{p.name}</span>
+                                        <span className="text-xs font-bold whitespace-nowrap">NPR {p.price}</span>
+                                      </div>
+                                      <div className="text-xs text-muted-foreground mt-0.5">
+                                        Stock: {p.stock} {p.stock <= 0 && '(Out of stock)'}
+                                      </div>
+                                    </button>
+                                  ))
+                                ) : (
+                                  <div className="px-3 py-3 text-sm text-muted-foreground text-center">
+                                    No products found
+                                  </div>
+                                )
+                              })()}
+                            </div>
+                          )}
                         </div>
                       ) : (
                         <div className="w-full md:w-[35%] space-y-1">

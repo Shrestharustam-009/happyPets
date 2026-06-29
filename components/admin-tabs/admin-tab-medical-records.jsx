@@ -1549,18 +1549,6 @@ export default function AdminTabMedicalRecords() {
                   </div>
 
                   <div className="md:col-span-2">
-                    <label className="block text-sm font-medium mb-1">Advice</label>
-                    <textarea
-                      name="advice"
-                      value={formData.advice || ""}
-                      onChange={handleInputChange}
-                      rows="2"
-                      placeholder="e.g. Home care instructions, dietary changes..."
-                      className="w-full px-3 py-2 border border-border rounded-md focus:outline-none focus:ring-1 focus:ring-primary bg-background text-foreground"
-                    ></textarea>
-                  </div>
-
-                  <div className="md:col-span-2">
                     <label className="block text-sm font-medium mb-1">Clinical Findings</label>
                     <textarea
                       name="clinical_findings"
@@ -1613,6 +1601,18 @@ export default function AdminTabMedicalRecords() {
                       rows="2"
                       placeholder="e.g. Amoxicillin 250mg BID for 7 days"
                       className="w-full px-3 py-2 border border-border rounded-md focus:outline-none focus:ring-1 focus:ring-primary"
+                    ></textarea>
+                  </div>
+
+                  <div className="md:col-span-2">
+                    <label className="block text-sm font-medium mb-1">Advice</label>
+                    <textarea
+                      name="advice"
+                      value={formData.advice || ""}
+                      onChange={handleInputChange}
+                      rows="2"
+                      placeholder="e.g. Home care instructions, dietary changes..."
+                      className="w-full px-3 py-2 border border-border rounded-md focus:outline-none focus:ring-1 focus:ring-primary bg-background text-foreground"
                     ></textarea>
                   </div>
 
