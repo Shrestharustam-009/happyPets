@@ -97,6 +97,8 @@ export async function POST(request) {
       console.error("[v0] Error formatting Nepali date:", err)
     }
 
+    const isFollowUp = vaccinationInfo.vaccine_name === "Medical Follow-up"
+
     // Construct the email HTML content
     const htmlContent = `
       <div style="font-family: sans-serif; max-width: 600px; margin: auto; padding: 20px; border: 1px solid #e2e8f0; border-radius: 8px;">
@@ -105,18 +107,18 @@ export async function POST(request) {
           <h2 style="color: #2563eb; margin: 10px 0 0 0; font-size: 22px;">HappyPets Animal Clinic</h2>
         </div>
         <p>Dear ${vaccinationInfo.client_name},</p>
-        <p>This is a friendly reminder that your pet <strong>${vaccinationInfo.pet_name}</strong> is due for their <strong>${vaccinationInfo.vaccine_name}</strong> vaccination on <strong>${formattedDate}</strong>.</p>
-        <p>Vaccinations are essential to protect your beloved pet from preventable diseases. Please contact us or visit the clinic to schedule an appointment.</p>
+        <p>This is a friendly reminder that your pet <strong>${vaccinationInfo.pet_name}</strong> is scheduled for a <strong>${vaccinationInfo.vaccine_name}</strong> on <strong>${formattedDate}</strong>.</p>
+        <p>${isFollowUp ? "Follow-ups are essential to monitor your pet's health and recovery." : "Vaccinations are essential to protect your beloved pet from preventable diseases."} Please contact us or visit the clinic to schedule an appointment.</p>
         <div style="margin-top: 20px; padding: 15px; background-color: #f8fafc; border-left: 4px solid #2563eb; border-radius: 4px;">
           <h4 style="margin: 0 0 5px 0; color: #1e293b;">Appointment & Clinic Details</h4>
           <p style="margin: 0; font-size: 14px; color: #475569;">
             <strong>Clinic:</strong> HappyPets Animal Clinic<br/>
             <strong>Pet Name:</strong> ${vaccinationInfo.pet_name}<br/>
-            <strong>Vaccine:</strong> ${vaccinationInfo.vaccine_name}<br/>
+            <strong>Service:</strong> ${vaccinationInfo.vaccine_name}<br/>
             <strong>Due Date:</strong> ${formattedDate}
           </p>
         </div>
-        <p style="margin-top: 20px;">If you have already vaccinated your pet or scheduled an appointment, please disregard this email.</p>
+        <p style="margin-top: 20px;">If you have already visited the clinic or scheduled an appointment, please disregard this email.</p>
         <hr style="border: 0; border-top: 1px solid #e2e8f0; margin: 20px 0;" />
         <p style="font-size: 12px; color: #94a3b8; text-align: center;">
           This is an automated notification. Please do not reply directly to this email.<br/>
@@ -129,7 +131,7 @@ export async function POST(request) {
     await sendBrevoEmail({
       to: vaccinationInfo.client_email,
       name: vaccinationInfo.client_name,
-      subject: `Vaccination Reminder for ${vaccinationInfo.pet_name} - ${vaccinationInfo.vaccine_name}`,
+      subject: `Reminder for ${vaccinationInfo.pet_name} - ${vaccinationInfo.vaccine_name}`,
       htmlContent: htmlContent
     })
 
