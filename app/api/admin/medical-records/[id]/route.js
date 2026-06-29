@@ -21,6 +21,8 @@ export async function PUT(request, { params }) {
       visit_date, 
       chief_complaint, 
       temperature, 
+      heart_rate,
+      blood_pressure,
       pulse, 
       respiration, 
       weight, 
@@ -39,7 +41,7 @@ export async function PUT(request, { params }) {
 
     await query(
       `UPDATE medical_records 
-       SET pet_id = ?, vet_id = ?, visit_date = ?, chief_complaint = ?, temperature = ?, pulse = ?, respiration = ?, weight = ?, 
+       SET pet_id = ?, vet_id = ?, visit_date = ?, chief_complaint = ?, temperature = ?, heart_rate = ?, blood_pressure = ?, pulse = ?, respiration = ?, weight = ?, 
            clinical_findings = ?, primary_diagnosis = ?, differential_diagnoses = ?, treatment_interventions = ?, 
            prescribed_medicines = ?, attachments_url = ?, history = ?
        WHERE id = ?`,
@@ -49,6 +51,8 @@ export async function PUT(request, { params }) {
         visit_date || new Date().toISOString().slice(0, 19).replace('T', ' '),
         chief_complaint || null,
         temperature || null,
+        heart_rate || null,
+        blood_pressure || null,
         pulse || null,
         respiration || null,
         weight || null,

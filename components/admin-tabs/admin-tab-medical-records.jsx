@@ -49,7 +49,7 @@ export default function AdminTabMedicalRecords() {
   }
   
   const [formData, setFormData] = useState({
-    pet_id: "", vet_id: "", visit_date: "", chief_complaint: "", temperature: "", pulse: "", respiration: "", weight: "", clinical_findings: "", primary_diagnosis: "", differential_diagnoses: "", treatment_interventions: "", prescribed_medicines: "", attachments_url: "", history: "", reminder_date: "", reminder_vaccine_name: ""
+    pet_id: "", vet_id: "", visit_date: "", chief_complaint: "", temperature: "", heart_rate: "", blood_pressure: "", pulse: "", respiration: "", weight: "", clinical_findings: "", primary_diagnosis: "", differential_diagnoses: "", treatment_interventions: "", prescribed_medicines: "", attachments_url: "", history: "", reminder_date: "", reminder_vaccine_name: ""
   })
 
   const [weightUnitMR, setWeightUnitMR] = useState("kg")
@@ -338,6 +338,8 @@ export default function AdminTabMedicalRecords() {
       visit_date: new Date().toISOString().slice(0, 16),
       chief_complaint: "",
       temperature: "",
+      heart_rate: "",
+      blood_pressure: "",
       pulse: "",
       respiration: "",
       weight: "",
@@ -370,6 +372,8 @@ export default function AdminTabMedicalRecords() {
       visit_date: record.visit_date ? new Date(record.visit_date).toISOString().slice(0, 16) : "",
       chief_complaint: record.chief_complaint || "",
       temperature: record.temperature || "",
+      heart_rate: record.heart_rate || "",
+      blood_pressure: record.blood_pressure || "",
       pulse: record.pulse || "",
       respiration: record.respiration || "",
       weight: record.weight || "",
@@ -963,7 +967,7 @@ export default function AdminTabMedicalRecords() {
                               <span className="text-xs text-slate-500">Dr. {r.vet_name || '—'}</span>
                             </div>
                             <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 p-4">
-                              {[['Chief Complaint', r.chief_complaint, 'col-span-2 sm:col-span-4'], ['Temp (°C)', r.temperature], ['Pulse (bpm)', r.pulse], ['Resp (br/m)', r.respiration], ['Weight', r.weight ? `${r.weight} kg` : null]].map(([label, val, span]) => val ? (
+                              {[['Chief Complaint', r.chief_complaint, 'col-span-2 sm:col-span-4'], ['Temp (°C)', r.temperature], ['Heart Rate', r.heart_rate], ['Pulse', r.pulse], ['Resp', r.respiration], ['BP', r.blood_pressure], ['Weight', r.weight ? `${r.weight} kg` : null]].map(([label, val, span]) => val ? (
                                 <div key={label} className={span || ''}>
                                   <p className="text-[10px] text-slate-400 font-semibold uppercase">{label}</p>
                                   <p className="text-sm font-semibold text-slate-700 mt-0.5">{val}</p>
@@ -1449,11 +1453,15 @@ export default function AdminTabMedicalRecords() {
 
                   {/* Vitals Section */}
                   <div className="md:col-span-2 border border-border rounded-lg p-4">
-                    <h4 className="font-semibold mb-3 text-sm">Vitals (TPR & Weight)</h4>
-                    <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+                    <h4 className="font-semibold mb-3 text-sm">Vitals (TPR, BP & Weight)</h4>
+                    <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
                       <div>
                         <label className="block text-xs font-medium mb-1">Temp (°C)</label>
                         <input type="number" step="0.1" name="temperature" value={formData.temperature} onChange={handleInputChange} className="w-full px-3 py-2 text-sm border border-border rounded-md" />
+                      </div>
+                      <div>
+                        <label className="block text-xs font-medium mb-1">Heart Rate (bpm)</label>
+                        <input type="number" name="heart_rate" value={formData.heart_rate} onChange={handleInputChange} className="w-full px-3 py-2 text-sm border border-border rounded-md" />
                       </div>
                       <div>
                         <label className="block text-xs font-medium mb-1">Pulse (bpm)</label>
@@ -1462,6 +1470,10 @@ export default function AdminTabMedicalRecords() {
                       <div>
                         <label className="block text-xs font-medium mb-1">Resp (br/m)</label>
                         <input type="number" name="respiration" value={formData.respiration} onChange={handleInputChange} className="w-full px-3 py-2 text-sm border border-border rounded-md" />
+                      </div>
+                      <div>
+                        <label className="block text-xs font-medium mb-1">BP (mmHg)</label>
+                        <input type="text" name="blood_pressure" value={formData.blood_pressure} placeholder="120/80" onChange={handleInputChange} className="w-full px-3 py-2 text-sm border border-border rounded-md" />
                       </div>
                       <div>
                         <label className="block text-xs font-medium mb-1">Weight</label>

@@ -132,13 +132,13 @@ export default function AdminTabReports() {
       pdf.text("Medical History", 14, startY - 5)
     }
 
-    const headers = [["Visit Date", "Attending Vet", "Chief Complaint", "Diagnosis", "Vitals (T/P/R/W)"]]
+    const headers = [["Visit Date", "Attending Vet", "Chief Complaint", "Diagnosis", "Vitals (T/HR/P/R/BP/W)"]]
     const rows = reportData.medical.map(m => [
       formatDate(m.visit_date),
       `Dr. ${m.vet_name}`,
       m.chief_complaint || 'N/A',
       m.primary_diagnosis || 'N/A',
-      `${m.temperature||'-'} / ${m.pulse||'-'} / ${m.respiration||'-'} / ${m.weight||'-'}`
+      `${m.temperature||'-'} / ${m.heart_rate||'-'} / ${m.pulse||'-'} / ${m.respiration||'-'} / ${m.blood_pressure||'-'} / ${m.weight||'-'}`
     ])
 
     autoTable(pdf, {

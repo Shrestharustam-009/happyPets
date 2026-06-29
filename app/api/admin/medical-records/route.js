@@ -57,6 +57,8 @@ export async function POST(request) {
       visit_date, 
       chief_complaint, 
       temperature, 
+      heart_rate,
+      blood_pressure,
       pulse, 
       respiration, 
       weight, 
@@ -75,16 +77,18 @@ export async function POST(request) {
     
     const result = await query(
       `INSERT INTO medical_records (
-        pet_id, vet_id, visit_date, chief_complaint, temperature, pulse, respiration, weight, 
+        pet_id, vet_id, visit_date, chief_complaint, temperature, heart_rate, blood_pressure, pulse, respiration, weight, 
         clinical_findings, primary_diagnosis, differential_diagnoses, treatment_interventions, 
         prescribed_medicines, attachments_url, history
-       ) VALUES (?, ?, COALESCE(?, CURRENT_TIMESTAMP), ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+       ) VALUES (?, ?, COALESCE(?, CURRENT_TIMESTAMP), ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
       [
         pet_id,
         vet_id,
         visit_date || null,
         chief_complaint || null,
         temperature || null,
+        heart_rate || null,
+        blood_pressure || null,
         pulse || null,
         respiration || null,
         weight || null,
