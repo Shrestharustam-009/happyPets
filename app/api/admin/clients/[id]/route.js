@@ -15,7 +15,7 @@ export async function PUT(request, { params }) {
     } catch (err) {
       return (typeof NextResponse !== 'undefined' ? NextResponse : Response).json({ error: "Invalid JSON payload" }, { status: 400 });
     }
-    const { full_name, email, phone_number, address, is_active } = body
+    const { full_name, email, phone_number, alt_phone_number, address, is_active } = body
 
     if (!full_name) {
       return NextResponse.json({ error: "Name is required" }, { status: 400 })
@@ -32,8 +32,8 @@ export async function PUT(request, { params }) {
     }
 
     await query(
-      "UPDATE users SET full_name = ?, email = ?, phone_number = ?, address = ?, is_active = ? WHERE id = ?",
-      [full_name, trimmedEmail, phone_number || null, address || null, is_active !== undefined ? is_active : true, id]
+      "UPDATE users SET full_name = ?, email = ?, phone_number = ?, alt_phone_number = ?, address = ?, is_active = ? WHERE id = ?",
+      [full_name, trimmedEmail, phone_number || null, alt_phone_number || null, address || null, is_active !== undefined ? is_active : true, id]
     )
 
     return NextResponse.json({ message: "Client updated successfully" })

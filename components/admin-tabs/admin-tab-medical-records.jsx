@@ -67,7 +67,7 @@ export default function AdminTabMedicalRecords() {
   const [petAgeYears, setPetAgeYears] = useState("")
   const [petAgeMonths, setPetAgeMonths] = useState("")
   const [newClientData, setNewClientData] = useState({
-    full_name: "", email: "", phone_number: "", address: ""
+    full_name: "", email: "", phone_number: "", alt_phone_number: "", address: ""
   })
   const [newPetData, setNewPetData] = useState({
     name: "", species: "", breed: "", dob: "", sex: "", color: "", weight: "", identifying_marks: "", medical_history: "", photo_url: ""
@@ -204,7 +204,7 @@ export default function AdminTabMedicalRecords() {
     setPetAgeType("dob")
     setPetAgeYears("")
     setPetAgeMonths("")
-    setNewClientData({ full_name: "", email: "", phone_number: "", address: "" })
+    setNewClientData({ full_name: "", email: "", phone_number: "", alt_phone_number: "", address: "" })
     setNewPetData({ name: "", species: "", breed: "", dob: "", sex: "", color: "", weight: "", identifying_marks: "", medical_history: "", photo_url: "" })
     setRegWeightUnit("kg")
   }
@@ -618,7 +618,7 @@ export default function AdminTabMedicalRecords() {
                       <div className="flex flex-col">
                         <span className="font-bold text-base text-slate-800">{client.full_name}</span>
                         <span className="text-xs text-slate-500">
-                          {client.email || 'No email'} | {client.phone_number || 'No phone'}
+                          {client.email || 'No email'} | {client.phone_number || 'No phone'} {client.alt_phone_number ? `/ ${client.alt_phone_number}` : ''}
                         </span>
                       </div>
                       <span className="text-xs font-semibold text-slate-600 bg-slate-100 px-3 py-1 rounded-full">
@@ -667,7 +667,7 @@ export default function AdminTabMedicalRecords() {
                   <h3 className="text-xl font-bold text-slate-800">{client.full_name}</h3>
                   <div className="text-sm text-slate-500 mt-1 flex flex-wrap gap-x-4 gap-y-1">
                     <span><strong>Email:</strong> {client.email || 'No email'}</span>
-                    <span><strong>Phone:</strong> {client.phone_number || 'No phone'}</span>
+                    <span><strong>Phone:</strong> {client.phone_number || 'No phone'} {client.alt_phone_number ? `/ ${client.alt_phone_number}` : ''}</span>
                     {client.address && <span><strong>Address:</strong> {client.address}</span>}
                   </div>
                 </div>
@@ -870,7 +870,7 @@ export default function AdminTabMedicalRecords() {
                     </div>
                     <div>
                       <p className="text-[10px] text-slate-400 font-semibold uppercase">Phone</p>
-                      <p className="text-sm font-semibold text-slate-700 mt-0.5">{pc?.phone_number || '—'}</p>
+                      <p className="text-sm font-semibold text-slate-700 mt-0.5">{pc?.phone_number || '—'} {pc?.alt_phone_number ? `/ ${pc?.alt_phone_number}` : ''}</p>
                     </div>
                     <div>
                       <p className="text-[10px] text-slate-400 font-semibold uppercase">Email</p>
@@ -1055,6 +1055,10 @@ export default function AdminTabMedicalRecords() {
                       <div>
                         <label className="block text-xs font-semibold mb-1 text-slate-600">Phone Number</label>
                         <input type="tel" value={newClientData.phone_number} onChange={e => setNewClientData(prev => ({...prev, phone_number: e.target.value}))} className="w-full px-3 py-2 border border-slate-300 rounded focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none bg-background" />
+                      </div>
+                      <div>
+                        <label className="block text-xs font-semibold mb-1 text-slate-600">Alternate Phone (Optional)</label>
+                        <input type="tel" value={newClientData.alt_phone_number} onChange={e => setNewClientData(prev => ({...prev, alt_phone_number: e.target.value}))} className="w-full px-3 py-2 border border-slate-300 rounded focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none bg-background" />
                       </div>
                       <div>
                         <label className="block text-xs font-semibold mb-1 text-slate-600">Physical Address</label>
@@ -1318,6 +1322,10 @@ export default function AdminTabMedicalRecords() {
                               <div>
                                 <label className="block text-xs font-medium mb-1">Phone Number</label>
                                 <input type="text" name="phone_number" value={editClientData.phone_number || ""} onChange={handleEditClientChange} className="w-full px-3 py-2 text-sm border border-border rounded-md bg-white focus:ring-1 focus:ring-primary outline-none" />
+                              </div>
+                              <div>
+                                <label className="block text-xs font-medium mb-1">Alternate Phone (Optional)</label>
+                                <input type="text" name="alt_phone_number" value={editClientData.alt_phone_number || ""} onChange={handleEditClientChange} className="w-full px-3 py-2 text-sm border border-border rounded-md bg-white focus:ring-1 focus:ring-primary outline-none" />
                               </div>
                               <div>
                                 <label className="block text-xs font-medium mb-1">Address</label>
