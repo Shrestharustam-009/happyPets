@@ -125,9 +125,11 @@ export default function AdminTabBilling() {
       if (product) {
         item.description = product.name
         item.unit_price = parseFloat(product.price) || 0
+        item.product_search = `${product.name} (NPR ${product.price})`
       } else {
         item.description = ""
         item.unit_price = 0
+        item.product_search = ""
       }
     } else if (field === 'product_search') {
       item.product_search = value
@@ -610,7 +612,6 @@ export default function AdminTabBilling() {
                                       disabled={p.stock <= 0}
                                       onClick={() => {
                                         handleItemChange(index, 'product_id', String(p.id))
-                                        handleItemChange(index, 'product_search', `${p.name} (NPR ${p.price})`)
                                         setOpenProductDropdown(null)
                                       }}
                                       className={`w-full text-left px-3 py-2 text-sm border-b border-border last:border-0 transition-colors flex flex-col ${
