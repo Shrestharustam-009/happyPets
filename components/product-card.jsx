@@ -25,13 +25,20 @@ export default function ProductCard({ product }) {
   const discount = product.discount_price ? Math.round(((product.price - product.discount_price) / product.price) * 100) : 0
   const hasDiscount = discount > 0
 
+  const getImageUrl = (url) => {
+    if (!url) return "/placeholder.svg?key=product";
+    if (url.startsWith("http") || url.startsWith("/")) return url;
+    if (url.startsWith("uploads/")) return "/" + url;
+    return "/uploads/products/" + url;
+  };
+
   return (
     <Link href={`/shop/${product.id}`} className="group block">
       <div className="bg-zinc-900 rounded-xl border border-zinc-800 overflow-hidden hover:border-blue-500/50 hover:shadow-2xl hover:shadow-blue-500/10 transition-all duration-300">
         {/* Image */}
         <div className="relative h-64 bg-zinc-950 overflow-hidden">
           <Image
-            src={product.image_url || "/placeholder.svg?key=product"}
+            src={getImageUrl(product.image_url)}
             alt={product.name}
             fill
             className="object-contain group-hover:scale-110 transition-transform duration-500"

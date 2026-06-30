@@ -70,6 +70,13 @@ export default function ProductDetailPage() {
     alert(`Added ${quantity} item(s) to cart`)
   }
 
+  const getImageUrl = (url) => {
+    if (!url) return "/placeholder.svg?height=400&width=400&query=product";
+    if (url.startsWith("http") || url.startsWith("/")) return url;
+    if (url.startsWith("uploads/")) return "/" + url;
+    return "/uploads/products/" + url;
+  };
+
   return (
     <>
       <Header />
@@ -80,7 +87,7 @@ export default function ProductDetailPage() {
             <div className="space-y-4">
               <div className="relative h-96 bg-white rounded-lg overflow-hidden border border-border">
                 <Image
-                  src={product.image_url || "/placeholder.svg?height=400&width=400&query=product"}
+                  src={getImageUrl(product.image_url)}
                   alt={product.name || "Product image"}
                   fill
                   className="object-contain"
@@ -100,7 +107,7 @@ export default function ProductDetailPage() {
                       selectedImage === idx ? "border-accent" : "border-border"
                     }`}
                   >
-                    <Image src={img || "/placeholder.svg"} alt={product.name || `Thumbnail`} fill className="object-contain" />
+                    <Image src={getImageUrl(img)} alt={product.name || `Thumbnail`} fill className="object-contain" />
                   </button>
                 ))}
               </div>
@@ -216,7 +223,7 @@ export default function ProductDetailPage() {
                 >
                   <div className="relative h-48 bg-muted">
                     <Image
-                      src={product.image_url || "/placeholder.svg?height=400&width=400&query=product"}
+                      src={getImageUrl(product.image_url)}
                       alt={product.name || 'Related product image'}
                       fill
                       className="object-contain"

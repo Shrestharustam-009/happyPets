@@ -237,7 +237,7 @@ export default function AdminTabInventory() {
                     <div className="flex items-center gap-3">
                       {product.image_url ? (
                         <div className="w-10 h-10 rounded overflow-hidden border border-border bg-muted flex-shrink-0 relative">
-                          <Image src={product.image_url} alt={product.name} fill className="object-cover" />
+                          <Image src={getImageUrl(product.image_url)} alt={product.name} fill className="object-cover" />
                         </div>
                       ) : (
                         <div className="w-10 h-10 rounded border border-border bg-muted flex items-center justify-center text-xs text-muted-foreground flex-shrink-0">
@@ -418,7 +418,7 @@ export default function AdminTabInventory() {
                       <div className="mt-3">
                         <p className="text-xs text-muted-foreground mb-1">Preview:</p>
                         <div className="w-20 h-20 rounded border border-border overflow-hidden relative bg-muted">
-                          <Image src={formData.image_url} alt="Preview" fill className="object-cover" />
+                          <Image src={getImageUrl(formData.image_url)} alt="Preview" fill className="object-cover" />
                         </div>
                       </div>
                     )}

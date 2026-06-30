@@ -8,6 +8,13 @@ export default function AdminTabProducts() {
   const [products, setProducts] = useState([])
   const [loading, setLoading] = useState(true)
   const [showForm, setShowForm] = useState(false)
+
+  const getImageUrl = (url) => {
+    if (!url) return "/placeholder.svg";
+    if (url.startsWith("http") || url.startsWith("/") || url.startsWith("blob:")) return url;
+    if (url.startsWith("uploads/")) return "/" + url;
+    return "/uploads/products/" + url;
+  };
   const [editingId, setEditingId] = useState(null)
   const [uploading, setUploading] = useState(false)
   const [imagePreview, setImagePreview] = useState(null)
@@ -235,7 +242,7 @@ export default function AdminTabProducts() {
               {imagePreview && (
                 <div className="mt-3 flex items-center gap-4">
                   <img
-                    src={imagePreview || "/placeholder.svg"}
+                    src={getImageUrl(imagePreview)}
                     alt="Preview"
                     className="h-20 w-20 object-contain rounded"
                   />
@@ -329,7 +336,7 @@ export default function AdminTabProducts() {
               <div key={product.id} className="bg-card border border-border rounded-lg p-4 overflow-hidden">
                 {product.image_url && (
                   <img
-                    src={product.image_url || "/placeholder.svg"}
+                    src={getImageUrl(product.image_url)}
                     alt={product.name}
                     className="w-full h-40 object-contain rounded-lg mb-3"
                   />

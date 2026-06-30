@@ -17,6 +17,13 @@ export default function CartPage() {
 
 
 
+  const getImageUrl = (url) => {
+    if (!url) return "/placeholder.svg";
+    if (url.startsWith("http") || url.startsWith("/")) return url;
+    if (url.startsWith("uploads/")) return "/" + url;
+    return "/uploads/products/" + url;
+  };
+
   return (
     <>
       <Header />
@@ -45,7 +52,7 @@ export default function CartPage() {
                     <div key={item.id} className="p-6 border-b border-border last:border-b-0 flex gap-4">
                       {/* Product Image */}
                       <div className="relative w-24 h-24 bg-muted rounded-lg overflow-hidden shrink-0">
-                        <Image src={item.image_url || "/placeholder.svg"} alt={item.name || "Product image"} fill className="object-contain" />
+                        <Image src={getImageUrl(item.image_url)} alt={item.name || "Product image"} fill className="object-contain" />
                       </div>
 
                       {/* Product Details */}
