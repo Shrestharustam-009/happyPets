@@ -12,10 +12,10 @@ export async function GET(request, { params }) {
     
     const invoices = await query(`
       SELECT i.*, 
-             u.full_name as client_name, u.email as client_email, u.phone_number, u.address,
+             COALESCE(u.full_name, i.walk_in_name) as client_name, u.email as client_email, COALESCE(u.phone_number, i.walk_in_phone) as phone_number, u.address,
              p.name as pet_name
       FROM invoices i
-      JOIN users u ON i.client_id = u.id
+      LEFT JOIN users u ON i.client_id = u.id
       LEFT JOIN pets p ON i.pet_id = p.id
       WHERE i.id = ?
     `, [id])

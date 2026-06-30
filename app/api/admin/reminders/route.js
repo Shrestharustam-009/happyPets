@@ -27,8 +27,8 @@ export async function GET(request) {
         v.reminder_remarks,
         (SELECT MAX(sent_date) FROM reminders_log WHERE vaccination_id = v.id AND status = 'Sent') as last_sent_date
       FROM vaccinations v
-      JOIN pets p ON v.pet_id = p.id
-      JOIN users u ON p.user_id = u.id
+      LEFT JOIN pets p ON v.pet_id = p.id
+      LEFT JOIN users u ON p.user_id = u.id
       WHERE v.next_due_date IS NOT NULL 
       AND v.next_due_date <= CURRENT_DATE + INTERVAL 30 DAY
       AND (v.reminder_status != 'Complete' OR v.reminder_status IS NULL)
@@ -63,8 +63,8 @@ export async function POST(request) {
         u.full_name as client_name,
         u.email as client_email
       FROM vaccinations v
-      JOIN pets p ON v.pet_id = p.id
-      JOIN users u ON p.user_id = u.id
+      LEFT JOIN pets p ON v.pet_id = p.id
+      LEFT JOIN users u ON p.user_id = u.id
       WHERE v.id = ?
     `, [vaccination_id])
 
@@ -72,6 +72,10 @@ export async function POST(request) {
 
     if (!vaccinationInfo) {
       return NextResponse.json({ error: "Vaccination record not found" }, { status: 404 })
+    }
+
+    if (!vaccinationInfo.client_email) {
+      return NextResponse.json({ error: "No email address found for this client" }, { status: 400 })
     }
 
     // Build standard date formats
@@ -98,6 +102,9 @@ export async function POST(request) {
     }
 
     const isFollowUp = vaccinationInfo.vaccine_name === "Medical Follow-up"
+    
+    const safeClientName = vaccinationInfo.client_name || "Client"
+    const safePetName = vaccinationInfo.pet_name || "your pet"
 
     // Construct the email HTML content
     const htmlContent = `
@@ -106,14 +113,14 @@ export async function POST(request) {
           <img src="https://happypets.com.np/logo.png" alt="HappyPets Logo" style="width: 70px; height: 70px; object-fit: contain;" />
           <h2 style="color: #2563eb; margin: 10px 0 0 0; font-size: 22px;">HappyPets Animal Clinic</h2>
         </div>
-        <p>Dear ${vaccinationInfo.client_name},</p>
-        <p>This is a friendly reminder that your pet <strong>${vaccinationInfo.pet_name}</strong> is scheduled for a <strong>${vaccinationInfo.vaccine_name}</strong> on <strong>${formattedDate}</strong>.</p>
+        <p>Dear ${safeClientName},</p>
+        <p>This is a friendly reminder that your pet <strong>${safePetName}</strong> is scheduled for a <strong>${vaccinationInfo.vaccine_name}</strong> on <strong>${formattedDate}</strong>.</p>
         <p>${isFollowUp ? "Follow-ups are essential to monitor your pet's health and recovery." : "Vaccinations are essential to protect your beloved pet from preventable diseases."} Please contact us or visit the clinic to schedule an appointment.</p>
         <div style="margin-top: 20px; padding: 15px; background-color: #f8fafc; border-left: 4px solid #2563eb; border-radius: 4px;">
           <h4 style="margin: 0 0 5px 0; color: #1e293b;">Appointment & Clinic Details</h4>
           <p style="margin: 0; font-size: 14px; color: #475569;">
             <strong>Clinic:</strong> HappyPets Animal Clinic<br/>
-            <strong>Pet Name:</strong> ${vaccinationInfo.pet_name}<br/>
+            <strong>Pet Name:</strong> ${safePetName}<br/>
             <strong>Service:</strong> ${vaccinationInfo.vaccine_name}<br/>
             <strong>Due Date:</strong> ${formattedDate}
           </p>
@@ -130,8 +137,8 @@ export async function POST(request) {
     // Send the email via Brevo
     await sendBrevoEmail({
       to: vaccinationInfo.client_email,
-      name: vaccinationInfo.client_name,
-      subject: `Reminder for ${vaccinationInfo.pet_name} - ${vaccinationInfo.vaccine_name}`,
+      name: safeClientName,
+      subject: `Reminder for ${safePetName} - ${vaccinationInfo.vaccine_name}`,
       htmlContent: htmlContent
     })
 
