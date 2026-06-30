@@ -480,9 +480,17 @@ export default function AdminTabBilling() {
                             </button>
                           ))
                         ) : (
-                          <div className="px-3 py-3 text-sm text-muted-foreground text-center">
-                            No clients found
-                          </div>
+                          <button
+                            type="button"
+                            onClick={() => {
+                              setSelectedClient("")
+                              setIsClientDropdownOpen(false)
+                            }}
+                            className="w-full text-left px-3 py-3 text-sm text-primary font-medium hover:bg-muted/80 transition-colors flex items-center justify-between"
+                          >
+                            <span>Use "{clientSearch}" as Walk-in</span>
+                            <span className="text-xs bg-primary/10 px-2 py-0.5 rounded">Walk-in</span>
+                          </button>
                         )}
                       </div>
                     )}

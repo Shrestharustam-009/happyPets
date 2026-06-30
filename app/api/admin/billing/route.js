@@ -1,7 +1,6 @@
 import { NextResponse } from "next/server"
 import { query, getConnection } from "@/lib/db"
 import { validateAdminRequest } from "@/lib/auth-middleware"
-import bcrypt from "bcryptjs"
 
 export async function GET(request) {
   try {
@@ -15,10 +14,10 @@ export async function GET(request) {
 
     let sql = `
       SELECT i.*, 
-             u.full_name as client_name, u.email as client_email,
+             COALESCE(u.full_name, i.walk_in_name) as client_name, u.email as client_email,
              p.name as pet_name
       FROM invoices i
-      JOIN users u ON i.client_id = u.id
+      LEFT JOIN users u ON i.client_id = u.id
       LEFT JOIN pets p ON i.pet_id = p.id
       WHERE 1=1
     `
@@ -69,34 +68,26 @@ export async function POST(request) {
       await connection.beginTransaction()
       transactionStarted = true
 
-      let finalClientId = client_id;
-      
-      if (!finalClientId && walk_in_name) {
-        // Create walk-in user on the fly
-        const dummyPassword = await bcrypt.hash(Math.random().toString(36).slice(-8), 10);
-        const [userResult] = await connection.execute(
-          `INSERT INTO users (full_name, phone_number, role, password) VALUES (?, ?, 'walk_in', ?)`,
-          [walk_in_name, phone_number || null, dummyPassword]
-        );
-        finalClientId = userResult.insertId;
-      } else if (phone_number !== undefined) {
+      if (client_id && phone_number !== undefined) {
         // Update client phone number if provided and client exists
         await connection.execute(
           `UPDATE users SET phone_number = ? WHERE id = ?`,
-          [phone_number || null, finalClientId]
+          [phone_number || null, client_id]
         )
       }
       
       // 1. Insert Invoice
       const [invoiceResult] = await connection.execute(
-        `INSERT INTO invoices (client_id, pet_id, total_amount, status, due_date, notes) VALUES (?, ?, ?, ?, ?, ?)`,
+        `INSERT INTO invoices (client_id, pet_id, total_amount, status, due_date, notes, walk_in_name, walk_in_phone) VALUES (?, ?, ?, ?, ?, ?, ?, ?)`,
         [
-          finalClientId, 
+          client_id || null, 
           pet_id || null, 
           total_amount || 0, 
           status || 'Pending', 
           due_date || null, 
-          notes || null
+          notes || null,
+          !client_id ? walk_in_name : null,
+          !client_id ? (phone_number || null) : null
         ]
       )
       const invoiceId = invoiceResult.insertId
