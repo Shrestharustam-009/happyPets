@@ -1,7 +1,7 @@
 "use client"
 import { fetchWithAuth } from "@/lib/api"
 
-import { useState, useEffect } from "react"
+import { useState, useEffect, useRef } from "react"
 
 
 export default function AdminTabVaccinations() {
@@ -22,6 +22,26 @@ export default function AdminTabVaccinations() {
     administered_by: "",
     notes: ""
   })
+
+  const [patientSearch, setPatientSearch] = useState("")
+  const [isPatientDropdownOpen, setIsPatientDropdownOpen] = useState(false)
+  const patientDropdownRef = useRef(null)
+
+  useEffect(() => {
+    function handleClickOutside(event) {
+      if (patientDropdownRef.current && !patientDropdownRef.current.contains(event.target)) {
+        setIsPatientDropdownOpen(false)
+        if (formData.pet_id) {
+          const selected = patients.find(p => String(p.id) === String(formData.pet_id))
+          if (selected) setPatientSearch(`${selected.name} (${selected.owner_name})`)
+        } else {
+          setPatientSearch("")
+        }
+      }
+    }
+    document.addEventListener("mousedown", handleClickOutside)
+    return () => document.removeEventListener("mousedown", handleClickOutside)
+  }, [formData.pet_id, patients])
 
   const [isAdmin, setIsAdmin] = useState(false)
 
@@ -84,6 +104,7 @@ export default function AdminTabVaccinations() {
       administered_by: "",
       notes: ""
     })
+    setPatientSearch("")
     setCurrentRecord(null)
     setIsModalOpen(true)
   }
@@ -99,6 +120,8 @@ export default function AdminTabVaccinations() {
       administered_by: record.administered_by || "",
       notes: record.notes || ""
     })
+    const p = patients.find(p => String(p.id) === String(record.pet_id))
+    setPatientSearch(p ? `${p.name} (${p.owner_name})` : "")
     setCurrentRecord(record)
     setIsModalOpen(true)
   }
@@ -288,22 +311,69 @@ export default function AdminTabVaccinations() {
               <form id="vaccine-form" onSubmit={handleSubmit}>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   
-                  <div className="md:col-span-2">
+                  <div className="md:col-span-2 relative" ref={patientDropdownRef}>
                     <label className="block text-sm font-medium mb-1">Patient (Pet) *</label>
-                    <select
-                      name="pet_id"
-                      value={formData.pet_id}
-                      onChange={handleInputChange}
-                      className="w-full px-3 py-2 text-sm border border-border rounded-md focus:outline-none focus:ring-1 focus:ring-primary"
-                      required
-                    >
-                      <option value="">Select Patient...</option>
-                      {patients.map(p => (
-                        <option key={p.id} value={p.id}>
-                          {p.name} ({p.owner_name})
-                        </option>
-                      ))}
-                    </select>
+                    <div className="relative">
+                      <input
+                        type="text"
+                        placeholder="Search patient by name or owner..."
+                        value={patientSearch}
+                        onChange={(e) => {
+                          setPatientSearch(e.target.value)
+                          setIsPatientDropdownOpen(true)
+                          if (formData.pet_id) {
+                            setFormData(prev => ({ ...prev, pet_id: "" }))
+                          }
+                        }}
+                        onFocus={() => setIsPatientDropdownOpen(true)}
+                        className="w-full px-3 py-2 text-sm border border-border rounded-md focus:outline-none focus:ring-1 focus:ring-primary bg-background text-foreground"
+                        required={!formData.pet_id}
+                      />
+                      {formData.pet_id && (
+                        <button
+                          type="button"
+                          onClick={() => {
+                            setFormData(prev => ({ ...prev, pet_id: "" }))
+                            setPatientSearch("")
+                            setIsPatientDropdownOpen(false)
+                          }}
+                          className="absolute right-2.5 top-2 text-muted-foreground hover:text-foreground text-xs bg-muted hover:bg-muted/80 rounded px-1.5 py-0.5"
+                        >
+                          Clear
+                        </button>
+                      )}
+                    </div>
+                    {isPatientDropdownOpen && (
+                      <div className="absolute z-50 w-full mt-1 bg-background border border-border rounded-md shadow-lg max-h-60 overflow-y-auto">
+                        {patients.filter(p => 
+                          p.name.toLowerCase().includes(patientSearch.toLowerCase()) || 
+                          (p.owner_name && p.owner_name.toLowerCase().includes(patientSearch.toLowerCase()))
+                        ).length > 0 ? (
+                          patients.filter(p => 
+                            p.name.toLowerCase().includes(patientSearch.toLowerCase()) || 
+                            (p.owner_name && p.owner_name.toLowerCase().includes(patientSearch.toLowerCase()))
+                          ).map((p) => (
+                            <button
+                              key={p.id}
+                              type="button"
+                              onClick={() => {
+                                setFormData(prev => ({ ...prev, pet_id: String(p.id) }))
+                                setPatientSearch(`${p.name} (${p.owner_name})`)
+                                setIsPatientDropdownOpen(false)
+                              }}
+                              className="w-full text-left px-3 py-2 hover:bg-muted/80 transition-colors text-sm border-b border-border last:border-0"
+                            >
+                              <div className="font-semibold text-foreground">{p.name}</div>
+                              <div className="text-xs text-muted-foreground">Owner: {p.owner_name}</div>
+                            </button>
+                          ))
+                        ) : (
+                          <div className="px-3 py-3 text-sm text-muted-foreground text-center">
+                            No patients found
+                          </div>
+                        )}
+                      </div>
+                    )}
                   </div>
 
                   <div className="md:col-span-2">
