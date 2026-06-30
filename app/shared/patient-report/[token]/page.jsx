@@ -121,8 +121,12 @@ export default function SharedPatientReportPage() {
                         <p className="mt-0.5 whitespace-pre-wrap">{m.chief_complaint || "N/A"}</p>
                       </div>
                       <div>
-                        <span className="text-slate-400 font-semibold text-xs uppercase">Diagnosis</span>
+                        <span className="text-slate-400 font-semibold text-xs uppercase">Tentative Diagnosis</span>
                         <p className="mt-0.5 font-medium text-red-700 whitespace-pre-wrap">{m.primary_diagnosis || "N/A"}</p>
+                      </div>
+                      <div>
+                        <span className="text-slate-400 font-semibold text-xs uppercase">Diagnosis</span>
+                        <p className="mt-0.5 font-medium text-orange-700 whitespace-pre-wrap">{m.differential_diagnoses || "N/A"}</p>
                       </div>
                       {(m.treatment_interventions || m.prescribed_medicines) && (
                         <>
