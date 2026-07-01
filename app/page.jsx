@@ -19,7 +19,7 @@ export default function Home() {
                   Welcome to Happypets
                 </h1>
                 <p className="text-lg md:text-xl text-primary-foreground/90 text-balance-custom">
-                  Trusted veterinary care for dogs and cats in Imadol, Lalitpur. We provide vaccination, dental care, dermatology, surgery, and diagnostics with gentle handling and over 5 years of experience.
+                  Since 2020, Happy Pets Animal Clinic has provided trusted veterinary care for dogs and cats in Imadol, Lalitpur. We offer vaccinations, surgery, orthopedic care, dental care, skin treatment, diagnostics and emergency care.
                 </p>
                 <div className="flex flex-col sm:flex-row gap-4">
                   <Link
