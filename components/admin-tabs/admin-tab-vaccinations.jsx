@@ -22,8 +22,8 @@ export default function AdminTabVaccinations() {
     administered_by: "",
     notes: ""
   })
-
   const [patientSearch, setPatientSearch] = useState("")
+  const [searchQuery, setSearchQuery] = useState("")
   const [isPatientDropdownOpen, setIsPatientDropdownOpen] = useState(false)
   const patientDropdownRef = useRef(null)
 
@@ -202,16 +202,33 @@ export default function AdminTabVaccinations() {
     return <div className="p-8 text-center">Loading vaccinations...</div>
   }
 
+  const filteredVaccinations = vaccinations.filter(v => 
+    (v.pet_name && v.pet_name.toLowerCase().includes(searchQuery.toLowerCase())) ||
+    (v.owner_name && v.owner_name.toLowerCase().includes(searchQuery.toLowerCase())) ||
+    (v.vaccine_name && v.vaccine_name.toLowerCase().includes(searchQuery.toLowerCase())) ||
+    (v.batch_number && v.batch_number.toLowerCase().includes(searchQuery.toLowerCase())) ||
+    (v.vet_name && v.vet_name.toLowerCase().includes(searchQuery.toLowerCase()))
+  )
+
   return (
     <div>
-      <div className="flex justify-between items-center mb-6">
+      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-6 gap-4">
         <h2 className="text-2xl font-bold">Vaccinations & Preventative Care</h2>
-        <button
-          onClick={openAddModal}
-          className="bg-primary text-primary-foreground px-4 py-2 rounded-lg hover:bg-primary/90 transition-colors"
-        >
-          Log New Vaccination
-        </button>
+        <div className="flex gap-3 w-full sm:w-auto">
+          <input
+            type="text"
+            placeholder="Search vaccinations..."
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+            className="px-3 py-2 border border-border rounded-lg focus:outline-none focus:ring-1 focus:ring-primary w-full sm:w-64"
+          />
+          <button
+            onClick={openAddModal}
+            className="bg-primary text-primary-foreground px-4 py-2 rounded-lg hover:bg-primary/90 transition-colors whitespace-nowrap"
+          >
+            Log New Vaccination
+          </button>
+        </div>
       </div>
 
       <div className="bg-background border border-border rounded-lg overflow-hidden">
@@ -237,7 +254,7 @@ export default function AdminTabVaccinations() {
               </tr>
             </thead>
             <tbody className="divide-y divide-border">
-              {vaccinations.map((record) => (
+              {filteredVaccinations.map((record) => (
                 <tr key={record.id} className="hover:bg-muted/30">
                   <td className="px-6 py-4">
                     <div className="font-medium text-foreground">{record.pet_name}</div>
@@ -284,10 +301,10 @@ export default function AdminTabVaccinations() {
                   </td>
                 </tr>
               ))}
-              {vaccinations.length === 0 && (
+              {filteredVaccinations.length === 0 && (
                 <tr>
                   <td colSpan="5" className="px-6 py-8 text-center text-muted-foreground">
-                    No vaccinations logged yet. Click "Log New Vaccination" to create one.
+                    {vaccinations.length === 0 ? "No vaccinations logged yet. Click \"Log New Vaccination\" to create one." : "No vaccinations match your search."}
                   </td>
                 </tr>
               )}

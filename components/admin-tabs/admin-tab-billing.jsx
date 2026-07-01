@@ -14,6 +14,7 @@ export default function AdminTabBilling() {
   const [loading, setLoading] = useState(true)
   const [isModalOpen, setIsModalOpen] = useState(false)
   const [viewInvoice, setViewInvoice] = useState(null)
+  const [searchQuery, setSearchQuery] = useState("")
   
   // Create Invoice State
   const [selectedClient, setSelectedClient] = useState("")
@@ -240,16 +241,32 @@ export default function AdminTabBilling() {
     return <div className="p-8 text-center">Loading billing data...</div>
   }
 
+  const filteredInvoices = invoices.filter(inv =>
+    (inv.client_name && inv.client_name.toLowerCase().includes(searchQuery.toLowerCase())) ||
+    (inv.pet_name && inv.pet_name.toLowerCase().includes(searchQuery.toLowerCase())) ||
+    (`inv-${String(inv.id).padStart(4, '0')}`.includes(searchQuery.toLowerCase())) ||
+    (inv.status && inv.status.toLowerCase().includes(searchQuery.toLowerCase()))
+  )
+
   return (
     <div>
-      <div className="flex justify-between items-center mb-6">
+      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-6 gap-4">
         <h2 className="text-2xl font-bold">Billing & Invoices</h2>
-        <button
-          onClick={openAddModal}
-          className="bg-primary text-primary-foreground px-4 py-2 rounded-lg hover:bg-primary/90 transition-colors"
-        >
-          Create New Invoice
-        </button>
+        <div className="flex gap-3 w-full sm:w-auto">
+          <input
+            type="text"
+            placeholder="Search invoices..."
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+            className="px-3 py-2 border border-border rounded-lg focus:outline-none focus:ring-1 focus:ring-primary w-full sm:w-64"
+          />
+          <button
+            onClick={openAddModal}
+            className="bg-primary text-primary-foreground px-4 py-2 rounded-lg hover:bg-primary/90 transition-colors whitespace-nowrap"
+          >
+            Create New Invoice
+          </button>
+        </div>
       </div>
 
       <div className="bg-background border border-border rounded-lg overflow-hidden">
@@ -275,7 +292,7 @@ export default function AdminTabBilling() {
               </tr>
             </thead>
             <tbody className="divide-y divide-border">
-              {invoices.map((inv) => (
+              {filteredInvoices.map((inv) => (
                 <tr key={inv.id} className="hover:bg-muted/30">
                   <td className="px-6 py-4 whitespace-nowrap">
                     <div className="font-bold text-foreground">INV-{String(inv.id).padStart(4, '0')}</div>
@@ -315,10 +332,10 @@ export default function AdminTabBilling() {
                   </td>
                 </tr>
               ))}
-              {invoices.length === 0 && (
+              {filteredInvoices.length === 0 && (
                 <tr>
                   <td colSpan="5" className="px-6 py-8 text-center text-muted-foreground">
-                    No invoices generated yet.
+                    {invoices.length === 0 ? "No invoices generated yet." : "No invoices match your search."}
                   </td>
                 </tr>
               )}
