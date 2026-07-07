@@ -11,7 +11,7 @@ export async function GET(request) {
     }
 
     const clients = await query(
-      "SELECT id, email, full_name, phone_number, alt_phone_number, address, is_active, created_at FROM users WHERE role = 'client' ORDER BY created_at DESC"
+      "SELECT id, email, full_name, phone_number, alt_phone_number, address, notes, is_active, created_at FROM users WHERE role = 'client' ORDER BY created_at DESC"
     )
     return NextResponse.json(clients)
   } catch (error) {
