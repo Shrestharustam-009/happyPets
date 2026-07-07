@@ -61,3 +61,31 @@ export async function DELETE(request, { params }) {
     return NextResponse.json({ error: "Failed to delete client. They might have dependent records." }, { status: 500 })
   }
 }
+
+export async function PATCH(request, { params }) {
+  try {
+    if (!(await validateAdminRequest(request))) {
+      return NextResponse.json({ error: "Forbidden" }, { status: 403 })
+    }
+
+    const { id } = await params;
+    let body;
+    try {
+      body = await request.json();
+    } catch (err) {
+      return NextResponse.json({ error: "Invalid JSON payload" }, { status: 400 });
+    }
+
+    const { notes } = body;
+
+    await query(
+      "UPDATE users SET notes = ? WHERE id = ?",
+      [notes || null, id]
+    )
+
+    return NextResponse.json({ message: "Notes updated successfully" })
+  } catch (error) {
+    console.error("[v0] Error updating client notes:", error)
+    return NextResponse.json({ error: "Failed to update notes" }, { status: 500 })
+  }
+}
