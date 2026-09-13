@@ -175,6 +175,8 @@ export default function AdminTabMedicalRecords() {
       if (clientsRes.ok) setClients(await clientsRes.json())
       if (usersRes.ok) {
         const uData = await usersRes.json()
+        // Ensure all working staff (vet, clinic, reception, etc.) appear in the Attending Vet list
+        // We only exclude regular 'client' and 'user' accounts.
         const staff = uData.filter(u => !['client', 'user'].includes(u.role))
         setVets(staff)
       }
