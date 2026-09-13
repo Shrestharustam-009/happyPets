@@ -1,6 +1,6 @@
 "use client"
 import { fetchWithAuth } from "@/lib/api"
-
+import Link from "next/link"
 import { useState, useEffect } from "react"
 import { Bell, Mail, Phone, Clock, CheckCircle2, AlertCircle, X, FileText, Search } from "lucide-react"
 
@@ -243,8 +243,14 @@ export default function AdminTabReminders() {
                 filteredReminders.map((r) => (
                   <tr key={r.vaccination_id} className="hover:bg-muted/30 transition-colors">
                     <td className="px-3 py-3 whitespace-nowrap">
-                      <div className="font-bold text-foreground text-sm">{r.pet_name}</div>
-                      <div className="text-xs text-muted-foreground">Owner: {r.client_name}</div>
+                      <Link 
+                        href={`/admin/medical-records?search=${encodeURIComponent(r.client_name)}`} 
+                        className="group block hover:bg-muted/50 p-1 -ml-1 rounded transition-colors cursor-pointer"
+                        title="View Medical Records"
+                      >
+                        <div className="font-bold text-primary group-hover:underline text-sm">{r.pet_name}</div>
+                        <div className="text-xs text-muted-foreground group-hover:text-primary/70 transition-colors">Owner: {r.client_name}</div>
+                      </Link>
                     </td>
                     <td className="px-3 py-3 whitespace-nowrap">
                       <div className="flex items-center gap-1 text-xs text-foreground mb-1"><Mail className="w-3 h-3 text-muted-foreground" /> {r.client_email}</div>
