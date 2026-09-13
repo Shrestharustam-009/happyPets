@@ -66,6 +66,7 @@ export default function AdminTabMedicalRecords() {
   const [petAgeType, setPetAgeType] = useState("dob") // "dob" | "age"
   const [petAgeYears, setPetAgeYears] = useState("")
   const [petAgeMonths, setPetAgeMonths] = useState("")
+  const [petAgeDays, setPetAgeDays] = useState("")
   const [newClientData, setNewClientData] = useState({
     full_name: "", email: "", phone_number: "", alt_phone_number: "", address: ""
   })
@@ -134,6 +135,14 @@ export default function AdminTabMedicalRecords() {
         setCurrentAdminId(parsed.id)
       } catch (e) {}
     }
+
+    if (typeof window !== 'undefined') {
+      const urlParams = new URLSearchParams(window.location.search);
+      const searchQuery = urlParams.get('search');
+      if (searchQuery) {
+        setClientSearchText(searchQuery);
+      }
+    }
   }, [])
 
   useEffect(() => {
@@ -166,7 +175,7 @@ export default function AdminTabMedicalRecords() {
       if (clientsRes.ok) setClients(await clientsRes.json())
       if (usersRes.ok) {
         const uData = await usersRes.json()
-        const staff = uData.filter(u => ['admin', 'veterinarian', 'vet_assistant'].includes(u.role))
+        const staff = uData.filter(u => !['client', 'user'].includes(u.role))
         setVets(staff)
       }
     } catch (error) {
@@ -234,33 +243,49 @@ export default function AdminTabMedicalRecords() {
     setPetAgeType("dob")
     setPetAgeYears("")
     setPetAgeMonths("")
+    setPetAgeDays("")
     setNewClientData({ full_name: "", email: "", phone_number: "", alt_phone_number: "", address: "" })
     setNewPetData({ name: "", species: "", breed: "", dob: "", sex: "", color: "", weight: "", identifying_marks: "", medical_history: "", photo_url: "" })
     setRegWeightUnit("kg")
   }
 
   const calculateAgeFromDob = (dobStr) => {
-    if (!dobStr) return { years: "", months: "" }
+    if (!dobStr) return { years: "", months: "", days: "" }
     const dob = new Date(dobStr)
-    if (isNaN(dob.getTime())) return { years: "", months: "" }
+    if (isNaN(dob.getTime())) return { years: "", months: "", days: "" }
     const now = new Date()
+    
     let years = now.getFullYear() - dob.getFullYear()
     let months = now.getMonth() - dob.getMonth()
+    let days = now.getDate() - dob.getDate()
+
+    if (days < 0) {
+      months--
+      const prevMonth = new Date(now.getFullYear(), now.getMonth(), 0)
+      days += prevMonth.getDate()
+    }
+
     if (months < 0) {
       years--
       months += 12
     }
-    return { years: String(years >= 0 ? years : 0), months: String(months >= 0 ? months : 0) }
+    return { 
+      years: String(years >= 0 ? years : 0), 
+      months: String(months >= 0 ? months : 0),
+      days: String(days >= 0 ? days : 0)
+    }
   }
 
-  const handleAgeChange = (years, months) => {
+  const handleAgeChange = (years, months, days) => {
     setPetAgeYears(years)
     setPetAgeMonths(months)
+    setPetAgeDays(days)
     
     const y = parseInt(years) || 0
     const m = parseInt(months) || 0
+    const d = parseInt(days) || 0
     
-    if (y === 0 && m === 0) {
+    if (y === 0 && m === 0 && d === 0) {
       setNewPetData(prev => ({ ...prev, dob: "" }))
       return
     }
@@ -268,6 +293,7 @@ export default function AdminTabMedicalRecords() {
     const targetDate = new Date()
     targetDate.setFullYear(targetDate.getFullYear() - y)
     targetDate.setMonth(targetDate.getMonth() - m)
+    targetDate.setDate(targetDate.getDate() - d)
     
     const yyyy = targetDate.getFullYear()
     const mm = String(targetDate.getMonth() + 1).padStart(2, '0')
@@ -1267,9 +1293,10 @@ export default function AdminTabMedicalRecords() {
                             type="button"
                             onClick={() => {
                               setPetAgeType("age")
-                              const { years, months } = calculateAgeFromDob(newPetData.dob)
+                              const { years, months, days } = calculateAgeFromDob(newPetData.dob)
                               setPetAgeYears(years)
                               setPetAgeMonths(months)
+                              setPetAgeDays(days)
                             }}
                             className={`px-2 py-0.5 rounded font-bold transition-all ${petAgeType === "age" ? "bg-white text-slate-800 shadow-sm" : "text-slate-500 hover:text-slate-800"}`}
                           >
@@ -1286,17 +1313,17 @@ export default function AdminTabMedicalRecords() {
                           className="w-full px-3 py-2 border border-slate-300 rounded focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none bg-background text-foreground"
                         />
                       ) : (
-                        <div className="grid grid-cols-2 gap-2">
+                        <div className="grid grid-cols-3 gap-2">
                           <div className="relative">
                             <input
                               type="number"
                               min="0"
                               placeholder="Years"
                               value={petAgeYears}
-                              onChange={e => handleAgeChange(e.target.value, petAgeMonths)}
-                              className="w-full px-3 py-2 pr-8 border border-slate-300 rounded focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none bg-background text-foreground text-sm"
+                              onChange={e => handleAgeChange(e.target.value, petAgeMonths, petAgeDays)}
+                              className="w-full px-2 py-2 pr-7 border border-slate-300 rounded focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none bg-background text-foreground text-sm"
                             />
-                            <span className="absolute right-2.5 top-2 text-[10px] text-muted-foreground font-medium pointer-events-none">Yrs</span>
+                            <span className="absolute right-1 top-2.5 text-[9px] text-muted-foreground font-medium pointer-events-none">Yrs</span>
                           </div>
                           <div className="relative">
                             <input
@@ -1305,10 +1332,22 @@ export default function AdminTabMedicalRecords() {
                               max="11"
                               placeholder="Months"
                               value={petAgeMonths}
-                              onChange={e => handleAgeChange(petAgeYears, e.target.value)}
-                              className="w-full px-3 py-2 pr-8 border border-slate-300 rounded focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none bg-background text-foreground text-sm"
+                              onChange={e => handleAgeChange(petAgeYears, e.target.value, petAgeDays)}
+                              className="w-full px-2 py-2 pr-7 border border-slate-300 rounded focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none bg-background text-foreground text-sm"
                             />
-                            <span className="absolute right-2.5 top-2 text-[10px] text-muted-foreground font-medium pointer-events-none">Mos</span>
+                            <span className="absolute right-1 top-2.5 text-[9px] text-muted-foreground font-medium pointer-events-none">Mos</span>
+                          </div>
+                          <div className="relative">
+                            <input
+                              type="number"
+                              min="0"
+                              max="31"
+                              placeholder="Days"
+                              value={petAgeDays}
+                              onChange={e => handleAgeChange(petAgeYears, petAgeMonths, e.target.value)}
+                              className="w-full px-2 py-2 pr-7 border border-slate-300 rounded focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none bg-background text-foreground text-sm"
+                            />
+                            <span className="absolute right-1 top-2.5 text-[9px] text-muted-foreground font-medium pointer-events-none">Day</span>
                           </div>
                         </div>
                       )}
