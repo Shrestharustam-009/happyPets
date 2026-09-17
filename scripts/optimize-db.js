@@ -1,4 +1,4 @@
-﻿const mysql = require("mysql2/promise");
+const mysql = require("mysql2/promise");
 const fs = require("fs");
 const path = require("path");
 
@@ -21,13 +21,13 @@ loadEnvFile();
 
 async function addIndex(conn, table, indexName, column) {
   try {
-    await conn.query(CREATE INDEX  ON ());
-    console.log([OK] Added index  on ());
+    await conn.query(`CREATE INDEX ${indexName} ON ${table}(${column})`);
+    console.log(`[OK] Added index ${indexName} on ${table}(${column})`);
   } catch(e) {
     if (e.code === 'ER_DUP_KEYNAME') {
-       console.log([SKIP] Index  already exists on );
+       console.log(`[SKIP] Index ${indexName} already exists on ${table}`);
     } else {
-       console.log([ERROR] Failed to add index on : );
+       console.log(`[ERROR] Failed to add index on ${table}: ${e.message}`);
     }
   }
 }
