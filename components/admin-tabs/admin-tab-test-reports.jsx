@@ -268,15 +268,19 @@ export default function AdminTabTestReports() {
   const handlePetSelect = (pet) => {
     const owner = clients.find(c => Number(c.id) === Number(pet.user_id))
     
-    setPetSearchText(`${pet.name} (${owner?.full_name || "Unknown"})`)
+    // Forcefully use pet.owner_name and pet.owner_email from the database join if the client is not in the array
+    const resolvedOwnerName = owner?.full_name || pet.owner_name || "Unknown";
+    const resolvedOwnerEmail = owner?.email || pet.owner_email || "";
+    
+    setPetSearchText(`${pet.name} (${resolvedOwnerName})`)
     setFormData(prev => ({ ...prev, pet_id: pet.id }))
     setIsPetDropdownOpen(false)
 
     setHeaderData({
-      owner_name: owner?.full_name || "",
+      owner_name: resolvedOwnerName,
       owner_address: owner?.address || "",
       owner_contact: owner?.phone_number || "",
-      owner_email: owner?.email || "",
+      owner_email: resolvedOwnerEmail,
       pet_name: pet.name || "",
       pet_age: getAgeString(pet.dob),
       pet_species: pet.species || "",
