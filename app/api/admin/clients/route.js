@@ -11,7 +11,7 @@ export async function GET(request) {
     }
 
     const clients = await query(
-      "SELECT id, email, full_name, phone_number, alt_phone_number, address, notes, is_active, created_at FROM users WHERE role IN ('client', 'user') ORDER BY created_at DESC"
+      "SELECT id, email, full_name, phone_number, address, is_active, created_at FROM users WHERE role IN ('client', 'user') ORDER BY created_at DESC"
     )
     return NextResponse.json(clients)
   } catch (error) {
@@ -53,8 +53,8 @@ export async function POST(request) {
     const hashedPassword = await bcrypt.hash(plainPassword, 10)
 
     const result = await query(
-      "INSERT INTO users (full_name, email, phone_number, alt_phone_number, address, password, role) VALUES (?, ?, ?, ?, ?, ?, 'client')",
-      [full_name, trimmedEmail, phone_number || null, alt_phone_number || null, address || null, hashedPassword]
+      "INSERT INTO users (full_name, email, phone_number, address, password, role) VALUES (?, ?, ?, ?, ?, 'client')",
+      [full_name, trimmedEmail, phone_number || null, address || null, hashedPassword]
     )
 
     return NextResponse.json(
