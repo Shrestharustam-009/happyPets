@@ -35,6 +35,10 @@ export async function GET(request) {
 
     sql += " ORDER BY i.issue_date DESC"
 
+    if (!client_id) {
+      sql += " LIMIT 100"
+    }
+
     const invoices = await query(sql, values)
     
     return NextResponse.json(invoices)
