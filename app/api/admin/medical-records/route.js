@@ -31,6 +31,10 @@ export async function GET(request) {
 
     sql += " ORDER BY m.visit_date DESC"
 
+    if (!pet_id) {
+      sql += " LIMIT 100"
+    }
+
     const records = await query(sql, values)
     return NextResponse.json(records)
   } catch (error) {
