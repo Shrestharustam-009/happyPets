@@ -19,8 +19,20 @@ export default function BlogDetailPage() {
   const [sanitizedContent, setSanitizedContent] = useState("")
 
   useEffect(() => {
-    if (post?.content) {
-      setSanitizedContent(DOMPurify.sanitize(post.content))
+    let rawContent = post?.content || ""
+
+    // Convert plain YouTube links wrapped in <p> tags into playable embedded video iframes
+    const ytRegex = /<p>(?:<a[^>]*>)?(?:https?:\/\/)?(?:www\.)?(?:youtube\.com\/.*[?&]v=|youtu\.be\/|youtube\.com\/embed\/)([a-zA-Z0-9_-]{11})(?:[^<]*)(?:<\/a>)?<\/p>/gi
+    rawContent = rawContent.replace(
+      ytRegex,
+      '<div class="relative w-full aspect-video my-8 rounded-xl overflow-hidden shadow-lg"><iframe src="https://www.youtube.com/embed/$1" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen class="absolute top-0 left-0 w-full h-full"></iframe></div>'
+    )
+
+    if (rawContent) {
+      setSanitizedContent(DOMPurify.sanitize(rawContent, {
+        ADD_TAGS: ['iframe'],
+        ADD_ATTR: ['allow', 'allowfullscreen', 'frameborder', 'scrolling', 'src', 'width', 'height', 'class']
+      }))
     } else {
       setSanitizedContent("")
     }
