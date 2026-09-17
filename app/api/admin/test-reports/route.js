@@ -34,6 +34,11 @@ export async function GET(request) {
 
     sql += " ORDER BY tr.report_date DESC"
 
+    // Prevent massive payload and slow loading by limiting to latest 100 when not searching a specific pet
+    if (!pet_id) {
+      sql += " LIMIT 100"
+    }
+
     const records = await query(sql, values)
     return NextResponse.json(records)
   } catch (error) {

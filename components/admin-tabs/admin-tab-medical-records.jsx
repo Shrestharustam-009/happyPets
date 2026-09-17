@@ -651,18 +651,24 @@ export default function AdminTabMedicalRecords() {
 
           {clientSearchText.trim() !== "" && (
             <div className="bg-white border border-border rounded-xl shadow-sm divide-y divide-border overflow-hidden">
-              {clients.filter(client => 
-                client.full_name?.toLowerCase().includes(clientSearchText.toLowerCase()) ||
-                client.email?.toLowerCase().includes(clientSearchText.toLowerCase()) ||
-                client.phone_number?.includes(clientSearchText)
-              ).length === 0 ? (
+              {clients.filter(client => {
+                const searchLower = clientSearchText.toLowerCase();
+                const matchesClient = client.full_name?.toLowerCase().includes(searchLower) ||
+                                      client.email?.toLowerCase().includes(searchLower) ||
+                                      client.phone_number?.includes(clientSearchText);
+                const matchesPet = patients.some(p => Number(p.user_id) === Number(client.id) && p.name?.toLowerCase().includes(searchLower));
+                return matchesClient || matchesPet;
+              }).length === 0 ? (
                 <div className="p-8 text-center text-sm text-slate-500 italic">No matching clients found.</div>
               ) : (
-                clients.filter(client => 
-                  client.full_name?.toLowerCase().includes(clientSearchText.toLowerCase()) ||
-                  client.email?.toLowerCase().includes(clientSearchText.toLowerCase()) ||
-                  client.phone_number?.includes(clientSearchText)
-                ).map(client => {
+                clients.filter(client => {
+                  const searchLower = clientSearchText.toLowerCase();
+                  const matchesClient = client.full_name?.toLowerCase().includes(searchLower) ||
+                                        client.email?.toLowerCase().includes(searchLower) ||
+                                        client.phone_number?.includes(clientSearchText);
+                  const matchesPet = patients.some(p => Number(p.user_id) === Number(client.id) && p.name?.toLowerCase().includes(searchLower));
+                  return matchesClient || matchesPet;
+                }).map(client => {
                   const clientPets = patients.filter(p => Number(p.user_id) === Number(client.id));
                   return (
                     <div
