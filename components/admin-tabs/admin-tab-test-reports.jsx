@@ -255,7 +255,7 @@ export default function AdminTabTestReports() {
       if (clientsRes.ok) setClients(await clientsRes.json())
       if (usersRes.ok) {
         const uData = await usersRes.json()
-        const staff = uData.filter(u => !['client', 'user'].includes(u.role))
+        const staff = (uData || []).filter(u => u && u.role !== 'client' && u.role !== 'user')
         setVets(staff)
       }
     } catch (error) {
