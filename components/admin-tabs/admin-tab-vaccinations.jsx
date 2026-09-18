@@ -78,7 +78,7 @@ export default function AdminTabVaccinations() {
       if (usersRes.ok) {
         const uData = await usersRes.json()
         // Filter users to only show those who can administer vaccines
-        const staff = uData.filter(u => ['admin', 'veterinarian', 'vet_assistant'].includes(u.role))
+        const staff = uData.filter(u => !['client', 'user'].includes(u.role))
         setVets(staff)
       }
     } catch (error) {
