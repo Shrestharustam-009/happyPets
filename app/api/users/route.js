@@ -9,7 +9,7 @@ export async function GET(req) {
     }
 
     const users = await query(
-      `SELECT id, email, full_name as fullName, phone_number as phoneNumber, role, is_active as isActive, allowed_tabs as allowedTabs 
+      `SELECT id, email, full_name as fullName, phone_number as phoneNumber, role, is_active as isActive 
        FROM users 
        ORDER BY created_at DESC`,
     )

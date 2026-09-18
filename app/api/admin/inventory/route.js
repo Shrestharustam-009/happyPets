@@ -48,16 +48,15 @@ export async function POST(request) {
     }
 
     const result = await query(
-      `INSERT INTO products (name, description, price, category, stock, image_url, is_visible) 
-       VALUES (?, ?, ?, ?, ?, ?, ?)`,
+      `INSERT INTO products (name, description, price, category, stock, image_url) 
+       VALUES (?, ?, ?, ?, ?, ?)`,
       [
         name,
         description || null,
         price,
         category,
         stock || 0,
-        image_url || null,
-        is_visible ? 1 : 0
+        image_url || null
       ]
     )
 
