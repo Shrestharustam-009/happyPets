@@ -19,11 +19,11 @@ export async function GET(request) {
              p.photo_url as pet_photo_url, p.weight as pet_weight,
              u.full_name as client_name, u.email as client_email, u.phone_number as client_phone, 
              u.address as client_address,
-             v.full_name as vet_name
+             v.name as vet_name
       FROM test_reports tr
       LEFT JOIN pets p ON tr.pet_id = p.id
       LEFT JOIN users u ON p.user_id = u.id
-      LEFT JOIN users v ON tr.vet_id = v.id
+      LEFT JOIN team_members v ON tr.vet_id = v.id
     `
     const values = []
 

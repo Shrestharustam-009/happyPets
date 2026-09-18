@@ -15,11 +15,11 @@ export async function GET(request) {
     let sql = `
       SELECT m.*, 
              p.name as pet_name, p.species, p.breed, 
-             v.full_name as vet_name,
+             v.name as vet_name,
              c.full_name as owner_name
       FROM medical_records m
       LEFT JOIN pets p ON m.pet_id = p.id
-      LEFT JOIN users v ON m.vet_id = v.id
+      LEFT JOIN team_members v ON m.vet_id = v.id
       LEFT JOIN users c ON p.user_id = c.id
     `
     const values = []

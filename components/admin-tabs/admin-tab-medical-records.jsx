@@ -166,7 +166,7 @@ export default function AdminTabMedicalRecords() {
       const [recordsRes, patientsRes, usersRes, clientsRes] = await Promise.all([
         fetchWithAuth("/api/admin/medical-records"),
         fetchWithAuth("/api/admin/patients"),
-        fetchWithAuth("/api/users", { headers: { Authorization: `Bearer ${localStorage.getItem("adminToken")}` }, cache: "no-store" }),
+        fetchWithAuth("/api/team", { cache: "no-store" }),
         fetchWithAuth("/api/admin/clients")
       ])
       
@@ -174,10 +174,8 @@ export default function AdminTabMedicalRecords() {
       if (patientsRes.ok) setPatients(await patientsRes.json())
       if (clientsRes.ok) setClients(await clientsRes.json())
       if (usersRes.ok) {
-        const uData = await usersRes.json()
-        // Ensure all working staff (vet, clinic, reception, etc.) appear in the Attending Vet list
-        // We only exclude regular 'client' and 'user' accounts.
-        const staff = uData.filter(u => !['client', 'user'].includes(u.role))
+        const tData = await usersRes.json()
+        const staff = (tData?.members || []).filter(m => m && m.is_active !== false)
         setVets(staff)
       }
     } catch (error) {
@@ -1570,7 +1568,7 @@ export default function AdminTabMedicalRecords() {
                           <option value="">Select Vet...</option>
                           {vets.map(v => (
                             <option key={v.id} value={v.id}>
-                              Dr. {v.fullName}
+                              {v.name}
                             </option>
                           ))}
                         </select>
