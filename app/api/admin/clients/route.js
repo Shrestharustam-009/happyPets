@@ -13,7 +13,8 @@ export async function GET(request) {
     const clients = await query(
       "SELECT id, email, full_name, phone_number, address, is_active, created_at FROM users WHERE role IN ('client', 'user') ORDER BY created_at DESC"
     )
-    return NextResponse.json(, { headers: { "Cache-Control": "public, max-age=300" } }) {
+    return NextResponse.json(clients, { headers: { "Cache-Control": "public, max-age=300" } })
+  } catch (error) {
     console.error("[v0] Error fetching clients:", error)
     return NextResponse.json({ error: "Failed to fetch clients" }, { status: 500 })
   }
