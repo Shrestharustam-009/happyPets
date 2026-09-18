@@ -25,7 +25,7 @@ export default function BlogDetailPage() {
     const ytRegex = /(?:<a[^>]*>)?(?:https?:\/\/)?(?:www\.)?(?:youtube\.com\/(?:watch\?v=|embed\/)|youtu\.be\/)([a-zA-Z0-9_-]{11})(?:[^<]*)(?:<\/a>)?/gi
     rawContent = rawContent.replace(
       ytRegex,
-      '<div class="relative w-full aspect-video my-8 rounded-xl overflow-hidden shadow-lg group"><a href="https://www.youtube.com/watch?v=$1" target="_blank" rel="noopener noreferrer" class="block w-full h-full"><img src="https://img.youtube.com/vi/$1/maxresdefault.jpg" alt="YouTube Video" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" /><div class="absolute inset-0 flex items-center justify-center"><div class="w-16 h-16 bg-red-600 rounded-full flex items-center justify-center shadow-lg group-hover:bg-red-700 transition-colors"><svg class="w-8 h-8 text-white ml-1" fill="currentColor" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div></div></a></div>'
+      '<div class="relative max-w-lg mx-auto aspect-video my-8 rounded-xl overflow-hidden shadow-lg group"><a href="https://www.youtube.com/watch?v=$1" target="_blank" rel="noopener noreferrer" class="block w-full h-full"><img src="https://img.youtube.com/vi/$1/maxresdefault.jpg" alt="YouTube Video" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" /><div class="absolute inset-0 flex items-center justify-center"><div class="w-16 h-16 bg-red-600 rounded-full flex items-center justify-center shadow-lg group-hover:bg-red-700 transition-colors"><svg class="w-8 h-8 text-white ml-1" fill="currentColor" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div></div></a></div>'
     )
 
     if (rawContent) {

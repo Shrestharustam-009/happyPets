@@ -53,7 +53,7 @@ export default function AdminTabReports() {
   const fetchPatients = async () => {
     try {
       setLoading(true)
-      const res = await fetchWithAuth("/api/admin/patients", { cache: "no-store" })
+      const res = await fetchWithAuth("/api/admin/patients")
       if (res.ok) {
         const data = await res.json()
         setPatients(data)

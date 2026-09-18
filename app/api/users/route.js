@@ -12,7 +12,7 @@ export async function GET(req) {
        FROM users 
        ORDER BY created_at DESC`,
     )
-    return Response.json(users)
+    return Response.json(users, { headers: { "Cache-Control": "public, max-age=300" } })
   } catch (error) {
     console.error("[v0] Error fetching users:", error)
     return Response.json({ message: "Internal server error" }, { status: 500 })
