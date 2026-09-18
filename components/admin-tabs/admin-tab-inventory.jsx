@@ -6,6 +6,11 @@ import Image from "next/image"
 
 
 export default function AdminTabInventory() {
+  const getImageUrl = (url) => {
+    if (!url) return "/placeholder.svg"
+    if (url.startsWith("http")) return url
+    return url
+  }
   const [products, setProducts] = useState([])
   const [loading, setLoading] = useState(true)
   const [isModalOpen, setIsModalOpen] = useState(false)
