@@ -21,6 +21,9 @@ export default function BlogDetailPage() {
   useEffect(() => {
     let rawContent = post?.content || ""
 
+    // Remove any YouTube thumbnail images the editor auto-embeds (e.g. img.youtube.com)
+    rawContent = rawContent.replace(/<img[^>]*src="https?:\/\/img\.youtube\.com\/[^"]*"[^>]*\/?>/gi, '')
+
     // Convert plain YouTube links (even with formatting like red text) into a thumbnail image that links to YouTube
     const ytRegex = /(?:<a[^>]*>)?(?:https?:\/\/)?(?:www\.)?(?:youtube\.com\/(?:watch\?v=|embed\/)|youtu\.be\/)([a-zA-Z0-9_-]{11})(?:[^<]*)(?:<\/a>)?/gi
     rawContent = rawContent.replace(
@@ -114,7 +117,7 @@ export default function BlogDetailPage() {
 
         {/* ── Immersive Hero ── */}
         <div className="relative w-full h-[70vh] min-h-[420px] max-h-[600px] overflow-hidden">
-          {post.featured_image && !/(youtube\.com|youtu\.be)/.test(post.content || "") ? (
+          {post.featured_image ? (
             <img
               src={post.featured_image}
               alt={post.title}

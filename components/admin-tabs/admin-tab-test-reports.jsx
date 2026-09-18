@@ -682,7 +682,7 @@ export default function AdminTabTestReports() {
                         <option value="">Select Vet...</option>
                         {vets.map(v => (
                           <option key={v.id} value={v.id}>
-                            Dr. {v.name}
+                            {v.name}
                           </option>
                         ))}
                       </select>
