@@ -247,15 +247,15 @@ export default function AdminTabTestReports() {
         fetchWithAuth("/api/admin/test-reports"),
         fetchWithAuth("/api/admin/patients"),
         fetchWithAuth("/api/admin/clients"),
-        fetchWithAuth("/api/users", { headers: { Authorization: `Bearer ${localStorage.getItem("adminToken")}` } })
+        fetchWithAuth("/api/team")
       ])
 
       if (reportsRes.ok) setReports(await reportsRes.json())
       if (patientsRes.ok) setPatients(await patientsRes.json())
       if (clientsRes.ok) setClients(await clientsRes.json())
       if (usersRes.ok) {
-        const uData = await usersRes.json()
-        const staff = (uData || []).filter(u => u && u.role !== 'client' && u.role !== 'user')
+        const tData = await usersRes.json()
+        const staff = (tData?.members || []).filter(m => m && m.is_active !== false)
         setVets(staff)
       }
     } catch (error) {
@@ -682,7 +682,7 @@ export default function AdminTabTestReports() {
                         <option value="">Select Vet...</option>
                         {vets.map(v => (
                           <option key={v.id} value={v.id}>
-                            Dr. {v.fullName}
+                            Dr. {v.name}
                           </option>
                         ))}
                       </select>

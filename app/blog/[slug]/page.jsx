@@ -114,7 +114,7 @@ export default function BlogDetailPage() {
 
         {/* ── Immersive Hero ── */}
         <div className="relative w-full h-[70vh] min-h-[420px] max-h-[600px] overflow-hidden">
-          {post.featured_image ? (
+          {post.featured_image && !/(youtube\.com|youtu\.be)/.test(post.content || "") ? (
             <img
               src={post.featured_image}
               alt={post.title}

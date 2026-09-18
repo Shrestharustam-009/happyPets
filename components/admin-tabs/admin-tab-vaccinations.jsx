@@ -62,7 +62,7 @@ export default function AdminTabVaccinations() {
       const [vaccineRes, patientsRes, usersRes] = await Promise.all([
         fetchWithAuth("/api/admin/vaccinations"),
         fetchWithAuth("/api/admin/patients"),
-        fetchWithAuth("/api/users", { headers: { Authorization: `Bearer ${localStorage.getItem("adminToken")}` } })
+        fetchWithAuth("/api/team")
       ])
       
       if (vaccineRes.ok) {
@@ -76,9 +76,9 @@ export default function AdminTabVaccinations() {
       }
       
       if (usersRes.ok) {
-        const uData = await usersRes.json()
-        // Filter users to only show those who can administer vaccines
-        const staff = (uData || []).filter(u => u && u.role !== 'client' && u.role !== 'user')
+        const tData = await usersRes.json()
+        // Show all active team members as vets
+        const staff = (tData?.members || []).filter(m => m && m.is_active !== false)
         setVets(staff)
       }
     } catch (error) {
@@ -428,7 +428,7 @@ export default function AdminTabVaccinations() {
                       <option value="">Select Staff...</option>
                       {vets.map(v => (
                         <option key={v.id} value={v.id}>
-                          {v.fullName} ({v.role})
+                          {v.name} ({v.role})
                         </option>
                       ))}
                     </select>
