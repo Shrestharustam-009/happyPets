@@ -217,7 +217,7 @@ export default function AdminTabReminders() {
 
       <div className="bg-background rounded-lg border border-border shadow-sm overflow-hidden">
         <div className="overflow-x-auto">
-          <table className="w-full min-w-max text-sm">
+          <table className="w-full min-w-[800px] text-sm">
             <thead className="bg-muted/50 border-b border-border">
               <tr>
                 <th className="px-3 py-3 text-left font-bold text-muted-foreground uppercase tracking-wider">Patient & Client</th>
@@ -242,7 +242,7 @@ export default function AdminTabReminders() {
               ) : (
                 filteredReminders.map((r) => (
                   <tr key={r.vaccination_id} className="hover:bg-muted/30 transition-colors">
-                    <td className="px-3 py-3 whitespace-nowrap">
+                    <td className="px-3 py-3">
                       <Link 
                         href={`/admin/medical-records?search=${encodeURIComponent(r.client_name)}`} 
                         className="group block hover:bg-muted/50 p-1 -ml-1 rounded transition-colors cursor-pointer"
@@ -252,12 +252,12 @@ export default function AdminTabReminders() {
                         <div className="text-xs text-muted-foreground group-hover:text-primary/70 transition-colors">Owner: {r.client_name}</div>
                       </Link>
                     </td>
-                    <td className="px-3 py-3 whitespace-nowrap">
-                      <div className="flex items-center gap-1 text-xs text-foreground mb-1"><Mail className="w-3 h-3 text-muted-foreground" /> {r.client_email}</div>
-                      <div className="flex items-center gap-1 text-xs text-muted-foreground"><Phone className="w-3 h-3" /> {r.client_phone || 'N/A'}</div>
+                    <td className="px-3 py-3 text-sm">
+                      <div className="flex items-center gap-1 text-xs text-foreground mb-1"><Mail className="w-3 h-3 text-muted-foreground shrink-0" /> <span className="break-all">{r.client_email}</span></div>
+                      <div className="flex items-center gap-1 text-xs text-muted-foreground"><Phone className="w-3 h-3 shrink-0" /> {r.client_phone || 'N/A'}</div>
                     </td>
-                    <td className="px-3 py-3 whitespace-nowrap">
-                      <div className="font-medium text-foreground">
+                    <td className="px-3 py-3">
+                      <div className="font-medium text-foreground break-words">
                         {r.vaccine_name} <span className="text-muted-foreground text-[10px] font-bold tracking-wider uppercase ml-1">({(r.vaccine_name === 'Medical Follow-up' || r.vaccine_name === 'Next Scheduled Vaccination') ? 'Follow-up' : 'Vaccination'})</span>
                       </div>
                       <div className={`text-xs font-semibold ${new Date(r.next_due_date) < new Date() ? 'text-red-500' : 'text-orange-500'}`}>
