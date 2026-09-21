@@ -1776,7 +1776,9 @@ export default function AdminTabMedicalRecords() {
                           return (
                             <div key={idx} className="group relative flex flex-col items-center border border-border rounded-lg overflow-hidden bg-muted/20 w-28">
                               {isImage ? (
-                                <img src={file.url} alt={file.name} className="w-full h-20 object-cover" />
+                                <a href={file.url} target="_blank" rel="noopener noreferrer" className="block w-full h-20 overflow-hidden" title="Click to view full image">
+                                  <img src={file.url} alt={file.name} className="w-full h-full object-cover hover:opacity-80 transition-opacity cursor-pointer" />
+                                </a>
                               ) : (
                                 <a href={file.url} target="_blank" rel="noopener noreferrer" className="w-full h-20 flex flex-col items-center justify-center gap-1 hover:bg-muted/40 transition-colors">
                                   <svg className="w-8 h-8 text-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" /></svg>

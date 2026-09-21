@@ -108,7 +108,7 @@ export default function AdminDashboardLayout({ children }) {
 
       // Guard: Redirect vet roles trying to access admin-only tabs
       if (parsed.role === "vet") {
-        const restricted = ["billing", "inventory", "reminders", "users"]
+        const restricted = ["billing", "inventory", "users"]
         const isRestricted = restricted.some(
           (tab) => pathname === `/vet/${tab}` || pathname.startsWith(`/vet/${tab}/`)
         )
@@ -144,7 +144,7 @@ export default function AdminDashboardLayout({ children }) {
   }
 
   // Tabs restricted to admin-only
-  const adminOnlyTabs = ['billing', 'inventory', 'reminders', 'users']
+  const adminOnlyTabs = ['billing', 'inventory', 'users']
 
   const prefix = admin?.role === 'vet' ? '/vet' : admin?.role === 'reception' ? '/receptionist' : '/admin'
 
