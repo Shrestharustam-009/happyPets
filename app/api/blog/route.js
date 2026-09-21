@@ -87,9 +87,9 @@ export async function POST(req) {
       .replace(/[^\w-]/g, "")
 
     const result = await query(
-      `INSERT INTO blog_posts (title, slug, excerpt, content, category, tags, featured_image, is_published, published_at, author_name, seo_title, seo_slug, seo_description, focus_keyphrase)
-       VALUES (?, ?, ?, ?, ?, ?, ?, 1, NOW(), ?, ?, ?, ?, ?)`,
-      [title, slug, excerpt, content, category, tags, featuredImage || null, authorName, seo_title || null, seo_slug || null, seo_description || null, focus_keyphrase || null],
+      `INSERT INTO blog_posts (title, slug, excerpt, content, category, tags, featured_image, is_published, published_at, author_name)
+       VALUES (?, ?, ?, ?, ?, ?, ?, 1, NOW(), ?)`,
+      [title, slug, excerpt, content, category, tags, featuredImage || null, authorName],
     )
 
     return Response.json({
