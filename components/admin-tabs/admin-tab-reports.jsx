@@ -148,13 +148,25 @@ export default function AdminTabReports() {
       pdf.text("Medical History", 14, startY - 5)
     }
 
-    const headers = [["Visit Date / Vitals", "Complaint & Advice", "Diagnosis", "Treatment / Medicines"]]
-    const rows = reportData.medical.map(m => [
-      `${formatDate(m.visit_date)}\nDr. ${m.vet_name}\n\nTemp: ${m.temperature||'-'}\nWeight: ${m.weight||'-'}\nHR: ${m.heart_rate||'-'}\nBP: ${m.blood_pressure||'-'}`,
-      [m.chief_complaint ? `Complaint:\n${m.chief_complaint}` : '', m.advice ? `Advice:\n${m.advice}` : ''].filter(Boolean).join('\n\n') || '-',
-      [m.primary_diagnosis ? `Tentative:\n${m.primary_diagnosis}` : '', m.differential_diagnoses ? `Diagnosis:\n${m.differential_diagnoses}` : ''].filter(Boolean).join('\n\n') || '-',
-      [m.treatment_interventions ? `Treatment:\n${m.treatment_interventions}` : '', m.prescribed_medicines ? `Prescription:\n${m.prescribed_medicines}` : ''].filter(Boolean).join('\n\n') || '-'
-    ])
+    const headers = [["Date/Vitals", "Complaint", "Findings/Diagnosis", "Treatment/Meds", "Advice"]]
+    const rows = reportData.medical.map(m => {
+      let vitals = []
+      if (m.temperature) vitals.push(`Temp: ${m.temperature}`)
+      if (m.weight) vitals.push(`Weight: ${m.weight}`)
+      if (m.heart_rate) vitals.push(`HR: ${m.heart_rate}`)
+      if (m.blood_pressure) vitals.push(`BP: ${m.blood_pressure}`)
+      if (m.pulse) vitals.push(`Pulse: ${m.pulse}`)
+      if (m.respiration) vitals.push(`Resp: ${m.respiration}`)
+      const vitalsText = vitals.length > 0 ? `\n\n${vitals.join('\n')}` : ''
+      
+      return [
+        `${formatDate(m.visit_date)}\nDr. ${m.vet_name}${vitalsText}`,
+        m.chief_complaint || '-',
+        [m.clinical_findings ? `Findings:\n${m.clinical_findings}` : '', m.primary_diagnosis ? `Tentative:\n${m.primary_diagnosis}` : '', m.differential_diagnoses ? `Diagnosis:\n${m.differential_diagnoses}` : ''].filter(Boolean).join('\n\n') || '-',
+        [m.treatment_interventions ? `Treatment:\n${m.treatment_interventions}` : '', m.prescribed_medicines ? `Prescription:\n${m.prescribed_medicines}` : ''].filter(Boolean).join('\n\n') || '-',
+        m.advice || '-'
+      ]
+    })
 
     autoTable(pdf, {
       startY: isMainDoc ? startY : startY,
@@ -164,10 +176,11 @@ export default function AdminTabReports() {
       headStyles: { fillColor: [41, 128, 185] },
       styles: { cellPadding: 3, fontSize: 9, overflow: 'linebreak' },
       columnStyles: {
-        0: { cellWidth: 35 },
-        1: { cellWidth: 50 },
-        2: { cellWidth: 40 },
-        3: { cellWidth: 55 }
+        0: { cellWidth: 30 },
+        1: { cellWidth: 35 },
+        2: { cellWidth: 42 },
+        3: { cellWidth: 45 },
+        4: { cellWidth: 30 }
       }
     })
 
@@ -459,6 +472,7 @@ export default function AdminTabReports() {
                               </div>
                               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-2">
                                 {m.chief_complaint && <div><span className="font-semibold text-muted-foreground text-xs uppercase">Complaint:</span> <br />{m.chief_complaint}</div>}
+                                {m.clinical_findings && <div><span className="font-semibold text-muted-foreground text-xs uppercase">Clinical Findings:</span> <br />{m.clinical_findings}</div>}
                                 {m.primary_diagnosis && <div><span className="font-semibold text-muted-foreground text-xs uppercase">Tentative Diagnosis:</span> <br /><span className="text-red-600 font-medium">{m.primary_diagnosis}</span></div>}
                                 {m.differential_diagnoses && <div><span className="font-semibold text-muted-foreground text-xs uppercase">Diagnosis:</span> <br /><span className="text-orange-600 font-medium">{m.differential_diagnoses}</span></div>}
                                 

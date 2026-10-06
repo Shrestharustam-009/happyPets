@@ -84,7 +84,11 @@ export default function AdminTabReminders() {
         body: JSON.stringify({ reminder_status: status })
       });
       if (res.ok) {
-        setReminders(prev => prev.map(r => r.vaccination_id === id ? { ...r, reminder_status: status } : r));
+        if (status === 'Complete') {
+          setReminders(prev => prev.filter(r => r.vaccination_id !== id));
+        } else {
+          setReminders(prev => prev.map(r => r.vaccination_id === id ? { ...r, reminder_status: status } : r));
+        }
       }
     } catch (err) {
       console.error(err);

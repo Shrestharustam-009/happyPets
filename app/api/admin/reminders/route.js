@@ -12,7 +12,30 @@ export async function GET(request) {
 
     // Fetch upcoming and overdue vaccinations (up to 30 days out)
     // We also want to join reminders_log to see if a reminder was already sent.
-    const vaccinations = await query(`
+    const sqlWithStatus = `
+      SELECT 
+        v.id as vaccination_id,
+        v.vaccine_name,
+        v.next_due_date,
+        p.id as pet_id,
+        p.name as pet_name,
+        u.id as client_id,
+        u.full_name as client_name,
+        u.email as client_email,
+        u.phone_number as client_phone,
+        v.reminder_status,
+        v.reminder_remarks,
+        (SELECT MAX(sent_date) FROM reminders_log WHERE vaccination_id = v.id AND status = 'Sent') as last_sent_date
+      FROM vaccinations v
+      LEFT JOIN pets p ON v.pet_id = p.id
+      LEFT JOIN users u ON p.user_id = u.id
+      WHERE v.next_due_date IS NOT NULL 
+      AND v.next_due_date <= CURRENT_DATE + INTERVAL 30 DAY
+      AND (v.reminder_status != 'Complete' OR v.reminder_status IS NULL)
+      ORDER BY v.next_due_date ASC
+    `
+    
+    const sqlWithoutStatus = `
       SELECT 
         v.id as vaccination_id,
         v.vaccine_name,
@@ -30,7 +53,15 @@ export async function GET(request) {
       WHERE v.next_due_date IS NOT NULL 
       AND v.next_due_date <= CURRENT_DATE + INTERVAL 30 DAY
       ORDER BY v.next_due_date ASC
-    `)
+    `
+
+    let vaccinations
+    try {
+      vaccinations = await query(sqlWithStatus)
+    } catch (err) {
+      if (err?.code !== "ER_BAD_FIELD_ERROR") throw err
+      vaccinations = await query(sqlWithoutStatus)
+    }
 
     return NextResponse.json(vaccinations, { headers: { "Cache-Control": "no-store" } })
   } catch (error) {

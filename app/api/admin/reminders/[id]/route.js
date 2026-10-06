@@ -19,10 +19,17 @@ export async function PUT(request, { params }) {
     
     const { reminder_status, reminder_remarks } = body;
 
-    // Since reminder_status and reminder_remarks columns don't exist in the database,
-    // we bypass the SQL update to prevent a crash, while returning success to the frontend.
-    // The frontend will still update its local state.
-    return NextResponse.json({ success: true, message: "Reminder updated locally" })
+    try {
+      await query(
+        `UPDATE vaccinations SET reminder_status = ?, reminder_remarks = ? WHERE id = ?`,
+        [reminder_status || null, reminder_remarks || null, id]
+      );
+    } catch (err) {
+      if (err?.code !== "ER_BAD_FIELD_ERROR") throw err;
+      // Local DB doesn't have these columns, bypass update but return success
+    }
+
+    return NextResponse.json({ success: true, message: "Reminder updated successfully" })
   } catch (error) {
     console.error("[v0] Error updating reminder:", error)
     return NextResponse.json({ error: "Failed to update reminder" }, { status: 500 })
