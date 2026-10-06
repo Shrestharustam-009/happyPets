@@ -32,7 +32,7 @@ export async function GET(request) {
       ORDER BY v.next_due_date ASC
     `)
 
-    return NextResponse.json(vaccinations)
+    return NextResponse.json(vaccinations, { headers: { "Cache-Control": "no-store" } })
   } catch (error) {
     console.error("[v0] Error fetching reminders:", error)
     return NextResponse.json({ error: "Failed to fetch reminders" }, { status: 500 })

@@ -40,7 +40,7 @@ export async function GET(request) {
     }
 
     const records = await query(sql, values)
-    return NextResponse.json(records)
+    return NextResponse.json(records, { headers: { "Cache-Control": "no-store" } })
   } catch (error) {
     console.error("[v0] Error fetching test reports:", error)
     return NextResponse.json({ error: "Failed to fetch test reports" }, { status: 500 })
