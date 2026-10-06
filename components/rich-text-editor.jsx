@@ -1,7 +1,7 @@
 "use client"
 
 import { useRef, useEffect, useState } from "react"
-import { Bold, Italic, Underline, List, ListOrdered, AlignLeft, AlignCenter, AlignRight, AlignJustify, Undo, Redo, Type, Highlighter, Palette, Link, Image, Strikethrough, Code, Table } from "lucide-react"
+import { Bold, Italic, Underline, List, ListOrdered, AlignLeft, AlignCenter, AlignRight, AlignJustify, Undo, Redo, Type, Highlighter, Palette, Link, Image, Strikethrough, Code, Table, Video } from "lucide-react"
 
 export default function RichTextEditor({ value, onChange, placeholder = "Enter description..." }) {
   const editorRef = useRef(null)
@@ -46,6 +46,25 @@ export default function RichTextEditor({ value, onChange, placeholder = "Enter d
   const handleImage = () => {
     const url = prompt('Enter image URL:')
     if (url) execCommand('insertImage', url)
+  }
+
+  const handleVideo = () => {
+    const url = prompt('Enter YouTube video URL:')
+    if (!url) return
+
+    let embedUrl = url
+    const regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=)([^#\&\?]*).*/
+    const match = url.match(regExp)
+
+    if (match && match[2].length === 11) {
+      embedUrl = `https://www.youtube.com/embed/${match[2]}`
+    } else if (!url.includes('youtube.com/embed/')) {
+      alert('Invalid YouTube URL')
+      return
+    }
+
+    const html = `<div class="youtube-embed" style="position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden; max-width: 100%; border-radius: 8px; margin: 16px 0;"><iframe src="${embedUrl}" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border:0;" allowfullscreen title="YouTube video"></iframe></div><p><br></p>`
+    execCommand('insertHTML', html)
   }
 
   const handleInsertIncludedExcludedTable = () => {
@@ -264,9 +283,10 @@ export default function RichTextEditor({ value, onChange, placeholder = "Enter d
         
         <div className="w-px h-6 bg-stone-300 mx-1" />
         
-        {/* Links & Images */}
+        {/* Links & Media */}
         <ToolbarButton onClick={handleLink} icon={Link} title="Insert Link" />
         <ToolbarButton onClick={handleImage} icon={Image} title="Insert Image" />
+        <ToolbarButton onClick={handleVideo} icon={Video} title="Embed YouTube Video" />
         
         <div className="w-px h-6 bg-stone-300 mx-1" />
         
