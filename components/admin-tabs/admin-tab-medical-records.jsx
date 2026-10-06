@@ -592,7 +592,17 @@ export default function AdminTabMedicalRecords() {
   }
 
   if (loading) {
-    return <div className="p-8 text-center">Loading medical records...</div>
+    return (
+      <div>
+        <div className="flex justify-between items-center mb-6">
+          <h2 className="text-2xl font-bold">Medical Case Records (EHR)</h2>
+        </div>
+        <div className="p-12 text-center text-slate-500 bg-white border border-border rounded-xl shadow-sm flex flex-col items-center justify-center">
+          <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary mb-4"></div>
+          <p className="font-medium">Loading medical records and patients...</p>
+        </div>
+      </div>
+    )
   }
 
   return (
