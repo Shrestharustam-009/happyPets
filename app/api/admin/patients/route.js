@@ -16,7 +16,7 @@ export async function GET(request) {
       LEFT JOIN users u ON p.user_id = u.id
       ORDER BY p.created_at DESC
     `)
-    return NextResponse.json(patients, { headers: { "Cache-Control": "public, max-age=300" } })
+    return NextResponse.json(patients, { headers: { "Cache-Control": "no-store" } })
   } catch (error) {
     console.error("[v0] Error fetching patients:", error)
     return NextResponse.json({ error: "Failed to fetch patients" }, { status: 500 })

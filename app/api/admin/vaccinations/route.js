@@ -28,7 +28,7 @@ export async function GET(request) {
       values.push(pet_id)
     }
 
-    sql += " ORDER BY v.given_date DESC"
+    sql += " ORDER BY v.id DESC"
 
     if (!pet_id) {
       sql += " LIMIT 100"
