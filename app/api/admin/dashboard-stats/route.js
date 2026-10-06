@@ -8,6 +8,17 @@ export async function GET(request) {
       return NextResponse.json({ error: "Forbidden" }, { status: 403 })
     }
 
+    // Check if reminder_status column exists to support both live and local DBs safely
+    let statusFilter = ""
+    let vStatusFilter = ""
+    try {
+      const cols = await query("SHOW COLUMNS FROM vaccinations LIKE 'reminder_status'")
+      if (cols.length > 0) {
+        statusFilter = " AND (reminder_status != 'Complete' OR reminder_status IS NULL)"
+        vStatusFilter = " AND (v.reminder_status != 'Complete' OR v.reminder_status IS NULL)"
+      }
+    } catch(e) {}
+
     // Execute all independent queries concurrently to eliminate waterfall latency
     const [
       revenueRes, pendingRevenueRes, clientsRes, petsRes, totalUsersRes, staffRes,
@@ -56,17 +67,17 @@ export async function GET(request) {
         ORDER BY v.given_date DESC LIMIT 5
       `),
       query(`SELECT id, name, stock, price FROM products WHERE stock < 10 ORDER BY stock ASC LIMIT 10`),
-      query(`SELECT COUNT(*) as count FROM vaccinations WHERE next_due_date < CURRENT_DATE AND vaccine_name != 'Medical Follow-up'`),
-      query(`SELECT COUNT(*) as count FROM vaccinations WHERE next_due_date BETWEEN CURRENT_DATE AND CURRENT_DATE + INTERVAL 7 DAY AND vaccine_name != 'Medical Follow-up'`),
+      query(`SELECT COUNT(*) as count FROM vaccinations WHERE next_due_date < CURRENT_DATE AND vaccine_name != 'Medical Follow-up'${statusFilter}`),
+      query(`SELECT COUNT(*) as count FROM vaccinations WHERE next_due_date BETWEEN CURRENT_DATE AND CURRENT_DATE + INTERVAL 7 DAY AND vaccine_name != 'Medical Follow-up'${statusFilter}`),
       query(`
         SELECT v.id, v.vaccine_name, v.next_due_date, p.name as pet_name, u.full_name as owner_name, u.phone_number as phone
         FROM vaccinations v JOIN pets p ON v.pet_id = p.id JOIN users u ON p.user_id = u.id
-        WHERE v.next_due_date < CURRENT_DATE AND v.vaccine_name != 'Medical Follow-up' ORDER BY v.next_due_date ASC LIMIT 8
+        WHERE v.next_due_date < CURRENT_DATE AND v.vaccine_name != 'Medical Follow-up'${vStatusFilter} ORDER BY v.next_due_date ASC LIMIT 8
       `),
       query(`
         SELECT v.id, v.vaccine_name, v.next_due_date, p.name as pet_name, u.full_name as owner_name, u.phone_number as phone
         FROM vaccinations v JOIN pets p ON v.pet_id = p.id JOIN users u ON p.user_id = u.id
-        WHERE v.next_due_date BETWEEN CURRENT_DATE AND CURRENT_DATE + INTERVAL 14 DAY AND v.vaccine_name != 'Medical Follow-up' ORDER BY v.next_due_date ASC LIMIT 8
+        WHERE v.next_due_date BETWEEN CURRENT_DATE AND CURRENT_DATE + INTERVAL 14 DAY AND v.vaccine_name != 'Medical Follow-up'${vStatusFilter} ORDER BY v.next_due_date ASC LIMIT 8
       `),
       query(`
         SELECT p.name, p.species, p.breed, p.photo_url, p.created_at, u.full_name as owner_name
